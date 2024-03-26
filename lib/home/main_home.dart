@@ -1,6 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:gymproconnect_flutter/home/activities.dart';
 import 'package:gymproconnect_flutter/home/planning.dart';
+
+import '../utils/colors.dart';
 
 
 class MainHome extends StatefulWidget {
@@ -17,28 +21,30 @@ class _MainHomeState extends State<MainHome> {
     {'name': ' yoga', 'image': 'assert/yoga.png'},
     {'name': ' Swimming', 'image': 'assert/swimming.png'},
     {'name': ' gymnastique', 'image': 'assert/gymnastique.png'},
-   // {'name': '4', 'image': 'assert/bodyCombat.jpg'},
-   //{'name': ' 5', 'image': 'assert/bodyCombat.jpg'},
-   // {'name': ' 6', 'image': 'assert/bodyCombat.jpg'},
+    // {'name': '4', 'image': 'assert/bodyCombat.jpg'},
+    //{'name': ' 5', 'image': 'assert/bodyCombat.jpg'},
+    // {'name': ' 6', 'image': 'assert/bodyCombat.jpg'},
     //{'name': ' 7', 'image': 'assert/bodyCombat.jpg'},
   ];
 
   List<Map<String, String>> activities = [
     {'name': 'bodypump', 'image': 'assert/swimming.png', 'description': 'Training for beginner'},
-   // {'name': '2', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
-   // {'name': '3', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
+    // {'name': '2', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
+    // {'name': '3', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
     //{'name': '4', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
     //{'name': '5', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
     //{'name': '6', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
     //{'name': '7', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
   ];
   List<Map<String, String>> trainers = [
-      {'name': ' Ahmed', 'image': 'assert/ahmed.png'},
+    {'name': ' Ahmed', 'image': 'assert/ahmed.png'},
     {'name': ' Ali', 'image': 'assert/bodyCombat.jpg'},
     {'name': ' Anis', 'image': 'assert/bodyCombat.jpg'},
-    {'name': '4', 'image': 'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'},
-   // {'name': ' 5', 'image': 'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'},
-   // {'name': ' 6', 'image': 'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'},
+    {'name': ' Anis', 'image': 'assert/bodyCombat.jpg'},
+    {'name': ' Anis', 'image': 'assert/bodyCombat.jpg'},
+    {'name': ' Anis', 'image': 'assert/bodyCombat.jpg'},
+    // {'name': ' 5', 'image': 'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'},
+    // {'name': ' 6', 'image': 'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'},
     //{'name': ' 7', 'image': 'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'},
   ];
 
@@ -58,145 +64,175 @@ class _MainHomeState extends State<MainHome> {
     String year = now.year.toString();
 
     return Scaffold(
-        body: Container(
-          margin: EdgeInsets.only(top: 45, bottom: 15),
-          padding: EdgeInsets.only(left: 20, right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 10),
-              Text(
-                "welcome Ahmed !",
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.bold,
-                ),
+      body: Container(
+        margin: EdgeInsets.only(top: 45, bottom: 15),
+        padding: EdgeInsets.only(left: 20, right: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 10),
+            Text(
+              "welcome Ahmed !",
+              style: TextStyle(
+                fontSize: 20.0,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.bold,
               ),
-              SizedBox(height: 10),
-              Text(
-                '$dayOfWeek, $dayOfMonth $month $year',
-                style: TextStyle(
-                  fontSize: 11,
-                  color: Color(0xFFf34e3a),
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              '$dayOfWeek, $dayOfMonth $month $year',
+              style: TextStyle(
+                fontSize: 11,
+                color: Color(0xFFf34e3a),
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w500,
               ),
-              SizedBox(height: 10),
-              TextField(
-                onChanged: (value) {
-                  setState(() {
-                    searchText = value;
-                  }
-                  );
-                  },
+            ),
+            SizedBox(height: 10),
+            TextFormField(
+              onChanged: (value) {
+                setState(() {
+                  searchText = value;
+                }
+                );
+              },
+            /*  decoration: InputDecoration(
+                fillColor: Colors.red,
+                labelText: 'Search',
+                hintText: 'Search...',
+                suffixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(),
+              ),*/
+
+
                 decoration: InputDecoration(
-                  labelText: 'Search',
-                  hintText: 'Search...',
-                  suffixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(),
+                    contentPadding:
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+                    floatingLabelStyle: const TextStyle(color: Colors.black),
+                    label: Text("ffffffffff"),
+
+                    fillColor: Colors.red,
+                    labelStyle: TextStyle( color: Colors.black),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                        const BorderSide(width: 1, color: Colors.grey)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                        const BorderSide(width: 1, color: Colors.grey)),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                        const BorderSide(width: 1, color: Colors.grey)))
+
+
+
+
+
+
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Categorie',
+                  style: TextStyle(fontSize:18.0,fontWeight:FontWeight.bold),
                 ),
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                TextButton(
+                  onPressed: () {
+                    // Action lorsque le bouton "See All" est pressé
+                  },
+                  child: Text(
+                    'See All',
+                    style: TextStyle(fontSize: 18.0, color: Color(0xFFf34e3a)),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Container(
+              height: 60.0,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
                 children: [
-                  Text(
-                    'Categorie',
-                    style: TextStyle(fontSize:18.0,fontWeight:FontWeight.bold),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      // Action lorsque le bouton "See All" est pressé
-      },
-                    child: Text(
-                      'See All',
-                      style: TextStyle(fontSize: 18.0, color: Color(0xFFf34e3a)),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              Container(
-                height: 60.0,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    for (var category in categories)
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.0),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                width: 54.0,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.black,
-                                ),
-                                child: CircleAvatar(
-                                  backgroundImage: AssetImage(category['image']!),
-                                ),
+                  for (var category in categories)
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.0),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              width: 54.0,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.black,
+                              ),
+                              child: CircleAvatar(
+                                backgroundImage: AssetImage(category['image']!),
                               ),
                             ),
-                            SizedBox(height: 5),
-                            Text(
-                              category['name'].toString(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ],
-                        ),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            category['name'].toString(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
                       ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Activities",
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        'choose your program',
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: Color(0xFF545454),
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  TextButton(
-
-                    onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ActivityList()),
-                        );
-
-                    },
-                    child: Text(
-                      'See All',
-                      style: TextStyle(fontSize: 18.0, color: Color(0xFFf34e3a)),
                     ),
-                  ),
                 ],
               ),
-              SizedBox(height: 10),
-              Container(
+            ),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Activities",
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'choose your program',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: Color(0xFF545454),
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                TextButton(
+
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ActivityList()),
+                    );
+
+                  },
+                  child: Text(
+                    'See All',
+                    style: TextStyle(fontSize: 18.0, color: Color(0xFFf34e3a)),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Flexible(
+              child: Container(
                 height: 200.0,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
@@ -216,26 +252,39 @@ class _MainHomeState extends State<MainHome> {
                             alignment: Alignment.bottomLeft,
                             children: <Widget>[
                               ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: Image.network(
-                                  activity['image']!,
-                                  width: 300,
-                                  height: 300,
-                                  fit: BoxFit.cover,
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Image.asset(activity['image']!,
+                                    width: 300,
+                                    height: 300,
+                                    fit: BoxFit.cover,
+                                  )
+
+
+                              ),
+
+                              ClipRRect(
+                                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15)), // Adjust the radius as needed
+                                child: BackdropFilter(
+                                  filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width/2,
+                                    padding: EdgeInsets.all(8.0), // Adjust padding as needed
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Text(
+                                          activity['description']!,
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        Icon(
+                                      Icons.star
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                              Container(
-                                height: 50,
-                                width: double.infinity,
-                                color: Colors.black12,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  activity['description']!,
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
+
                             ],
                           ),
                         ),
@@ -243,82 +292,84 @@ class _MainHomeState extends State<MainHome> {
                   ],
                 ),
               ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Trainers",
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        'choose your Trainer',
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: Color(0xFF545454),
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                  TextButton(
-                    onPressed: () {
-    // Action lorsque le bouton "See All" est pressé
-      },
-                    child: Text(
-                      'See All',
-                      style: TextStyle(fontSize: 18.0, color: Color(0xFFf34e3a)),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              Container(
-                height: 60.0,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
+            ),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    for (var trainer in trainers)
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.0),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                width: 54.0,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.black,
-                                ),
-                                child: CircleAvatar(
-                                  backgroundImage: NetworkImage(trainer['image']!),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              trainer['name'].toString(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ],
-                        ),
+                    Text(
+                      "Trainers",
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
                       ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'choose your Trainer',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: Color(0xFF545454),
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ],
                 ),
+                TextButton(
+                  onPressed: () {
+                    // Action lorsque le bouton "See All" est pressé
+                  },
+                  child: Text(
+                    'See All',
+                    style: TextStyle(fontSize: 18.0, color: Color(0xFFf34e3a)),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Container(
+              height: 60.0,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  for (var trainer in trainers)
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.0),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              width: 54.0,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.black,
+                              ),
+                              child: CircleAvatar(
+                                backgroundImage:
+                                AssetImage(trainer['image']!),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            trainer['name'].toString(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
       bottomNavigationBar: CustomBottomAppBar(), // Ajout de la barre de navigation en bas
     );
   }
@@ -336,13 +387,15 @@ class CustomBottomAppBar extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.home, color: Color(0xFFf34e3a)),
-                  onPressed: () {
-                    //Action à effectuer lors du clic sur le bouton de recherche
-                  },
+                Flexible(
+                  child: IconButton(
+                    icon: Icon(Icons.home, color: Color(0xFFf34e3a)),
+                    onPressed: () {
+                      //Action à effectuer lors du clic sur le bouton de recherche
+                    },
+                  ),
                 ),
-                Text('Home', style: TextStyle(color: Color(0xFFf34e3a)), ),
+                Text('Home', style: TextStyle(color: Color(0xFFf34e3a),fontSize: 12), ),
               ],
             ),
           ),
@@ -350,16 +403,18 @@ class CustomBottomAppBar extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                  icon: Icon(Icons.calendar_today_rounded),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Planning()),
-                    );
-                  },
+                Flexible(
+                  child: IconButton(
+                    icon: Icon(Icons.calendar_today_rounded),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Planning()),
+                      );
+                    },
+                  ),
                 ),
-                Text('Planning'),
+                Text('Planning', style: TextStyle(fontSize: 12),),
               ],
             ),
           ),
@@ -383,13 +438,16 @@ class CustomBottomAppBar extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.access_time),
-                  onPressed: () {
-                    //Action à effectuer lors du clic sur le bouton de recherche
-                  },
+                Expanded(
+                  child: IconButton(
+                    icon: Icon(Icons.access_time),
+                    onPressed: () {
+                      //Action à effectuer lors du clic sur le bouton de recherche
+                    },
+                  ),
                 ),
-                Text('Abonnement'),
+
+                Text('Abonnement',style: TextStyle(fontSize: 12),),
               ],
             ),
           ),
@@ -397,13 +455,15 @@ class CustomBottomAppBar extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.person),
-                  onPressed: () {
-                    //Action à effectuer lors du clic sur le bouton de recherche
-                  },
+                Flexible(
+                  child: IconButton(
+                    icon: Icon(Icons.person),
+                    onPressed: () {
+                      //Action à effectuer lors du clic sur le bouton de recherche
+                    },
+                  ),
                 ),
-                Text('Profil'),
+                Text('Profil',style: TextStyle(fontSize: 12),),
               ],
             ),
           ),
