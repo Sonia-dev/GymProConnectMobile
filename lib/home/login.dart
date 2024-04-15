@@ -52,7 +52,18 @@ class _SignInPageState extends State<login> {
                 },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-          
+                  filled: true,
+                  fillColor: Color(0xffF7F9FD),
+                  labelStyle: TextStyle( color: Colors.black),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide:
+                      const BorderSide(width: 1, color: Colors.white)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide:
+                      const BorderSide(width: 1, color: Colors.white)),
+
                   labelText: 'Enter your Email',
                   hintText: 'Email',
                   suffixIcon: Icon(Icons.email_outlined),
@@ -66,8 +77,20 @@ class _SignInPageState extends State<login> {
                   });
                 },
                 decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Color(0xffF7F9FD),
+                  labelStyle: TextStyle( color: Colors.black),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide:
+                      const BorderSide(width: 1, color: Colors.white)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide:
+                      const BorderSide(width: 1, color: Colors.white)),
+
                   labelText: 'password',
-                  hintText: 'password',
+                  hintText: 'password ',
                   suffixIcon: Icon(Icons.lock_outline_rounded),
                   border: OutlineInputBorder(),
                 ),
@@ -111,23 +134,18 @@ class _SignInPageState extends State<login> {
               ),
                 SizedBox(height: 50),
                 ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary:  Color(0xFFf34e3a),
-          
-            minimumSize: Size(285, 49),
-          
-          ),
-          
-          onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              _formKey.currentState!.save();
-              // Sign in logic goes here
-            }
-          },
-          
-          child: Text('Sign In',
-            style: TextStyle(fontSize: 18.0, color: Colors.white),
-                ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFf34e3a),
+                    minimumSize: Size(285, 49),
+                  ),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                    }
+                    },
+                  child: Text('Sign In',
+                    style: TextStyle(fontSize: 18.0, color: Colors.white),
+                  ),
                 ),
               SizedBox(height: 10,),
               Row(

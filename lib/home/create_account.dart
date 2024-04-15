@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gymproconnect_flutter/home/login.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class RegistrationForm extends StatefulWidget {
   @override
@@ -32,13 +33,20 @@ class _RegistrationFormState extends State<RegistrationForm> {
               SizedBox(height: 10),
               Text(
                 "Get Started",
+
+
                 style: TextStyle(
-                  fontSize: 24.0,
-                  fontFamily: 'Poppins.ExtraBold',
+                  fontFamily: 'Poppins.light',
                   fontWeight: FontWeight.bold,
+                  fontSize: 24.0,
                   color: Color(0xFF252525),
                 ),
-              ),
+
+
+                  
+                  
+                ),
+
               Text(
                 "by creating a free account ",
                 style: TextStyle(
@@ -60,6 +68,18 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         });
                       },
                       decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Color(0xffF7F9FD),
+                        labelStyle: TextStyle( color: Colors.black),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                            const BorderSide(width: 1, color: Colors.white)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                            const BorderSide(width: 1, color: Colors.white)),
+
                         border: OutlineInputBorder(),
                         labelText: 'Full name',
                         hintText: 'Name',
@@ -80,6 +100,17 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         });
                       },
                       decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Color(0xffF7F9FD),
+                        labelStyle: TextStyle( color: Colors.black),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                            const BorderSide(width: 1, color: Colors.white)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                            const BorderSide(width: 1, color: Colors.white)),
                         labelText: 'Valid email',
                         hintText: 'Email',
                         suffixIcon: Icon(Icons.email_outlined),
@@ -102,6 +133,17 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         });
                       },
                       decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Color(0xffF7F9FD),
+                        labelStyle: TextStyle( color: Colors.black),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                            const BorderSide(width: 1, color: Colors.white)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                            const BorderSide(width: 1, color: Colors.white)),
                         border: OutlineInputBorder(),
                         labelText: 'Phone number',
                         hintText: 'Number',
@@ -123,6 +165,17 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       },
                       obscureText: true,
                       decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Color(0xffF7F9FD),
+                        labelStyle: TextStyle( color: Colors.black),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                            const BorderSide(width: 1, color: Colors.white)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                            const BorderSide(width: 1, color: Colors.white)),
                         border: OutlineInputBorder(),
                         labelText: 'Strong Password',
                         hintText: 'Password',
@@ -188,13 +241,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     SizedBox(height: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xFFf34e3a),
+                        backgroundColor: Color(0xFFf34e3a),
                         minimumSize: Size(285, 49),
                       ),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          // Sign in logic goes here
+
                         }
                       },
                       child: Text(

@@ -1,8 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:gymproconnect_flutter/home/Abonnement.dart';
+import 'package:gymproconnect_flutter/home/Profil.dart';
 import 'package:gymproconnect_flutter/home/activities.dart';
 import 'package:gymproconnect_flutter/home/planning.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../utils/colors.dart';
 
@@ -29,12 +32,12 @@ class _MainHomeState extends State<MainHome> {
 
   List<Map<String, String>> activities = [
     {'name': 'bodypump', 'image': 'assert/swimming.png', 'description': 'Training for beginner'},
-    // {'name': '2', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
-    // {'name': '3', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
-    //{'name': '4', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
-    //{'name': '5', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
-    //{'name': '6', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
-    //{'name': '7', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
+     {'name': '2', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
+     {'name': '3', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
+    {'name': '4', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
+    {'name': '5', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
+    {'name': '6', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
+    {'name': '7', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
   ];
   List<Map<String, String>> trainers = [
     {'name': ' Ahmed', 'image': 'assert/ahmed.png'},
@@ -97,35 +100,25 @@ class _MainHomeState extends State<MainHome> {
                 }
                 );
               },
-            /*  decoration: InputDecoration(
-                fillColor: Colors.red,
-                labelText: 'Search',
-                hintText: 'Search...',
-                suffixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
-              ),*/
-
 
                 decoration: InputDecoration(
                     contentPadding:
                     const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
                     floatingLabelStyle: const TextStyle(color: Colors.black),
-                    label: Text("ffffffffff"),
-
-                    fillColor: Colors.red,
+                    labelText: 'Search',
+                    suffixIcon: Icon(Icons.search),
+                    filled:true,
+                    fillColor: Color(0xffF7F9FD),
                     labelStyle: TextStyle( color: Colors.black),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide:
-                        const BorderSide(width: 1, color: Colors.grey)),
+                        const BorderSide(width: 1, color: Colors.white)),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide:
-                        const BorderSide(width: 1, color: Colors.grey)),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                        const BorderSide(width: 1, color: Colors.grey)))
+                        const BorderSide(width: 1, color: Colors.white)),
+                )
 
 
 
@@ -165,10 +158,16 @@ class _MainHomeState extends State<MainHome> {
                         children: [
                           Expanded(
                             child: Container(
-                              width: 54.0,
+                              width: 60.0,
+                              height: 60,
+                              padding: EdgeInsets.all(2.0),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Colors.black,
+                                color: Colors.white,
+
+                                border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1.0),
                               ),
                               child: CircleAvatar(
                                 backgroundImage: AssetImage(category['image']!),
@@ -345,9 +344,13 @@ class _MainHomeState extends State<MainHome> {
                           Expanded(
                             child: Container(
                               width: 54.0,
+                              padding: EdgeInsets.all(2.0),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Colors.black,
+                                color: Colors.white,
+                                border: Border.all(
+                                    color: Colors.grey, // Couleur du cercle gris
+                                    width: 1.0),
                               ),
                               child: CircleAvatar(
                                 backgroundImage:
@@ -359,7 +362,8 @@ class _MainHomeState extends State<MainHome> {
                           Text(
                             trainer['name'].toString(),
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.black),
+                            style:  GoogleFonts.poppins(color: Colors.black,fontSize: 12),
+
                           ),
                         ],
                       ),
@@ -370,7 +374,7 @@ class _MainHomeState extends State<MainHome> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomAppBar(), // Ajout de la barre de navigation en bas
+      bottomNavigationBar: CustomBottomAppBar(),
     );
   }
 }
@@ -391,7 +395,10 @@ class CustomBottomAppBar extends StatelessWidget {
                   child: IconButton(
                     icon: Icon(Icons.home, color: Color(0xFFf34e3a)),
                     onPressed: () {
-                      //Action à effectuer lors du clic sur le bouton de recherche
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MainHome()),
+                      );
                     },
                   ),
                 ),
@@ -442,7 +449,10 @@ class CustomBottomAppBar extends StatelessWidget {
                   child: IconButton(
                     icon: Icon(Icons.access_time),
                     onPressed: () {
-                      //Action à effectuer lors du clic sur le bouton de recherche
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => abonnement()),
+                      );
                     },
                   ),
                 ),
@@ -459,7 +469,10 @@ class CustomBottomAppBar extends StatelessWidget {
                   child: IconButton(
                     icon: Icon(Icons.person),
                     onPressed: () {
-                      //Action à effectuer lors du clic sur le bouton de recherche
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => profil()),
+                      );
                     },
                   ),
                 ),
