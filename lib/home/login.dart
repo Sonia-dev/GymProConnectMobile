@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gymproconnect_flutter/home/create_account.dart';
+import 'package:gymproconnect_flutter/home/register.dart';
 
 class login extends StatefulWidget {
   @override
@@ -25,7 +25,7 @@ class _SignInPageState extends State<login> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-             Image.asset('assert/logo.png',
+             Image.asset('assets/logo.png',
              width: 94,height: 60,),
               Text("Welcome back ",
                 style: TextStyle(
@@ -121,7 +121,7 @@ class _SignInPageState extends State<login> {
                   Flexible(
                     child: TextButton(
                       onPressed: () {
-                        // Action lorsque le bouton "See All" est pressé<
+
                       },
                       child: Text(
                         'Forget password    ?',
@@ -167,7 +167,7 @@ class _SignInPageState extends State<login> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => RegistrationForm()),
+                        MaterialPageRoute(builder: (context) => Register()),
                       );
                     },
                     child: Text(

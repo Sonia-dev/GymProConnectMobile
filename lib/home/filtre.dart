@@ -39,13 +39,13 @@ class _FilterScreenState extends State<FilterScreen> {
   List<String> _selectedGender = ["mixed"];
   List<String> _selectedAge = ["Adults"];
   List<Map<String, String>> categories = [
-    {'name': ' yoga', 'image': 'assert/yoga.png'},
-    {'name': ' Swimming', 'image': 'assert/swimming.png'},
-    {'name': ' gymnastique', 'image': 'assert/gymnastique.png'},
-    {'name': '4', 'image': 'assert/bodyCombat.jpg'},
-    {'name': ' 5', 'image': 'assert/bodyCombat.jpg'},
-     {'name': ' 6', 'image': 'assert/bodyCombat.jpg'},
-    {'name': ' 7', 'image': 'assert/bodyCombat.jpg'},
+    {'name': ' yoga', 'image': 'assets/yoga.png'},
+    {'name': ' Swimming', 'image': 'assets/swimming.png'},
+    {'name': ' gymnastique', 'image': 'assets/gymnastique.png'},
+    {'name': '4', 'image': 'assets/bodyCombat.jpg'},
+    {'name': ' 5', 'image': 'assets/bodyCombat.jpg'},
+     {'name': ' 6', 'image': 'assets/bodyCombat.jpg'},
+    {'name': ' 7', 'image': 'assets/bodyCombat.jpg'},
   ];
   final _formKey = GlobalKey<FormState>();
   double _minPrice = 0;

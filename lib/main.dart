@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gymproconnect_flutter/home/DetailedActivity.dart';
-import 'package:gymproconnect_flutter/home/Profil.dart';
-import 'package:gymproconnect_flutter/home/activities.dart';
-import 'package:gymproconnect_flutter/home/create_account.dart';
-import 'package:gymproconnect_flutter/home/login.dart';
 import 'package:gymproconnect_flutter/home/main_home.dart';
-import 'package:gymproconnect_flutter/home/planning.dart';
-import 'package:gymproconnect_flutter/profil/MyAccount.dart';
-import 'package:gymproconnect_flutter/profil/Settings.dart';
-import 'package:gymproconnect_flutter/profil/edit.dart';
+import 'package:gymproconnect_flutter/payment/payment_details.dart';
 
-void main() {
+
+import 'helper/dependencies.dart' as dep;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dep.init();
   runApp(const MyApp());
 }
 
@@ -27,7 +24,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Activity(),
+      home: MainHome(),
     );
   }
 }

@@ -1,11 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:gymproconnect_flutter/home/Abonnement.dart';
+import 'package:gymproconnect_flutter/home/abonnement.dart';
 import 'package:gymproconnect_flutter/home/Profil.dart';
 import 'package:gymproconnect_flutter/home/activities.dart';
+import 'package:gymproconnect_flutter/home/detailed_activity.dart';
 import 'package:gymproconnect_flutter/home/planning.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymproconnect_flutter/home/trainers.dart';
 
 import '../utils/colors.dart';
 
@@ -21,31 +23,31 @@ class _MainHomeState extends State<MainHome> {
   String searchText = '';
 
   List<Map<String, String>> categories = [
-    {'name': ' yoga', 'image': 'assert/yoga.png'},
-    {'name': ' Swimming', 'image': 'assert/swimming.png'},
-    {'name': ' gymnastique', 'image': 'assert/gymnastique.png'},
-    // {'name': '4', 'image': 'assert/bodyCombat.jpg'},
-    //{'name': ' 5', 'image': 'assert/bodyCombat.jpg'},
-    // {'name': ' 6', 'image': 'assert/bodyCombat.jpg'},
-    //{'name': ' 7', 'image': 'assert/bodyCombat.jpg'},
+    {'name': ' yoga', 'image': 'assets/yoga.png'},
+    {'name': ' Swimming', 'image': 'assets/swimming.png'},
+    {'name': ' gymnastique', 'image': 'assets/gymnastique.png'},
+    // {'name': '4', 'image': 'assets/bodyCombat.jpg'},
+    //{'name': ' 5', 'image': 'assets/bodyCombat.jpg'},
+    // {'name': ' 6', 'image': 'assets/bodyCombat.jpg'},
+    //{'name': ' 7', 'image': 'assets/bodyCombat.jpg'},
   ];
 
   List<Map<String, String>> activities = [
-    {'name': 'bodypump', 'image': 'assert/swimming.png', 'description': 'Training for beginner'},
-     {'name': '2', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
-     {'name': '3', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
-    {'name': '4', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
-    {'name': '5', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
-    {'name': '6', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
-    {'name': '7', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
+    {'name': 'bodypump', 'image': 'assets/swimming.png', 'description': 'Training for beginner'},
+     {'name': '2', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
+     {'name': '3', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
+    {'name': '4', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
+    {'name': '5', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
+    {'name': '6', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
+    {'name': '7', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
   ];
   List<Map<String, String>> trainers = [
-    {'name': ' Ahmed', 'image': 'assert/ahmed.png'},
-    {'name': ' Ali', 'image': 'assert/bodyCombat.jpg'},
-    {'name': ' Anis', 'image': 'assert/bodyCombat.jpg'},
-    {'name': ' Anis', 'image': 'assert/bodyCombat.jpg'},
-    {'name': ' Anis', 'image': 'assert/bodyCombat.jpg'},
-    {'name': ' Anis', 'image': 'assert/bodyCombat.jpg'},
+    {'name': ' Ahmed', 'image': 'assets/ahmed.png'},
+    {'name': ' Ali', 'image': 'assets/bodyCombat.jpg'},
+    {'name': ' Anis', 'image': 'assets/bodyCombat.jpg'},
+    {'name': ' Anis', 'image': 'assets/bodyCombat.jpg'},
+    {'name': ' Anis', 'image': 'assets/bodyCombat.jpg'},
+    {'name': ' Anis', 'image': 'assets/bodyCombat.jpg'},
     // {'name': ' 5', 'image': 'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'},
     // {'name': ' 6', 'image': 'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'},
     //{'name': ' 7', 'image': 'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'},
@@ -250,17 +252,25 @@ class _MainHomeState extends State<MainHome> {
                           child: Stack(
                             alignment: Alignment.bottomLeft,
                             children: <Widget>[
-                              ClipRRect(
+                              GestureDetector(
+                              onTap: () {
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Activity()),
+                        );
+                        },
+                             child: ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
                                   child: Image.asset(activity['image']!,
                                     width: 300,
                                     height: 300,
                                     fit: BoxFit.cover,
+
                                   )
 
 
                               ),
-
+                              ),
                               ClipRRect(
                                 borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15)), // Adjust the radius as needed
                                 child: BackdropFilter(
@@ -321,7 +331,10 @@ class _MainHomeState extends State<MainHome> {
                 ),
                 TextButton(
                   onPressed: () {
-                    // Action lorsque le bouton "See All" est pressé
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Trainers()),
+                    );
                   },
                   child: Text(
                     'See All',

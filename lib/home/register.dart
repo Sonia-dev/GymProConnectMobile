@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:gymproconnect_flutter/data/controllers/auth_controller.dart';
 import 'package:gymproconnect_flutter/home/login.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymproconnect_flutter/models/register_model.dart';
 
-class RegistrationForm extends StatefulWidget {
-  @override
-  _RegistrationFormState createState() => _RegistrationFormState();
-}
 
-class _RegistrationFormState extends State<RegistrationForm> {
-  final _formKey = GlobalKey<FormState>();
-  String name = "";
-  String email = "";
-  String number = "";
-  String password = "";
+
+final _registerKey = GlobalKey<FormState>();
+
+
+
+
+class Register extends GetView<AuthController> {
+
   bool _check = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,14 +24,14 @@ class _RegistrationFormState extends State<RegistrationForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 100),
+              const SizedBox(height: 100),
               Image.asset(
-                'assert/logo.png',
+                'assets/logo.png',
                 width: 94,
                 height: 60,
               ),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 "Get Started",
 
 
@@ -43,11 +43,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 ),
 
 
-                  
-                  
-                ),
 
-              Text(
+
+              ),
+
+              const Text(
                 "by creating a free account ",
                 style: TextStyle(
                   fontSize: 14.0,
@@ -56,16 +56,72 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   color: Color(0xFF252525),
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Form(
-                key: _formKey,
+                key: _registerKey,
                 child: Column(
                   children: [
                     TextFormField(
+                      controller: controller.fullNameController,
+
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Color(0xffF7F9FD),
+                        labelStyle: TextStyle( color: Colors.black),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                            const BorderSide(width: 1, color: Colors.white)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                            const BorderSide(width: 1, color: Colors.white)),
+
+                        border: OutlineInputBorder(),
+                        labelText: 'name',
+                        hintText: 'Name',
+                        suffixIcon: Icon(Icons.person),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your name';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: controller.phoneNumberController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Color(0xffF7F9FD),
+                        labelStyle: TextStyle( color: Colors.black),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                            const BorderSide(width: 1, color: Colors.white)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                            const BorderSide(width: 1, color: Colors.white)),
+
+                        border: OutlineInputBorder(),
+                        labelText: 'Surname',
+                        hintText: 'Surname',
+                        suffixIcon: Icon(Icons.person),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your surname';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: controller.emailController,
                       onChanged: (value) {
-                        setState(() {
-                          name = value;
-                        });
+
                       },
                       decoration: InputDecoration(
                         filled: true,
@@ -81,23 +137,22 @@ class _RegistrationFormState extends State<RegistrationForm> {
                             const BorderSide(width: 1, color: Colors.white)),
 
                         border: OutlineInputBorder(),
-                        labelText: 'Full name',
-                        hintText: 'Name',
-                        suffixIcon: Icon(Icons.person),
+                        labelText: 'Phone Number',
+                        hintText: 'Phone Number',
+                        suffixIcon: Icon(Icons.phone_android),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your full name';
+                          return 'Please enter your phone number';
                         }
                         return null;
                       },
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     TextFormField(
+                      controller: controller.adressController,
                       onChanged: (value) {
-                        setState(() {
-                          email = value;
-                        });
+
                       },
                       decoration: InputDecoration(
                         filled: true,
@@ -125,13 +180,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     TextFormField(
-                      onChanged: (value) {
-                        setState(() {
-                          number = value;
-                        });
-                      },
+                      controller: controller.dateOfBirthController,
+
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
@@ -145,24 +197,62 @@ class _RegistrationFormState extends State<RegistrationForm> {
                             borderSide:
                             const BorderSide(width: 1, color: Colors.white)),
                         border: OutlineInputBorder(),
-                        labelText: 'Phone number',
-                        hintText: 'Number',
-                        suffixIcon: Icon(Icons.phone_android),
+                        labelText: 'Address',
+                        hintText: 'Address',
+                        suffixIcon: Icon(Icons.location_on),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your phone number';
+                          return 'Please enter your date of birth';
                         }
                         return null;
                       },
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     TextFormField(
-                      onChanged: (value) {
-                        setState(() {
-                          password = value;
-                        });
+                      controller: controller.dateOfBirthController,
+
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Color(0xffF7F9FD),
+                        labelStyle: TextStyle( color: Colors.black),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                            const BorderSide(width: 1, color: Colors.white)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                            const BorderSide(width: 1, color: Colors.white)),
+                        border: OutlineInputBorder(),
+                        labelText: 'date of birth',
+                        hintText: 'DateOfBirth',
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.date_range),
+                          onPressed: () async {
+                            final selectedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2100),
+                            );
+
+                          },
+                        ),
+                      ),
+
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your date of birth';
+                        }
+                        return null;
                       },
+                    ),
+                    const SizedBox(height: 20),
+
+                    TextFormField(
+                      controller: controller.passwordController,
+
                       obscureText: true,
                       decoration: InputDecoration(
                         filled: true,
@@ -188,17 +278,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Checkbox(
-                          value: _check,
-                          onChanged: (value) {
-                            setState(() {
-                              _check = value!;
-                            });
-                          },
+                          value: _check, onChanged: (bool? value) {  },
+
                         ),
                         Text(
                           "By checking the box you agree to our ",
@@ -244,11 +330,27 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         backgroundColor: Color(0xFFf34e3a),
                         minimumSize: Size(285, 49),
                       ),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
+                      onPressed: () async {
+                   /*     if (_registerKey.currentState!.validate()) {
+                          _registerKey.currentState!.save();
+*/
 
-                        }
+
+                        print('presseddd');
+                          await controller.register(UserRequest(
+                              name: controller.fullNameController.text,
+                              surName: controller.surNameController.text,
+                              number: controller.phoneNumberController.text,
+                              email: controller.emailController.text,
+                              adress: controller.adressController.text,
+                              dateOfBirth: controller.dateOfBirthController.text,
+                              password: controller.passwordController.text,));
+
+
+
+
+
+                     //   }
                       },
                       child: Text(
                         'Sign In',

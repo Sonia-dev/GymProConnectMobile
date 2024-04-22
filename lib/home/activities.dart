@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gymproconnect_flutter/home/Abonnement.dart';
+import 'package:gymproconnect_flutter/home/abonnement.dart';
 import 'package:gymproconnect_flutter/home/Profil.dart';
 import 'package:gymproconnect_flutter/home/filtre.dart';
 import 'package:gymproconnect_flutter/home/main_home.dart';
@@ -19,14 +19,14 @@ class _ActivityListState extends State<ActivityList> {
   List<Map<String, String>> activities = [
     {
       'name': 'bodypump',
-      'image': 'assert/yoga.png',
+      'image': 'assets/yoga.png',
       'description': 'Training for beginner',
     },
-    {'name': '2', 'image': 'assert/bodyCombat.jpg', 'description': 'Training for beginner'},
-    {'name': '3', 'image': 'assert/bodypump.jpg', 'description': 'Training for beginner'},
-    {'name': '4', 'image': 'assert/gymnastique.png', 'description': 'Training for beginner'},
-    {'name': '5', 'image': 'assert/rpm.jpg', 'description': 'Training for beginner'},
-    {'name': '6', 'image': 'assert/swimming.png', 'description': 'Training for beginner'},
+    {'name': '2', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
+    {'name': '3', 'image': 'assets/bodypump.jpg', 'description': 'Training for beginner'},
+    {'name': '4', 'image': 'assets/gymnastique.png', 'description': 'Training for beginner'},
+    {'name': '5', 'image': 'assets/rpm.jpg', 'description': 'Training for beginner'},
+    {'name': '6', 'image': 'assets/swimming.png', 'description': 'Training for beginner'},
   ];
 
   @override
@@ -97,7 +97,7 @@ class _ActivityListState extends State<ActivityList> {
 
                 IconButton(
                   icon: ImageIcon(
-                    AssetImage('assert/filtre.png'),
+                    AssetImage('assets/filtre.png'),
                     size: 24,
 
                   ),

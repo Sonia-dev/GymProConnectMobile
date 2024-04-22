@@ -30,11 +30,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  get: ^4.6.1
   table_calendar: ^3.0.0
   cupertino_icons: ^1.0.2
   intl: ^0.17.0
   flutter_svg : 2.0.10+1
   google_fonts: ^6.2.0
+  http: ^1.2.0
 
 
 dev_dependencies:
@@ -54,8 +56,8 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assert/
-    - assert/svg/
+    - assets/
+    - assets/svg/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

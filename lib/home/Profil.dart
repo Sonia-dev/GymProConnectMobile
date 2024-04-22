@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gymproconnect_flutter/home/Abonnement.dart';
+import 'package:gymproconnect_flutter/home/abonnement.dart';
 import 'package:gymproconnect_flutter/home/main_home.dart';
 import 'package:gymproconnect_flutter/home/planning.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,7 +18,7 @@ class profil extends StatefulWidget {
 }
 
 class _profilState extends State<profil> {
-  Map<String, dynamic> Profil = {'name': 'Ahmed', 'image': 'assert/yoga.png'};
+  Map<String, dynamic> Profil = {'name': 'Ahmed', 'image': 'assets/yoga.png'};
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class _profilState extends State<profil> {
                           );
                         },
                         child: Image.asset(
-                          'assert/edit.png',
+                          'assets/edit.png',
                           width: 20,
                           height: 20,
                         ),
@@ -79,7 +79,7 @@ class _profilState extends State<profil> {
               SizedBox(height: 30),
               ListTile(
                 leading: Image.asset(
-                    'assert/MyAccount.png', width: 38, height: 38),
+                    'assets/MyAccount.png', width: 38, height: 38),
                 title: Text(
                   'My Account',
                   style: GoogleFonts.poppins(
@@ -100,7 +100,7 @@ class _profilState extends State<profil> {
               ),
               ListTile(
                 leading: Image.asset(
-                    'assert/MyMembership.png', width: 35, height: 35),
+                    'assets/MyMembership.png', width: 35, height: 35),
                 title: Text(
                   'My Membership',
                   style: GoogleFonts.poppins(
@@ -122,7 +122,7 @@ class _profilState extends State<profil> {
               SizedBox(height: 10,),
               ListTile(
                 leading: Image.asset(
-                    'assert/Setting.png', width: 35, height: 35),
+                    'assets/Setting.png', width: 35, height: 35),
                 title: Text(
                   'Settings',
                   style: GoogleFonts.poppins(
@@ -144,7 +144,7 @@ class _profilState extends State<profil> {
               SizedBox(height: 10,),
               ListTile(
                 leading: Image.asset(
-                    'assert/helpcenter.png', width: 35, height: 35),
+                    'assets/helpcenter.png', width: 35, height: 35),
                 title: Text(
                   'Help Center',
                   style: GoogleFonts.poppins(
@@ -166,7 +166,7 @@ class _profilState extends State<profil> {
               SizedBox(height: 10,),
               ListTile(
                 leading: Image.asset(
-                    'assert/logout.png', width: 35, height: 35),
+                    'assets/logout.png', width: 35, height: 35),
                 title: Text(
                   'Logout',
                   style: GoogleFonts.poppins(
