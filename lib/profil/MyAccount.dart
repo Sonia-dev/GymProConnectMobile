@@ -10,7 +10,7 @@ class MyAccount extends StatefulWidget {
 
 class _MyAccountState extends State<MyAccount> {
   @override
-  Map<String, dynamic> Profil = {'name': 'Ahmed', 'image': 'assert/yoga.png'};
+  Map<String, dynamic> Profil = {'name': 'Ahmed', 'image': 'assets/yoga.png'};
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(

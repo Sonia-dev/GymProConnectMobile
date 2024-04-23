@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gymproconnect_flutter/agent/home_agent.dart';
+import 'package:gymproconnect_flutter/coach/home_coach.dart';
+import 'package:gymproconnect_flutter/home/login.dart';
 import 'package:gymproconnect_flutter/home/main_home.dart';
 import 'package:gymproconnect_flutter/payment/payment_details.dart';
 
@@ -24,7 +27,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MainHome(),
+      home: login(),
     );
   }
 }

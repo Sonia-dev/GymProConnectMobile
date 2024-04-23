@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:gymproconnect_flutter/home/register.dart';
+import 'package:gymproconnect_flutter/models/login_model.dart';
 
-class login extends StatefulWidget {
-  @override
-  _SignInPageState createState() => _SignInPageState();
-}
+import '../data/controllers/auth_controller.dart';
 
-class _SignInPageState extends State<login> {
-  final _formKey = GlobalKey<FormState>();
+
+
+
+final _loginKey = GlobalKey<FormState>();
+
+class login extends GetView<AuthController> {
+
   String _email = '';
   String _password = '';
   String EmailText = '';
@@ -25,8 +29,8 @@ class _SignInPageState extends State<login> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-             Image.asset('assets/logo.png',
-             width: 94,height: 60,),
+              Image.asset('assets/logo.png',
+                width: 94,height: 60,),
               Text("Welcome back ",
                 style: TextStyle(
                   fontSize: 24.0,
@@ -45,11 +49,11 @@ class _SignInPageState extends State<login> {
               ),
               SizedBox(height: 100,),
               TextField(
+
                 onChanged: (value) {
-                  setState(() {
-                    EmailText = value;
-                  });
+
                 },
+              //  emailController=controller.emailController.text,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   filled: true,
@@ -72,10 +76,9 @@ class _SignInPageState extends State<login> {
               SizedBox(height: 20),
               TextField(
                 onChanged: (value) {
-                  setState(() {
-                    passwordText = value;
-                  });
+
                 },
+            //    passwordController=controller.passwordController,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Color(0xffF7F9FD),
@@ -95,16 +98,15 @@ class _SignInPageState extends State<login> {
                   border: OutlineInputBorder(),
                 ),
               ),
-                SizedBox(height: 5,),
+              SizedBox(height: 5,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Checkbox(
                     value: _rememberMe,
                     onChanged: (value) {
-                      setState((){
                         _rememberMe = value!;
-                      });
+
                     },
                   ),
                   SizedBox(width: 2,),
@@ -132,21 +134,19 @@ class _SignInPageState extends State<login> {
                   ),
                 ],
               ),
-                SizedBox(height: 50),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFf34e3a),
-                    minimumSize: Size(285, 49),
-                  ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                    }
-                    },
-                  child: Text('Sign In',
-                    style: TextStyle(fontSize: 18.0, color: Colors.white),
-                  ),
+              SizedBox(height: 50),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFf34e3a),
+                  minimumSize: Size(285, 49),
                 ),
+                onPressed: () async {
+            await controller.login(LoginRequest(email: controller.emailController.text, password: controller.passwordController.text));
+                },
+                child: Text('Sign In',
+                  style: TextStyle(fontSize: 18.0, color: Colors.white),
+                ),
+              ),
               SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -162,7 +162,7 @@ class _SignInPageState extends State<login> {
                       color: Color(0xFF252525),
                     ),
                   ),
-          
+
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -180,16 +180,21 @@ class _SignInPageState extends State<login> {
                       ),
                     ),
                   ),
-          
+
                 ],
               ),
-          
+
             ],
-          
+
           ),
         ),
       ),
 
     );
   }
+
+
 }
+
+
+

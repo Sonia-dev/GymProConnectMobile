@@ -12,7 +12,7 @@ class edit extends StatefulWidget {
 
 class _editState extends State<edit> {
   @override
-  Map<String, dynamic> Profil = {'name': 'Ahmed','email': 'Itunuoluwa Abidoye@yahoo.fr','number':'99654753','dateofbirth':"21/02/2000" ,'image': 'assert/yoga.png','gender':"female"};
+  Map<String, dynamic> Profil = {'name': 'Ahmed','email': 'Itunuoluwa Abidoye@yahoo.fr','number':'99654753','dateofbirth':"21/02/2000" ,'image': 'assets/yoga.png','gender':"female"};
   final _formKey = GlobalKey<FormState>();
 
   Widget build(BuildContext context) {
@@ -86,7 +86,7 @@ class _editState extends State<edit> {
                     fontWeight: FontWeight.w400,                  ),
                     decoration: InputDecoration(
 
-                      suffix: Image.asset('assert/profil.png',
+                      suffix: Image.asset('assets/profil.png',
                         width: 25,
                         height: 20,),),
                 ),
@@ -106,7 +106,7 @@ class _editState extends State<edit> {
                     fontWeight: FontWeight.w400,                  ),
                   decoration: InputDecoration(
 
-                    suffix: Image.asset('assert/gmail.png',
+                    suffix: Image.asset('assets/gmail.png',
                       width: 25,
                       height: 20,),),
                 ),
@@ -130,7 +130,7 @@ class _editState extends State<edit> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                       Image.asset(
-                      'assert/tunisie.png',
+                      'assets/tunisie.png',
                       width: 24,
                       height: 16,
                     ),
@@ -138,7 +138,7 @@ class _editState extends State<edit> {
                         color: Colors.grey,
                     ),
                     ]),
-                       suffix: Image.asset('assert/téléphone.png',
+                       suffix: Image.asset('assets/téléphone.png',
                       width: 25,
                       height: 25,),
                   ),
@@ -159,7 +159,7 @@ class _editState extends State<edit> {
                     fontWeight: FontWeight.w400,                  ),
                   decoration: InputDecoration(
 
-                    suffix: Image.asset('assert/calendrie.png',
+                    suffix: Image.asset('assets/calendrie.png',
                       width: 25,
                       height: 20,),),
                 ),

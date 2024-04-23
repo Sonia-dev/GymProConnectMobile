@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Trainers extends StatefulWidget {
-  const Trainers({super.key});
+class Members extends StatefulWidget {
+  const Members({super.key});
 
   @override
-  State<Trainers> createState() => _TrainersState();
+  State<Members> createState() => _TrainersState();
 }
 
-class _TrainersState extends State<Trainers> {
+class _TrainersState extends State<Members> {
   @override
   String searchText = '';
   List<Map<String, String>> trainers = [
@@ -76,7 +76,7 @@ class _TrainersState extends State<Trainers> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Trainers',
+        title: Text('Members',
           style: GoogleFonts.poppins(
             color: Colors.black,
             fontSize: 14,
@@ -109,7 +109,7 @@ class _TrainersState extends State<Trainers> {
               Expanded(
                 child:
                 Container(
-                 // height: 200.0,
+                  // height: 200.0,
                   child: ListView(
                     scrollDirection: Axis.vertical,
                     children: [

@@ -9,14 +9,14 @@ Future<void> init()async {
 
   //Get.lazyPut(()=>ApiClient(appBaseUrl: "http://127.0.0.1:8000/api/v1/"));
 
-  Get.lazyPut(()=>ApiClient(appBaseUrl: "http://192.168.137.24:8000/api/v1/"));
+  Get.lazyPut(()=>ApiClient(appBaseUrl: Uris.baseUrl));
 
 
 
 
   Get.lazyPut(() => AuthRepo(apiClient:Get.find()));
 
-  Get.lazyPut(() => AuthController(registerRepo:Get.find()));
+  Get.lazyPut(() => AuthController(authRepo:Get.find()));
 
 
 }
