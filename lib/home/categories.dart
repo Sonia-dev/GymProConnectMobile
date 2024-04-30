@@ -1,36 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:gymproconnect_flutter/data/controllers/categories_controller.dart';
+import 'package:gymproconnect_flutter/data/repository/categories_repo.dart';
 import 'package:gymproconnect_flutter/home/abonnement.dart';
 import 'package:gymproconnect_flutter/home/Profil.dart';
 import 'package:gymproconnect_flutter/home/filtre.dart';
 import 'package:gymproconnect_flutter/home/main_home.dart';
 import 'package:gymproconnect_flutter/home/planning.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymproconnect_flutter/models/categories_model.dart';
 import 'dart:ui';
 
+import '../data/api/api_client.dart';
 
-class Categories extends StatefulWidget {
-  @override
-  _ActivityListState createState() => _ActivityListState();
-}
 
-class _ActivityListState extends State<Categories> {
-  final _formKey = GlobalKey<FormState>();
+
+class CategoriesList extends GetView<CategoriesController> {
   String searchText = '';
-  List<Map<String, String>> activities = [
-    {
-      'name': 'bodypump',
-      'image': 'assets/yoga.png',
-      'description': 'Training for beginner',
-    },
-    {'name': '2', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
-    {'name': '3', 'image': 'assets/bodypump.jpg', 'description': 'Training for beginner'},
-    {'name': '4', 'image': 'assets/gymnastique.png', 'description': 'Training for beginner'},
-    {'name': '5', 'image': 'assets/rpm.jpg', 'description': 'Training for beginner'},
-    {'name': '6', 'image': 'assets/swimming.png', 'description': 'Training for beginner'},
-  ];
+
 
   @override
   Widget build(BuildContext context) {
+    Get.put(ApiClient(appBaseUrl: "http://192.168.1.107:8000/api/"));
+    Get.put(CategoriesRepo( apiClient: Get.find(),));
+    Get.put(CategoriesController(categoriesRepo: Get.find()));
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Categories',
@@ -62,10 +57,9 @@ class _ActivityListState extends State<Categories> {
                     padding: EdgeInsets.symmetric(vertical: 5.0),*/
                     child:TextFormField(
                         onChanged: (value) {
-                          setState(() {
+
                             searchText = value;
-                          }
-                          );
+
                         },
 
                         decoration: InputDecoration(
@@ -113,9 +107,9 @@ class _ActivityListState extends State<Categories> {
               SizedBox(height: 10.0),
               Expanded(
                 child: ListView.builder(
-                  itemCount: activities.length,
+                  itemCount: controller.categories.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final activity = activities[index];
+                    final category = controller.categories[index];
                     return Padding(
                       padding: EdgeInsets.symmetric(vertical: 10.0),
                       child: Container(
@@ -124,23 +118,24 @@ class _ActivityListState extends State<Categories> {
                           children: <Widget>[
                             ClipRRect(
                               borderRadius: BorderRadius.circular(15),
-                              child: Image.asset(
-                                activity['image']!,
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: 150,
-                              ),
+                                child:  Image.network(
+                                  category.image,
+                                  width: double.infinity,
+                                  height: 150,
+                                  fit:  BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return SizedBox(child: Image.asset("assets/no_image.jpg"));
+                                  },
+                                  loadingBuilder: (context, child, loadingProgress) {
+                                    if (loadingProgress?.expectedTotalBytes ==
+                                        loadingProgress?.cumulativeBytesLoaded) {
+                                      return child;
+                                    }
+                                    return const CircularProgressIndicator();
+                                  },
+                                )
                             ),
-                            Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
 
-                              child: Text(
-                                activity['description']!,
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
 
                             Positioned(
                               left: 0,
@@ -155,11 +150,17 @@ class _ActivityListState extends State<Categories> {
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
-                                        Text(
-                                          activity['description']!,
-                                          style: TextStyle(color: Colors.white),
+                                        Expanded(
+                                          child: Text(
+                                            category.description,
+                                            style: TextStyle(color: Colors.white),
+                                            overflow: TextOverflow.ellipsis, // Gère le débordement du texte
+                                          ),
                                         ),
-                                        Icon(Icons.star, color: Colors.white),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.white,
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -173,7 +174,7 @@ class _ActivityListState extends State<Categories> {
                   },
                 ),
               ),]),),
-    //  bottomNavigationBar: CustomBottomAppBar(),
+      //  bottomNavigationBar: CustomBottomAppBar(),
     );
   }
 }

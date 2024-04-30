@@ -1,6 +1,7 @@
 
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:gymproconnect_flutter/home/login.dart';
+import 'package:gymproconnect_flutter/home/main_home.dart';
 import 'package:gymproconnect_flutter/home/register.dart';
 
 class RouteHelper {
@@ -26,9 +27,9 @@ class RouteHelper {
       name: signUp,
       page: () => login(),
     ),
-    /*GetPage(
+    GetPage(
       name: initial,
-      page: () => const MainPage(),
-    ),*/
+      page: () =>  MainHome(),
+    ),
   ];
 }

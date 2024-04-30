@@ -1,21 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymproconnect_flutter/data/repository/update_user_repo.dart';
 import 'package:gymproconnect_flutter/home/Profil.dart';
+import '../data/api/api_client.dart';
+import '../data/controllers/update_user_controller.dart';
+import '../globals.dart';
 
-class edit extends StatefulWidget {
-  const edit({super.key});
 
-  @override
-  State<edit> createState() => _editState();
-}
 
-class _editState extends State<edit> {
+
+class update extends GetView<UpDateController> {
   @override
   Map<String, dynamic> Profil = {'name': 'Ahmed','email': 'Itunuoluwa Abidoye@yahoo.fr','number':'99654753','dateofbirth':"21/02/2000" ,'image': 'assets/yoga.png','gender':"female"};
-  final _formKey = GlobalKey<FormState>();
 
   Widget build(BuildContext context) {
+    Get.put(ApiClient(appBaseUrl: "http://192.168.1.107:8000/api/"));
+    //Get.put(UpdateRepo( apiClient: Get.find(),));
+   // Get.put(UpDateController(updateRepo: Get.find()));
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Profile',style: GoogleFonts.poppins(
@@ -33,7 +37,13 @@ class _editState extends State<edit> {
         ),
       ),
       body: Center(
-        child:  Padding(
+        child:
+ //   itemCount: updatecontroller.activities.length,
+ //    itemBuilder: (BuildContext context, int index) {
+ //    final activity = updatecontroller.activities[index];
+ //    return
+    Padding(
+
         padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -73,12 +83,12 @@ class _editState extends State<edit> {
                 SizedBox(height: 20,),
                 TextField(
                   onChanged: (value) {
-                    setState(() {
-                      Profil['name']  = value;
-                    });
+
+                      userName  = value;
+
                   },
                   controller: TextEditingController(
-                    text: Profil['name'],
+                    text: "$userName ",
                   ),
                   style: GoogleFonts.poppins(
                     color: Color(0xFF555555),
@@ -93,9 +103,29 @@ class _editState extends State<edit> {
                 SizedBox(height: 10,),
                 TextField(
                   onChanged: (value) {
-                    setState(() {
+
+                      surName   = value;
+
+                  },
+                  controller: TextEditingController(
+                    text: surName  ,
+                  ),
+                  style: GoogleFonts.poppins(
+                    color: Color(0xFF555555),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,                  ),
+                  decoration: InputDecoration(
+
+                    suffix: Image.asset('assets/profil.png',
+                      width: 25,
+                      height: 20,),),
+                ),
+                SizedBox(height: 10,),
+                TextField(
+                  onChanged: (value) {
+
                       Profil['email']  = value;
-                    });
+
                   },
                   controller: TextEditingController(
                     text: Profil['email'],
@@ -113,9 +143,9 @@ class _editState extends State<edit> {
                 SizedBox(height: 10,),
                 TextField(
                   onChanged: (value) {
-                    setState(() {
+
                       Profil['number']  = value;
-                    });
+
                   },
                   controller: TextEditingController(
                     text: Profil['number'],
@@ -146,9 +176,9 @@ class _editState extends State<edit> {
                 SizedBox(height: 10,),
                 TextField(
                   onChanged: (value) {
-                    setState(() {
+
                       Profil['dateofbirth']  = value;
-                    });
+
                   },
                   controller: TextEditingController(
                     text: Profil['dateofbirth'],
@@ -168,9 +198,9 @@ class _editState extends State<edit> {
             width: 400,
               child:DropdownButton<String>(
                 onChanged: (String? newValue) {
-              setState(() {
+
                 Profil['gender'] = newValue!;
-              });
+
             },
 
             items: <String>['Male', 'Female']
@@ -189,10 +219,8 @@ class _editState extends State<edit> {
                     minimumSize: Size(285, 49),
                   ),
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
 
-                    }
+
                   },
                   child: Text(
                     'update profil',

@@ -1,6 +1,11 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:gymproconnect_flutter/data/controllers/trainers_controller.dart';
+import 'package:gymproconnect_flutter/data/repository/trainers_repo.dart';
 import 'package:gymproconnect_flutter/home/abonnement.dart';
 import 'package:gymproconnect_flutter/home/Profil.dart';
 import 'package:gymproconnect_flutter/home/activities.dart';
@@ -8,60 +13,63 @@ import 'package:gymproconnect_flutter/home/detailed_activity.dart';
 import 'package:gymproconnect_flutter/home/planning.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymproconnect_flutter/home/trainers.dart';
+import 'package:gymproconnect_flutter/models/categories_model.dart';
 
-import '../utils/colors.dart';
+import '../data/api/api_client.dart';
+import '../data/controllers/activities_controller.dart';
 
+import '../data/controllers/categories_controller.dart';
+import '../data/repository/activities_repo.dart';
+import '../data/repository/categories_repo.dart';
+import '../globals.dart';
+import 'categories.dart';
 
-class MainHome extends StatefulWidget {
-  const MainHome({Key? key}) : super(key: key);
-
-  @override
-  State<MainHome> createState() => _MainHomeState();
-}
-
-class _MainHomeState extends State<MainHome> {
+class MainHome extends GetView<CategoriesController> {
   String searchText = '';
-
-  List<Map<String, String>> categories = [
-    {'name': ' yoga', 'image': 'assets/yoga.png'},
-    {'name': ' Swimming', 'image': 'assets/swimming.png'},
-    {'name': ' gymnastique', 'image': 'assets/gymnastique.png'},
-    // {'name': '4', 'image': 'assets/bodyCombat.jpg'},
-    //{'name': ' 5', 'image': 'assets/bodyCombat.jpg'},
-    // {'name': ' 6', 'image': 'assets/bodyCombat.jpg'},
-    //{'name': ' 7', 'image': 'assets/bodyCombat.jpg'},
-  ];
-
-  List<Map<String, String>> activities = [
-    {'name': 'bodypump', 'image': 'assets/swimming.png', 'description': 'Training for beginner'},
-     {'name': '2', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
-     {'name': '3', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
-    {'name': '4', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
-    {'name': '5', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
-    {'name': '6', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
-    {'name': '7', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
-  ];
-  List<Map<String, String>> trainers = [
-    {'name': ' Ahmed', 'image': 'assets/ahmed.png'},
-    {'name': ' Ali', 'image': 'assets/bodyCombat.jpg'},
-    {'name': ' Anis', 'image': 'assets/bodyCombat.jpg'},
-    {'name': ' Anis', 'image': 'assets/bodyCombat.jpg'},
-    {'name': ' Anis', 'image': 'assets/bodyCombat.jpg'},
-    {'name': ' Anis', 'image': 'assets/bodyCombat.jpg'},
-    // {'name': ' 5', 'image': 'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'},
-    // {'name': ' 6', 'image': 'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'},
-    //{'name': ' 7', 'image': 'https://docs.flutter.dev/assets/images/dash/dash-fainting.gif'},
-  ];
 
   @override
   Widget build(BuildContext context) {
+    Get.put(ApiClient(appBaseUrl: "http://192.168.1.107:8000/api/"));
+    Get.put(CategoriesRepo(
+      apiClient: Get.find(),
+    ));
+    ActivitiesController activitiesController = Get.put(ActivitiesController(
+      activitiesRepo: ActivitiesRepo(apiClient: Get.find()),
+    ));
+    TrainersController trainersController = Get.put(TrainersController(
+      trainersRepo: TrainersRepo(apiClient: Get.find()),
+    ));
+    Get.put(CategoriesController(categoriesRepo: Get.find()));
+
+    Get.put(ActivitiesRepo(
+      apiClient: Get.find(),
+    ));
+    Get.put(ActivitiesController(activitiesRepo: Get.find()));
+
     DateTime now = DateTime.now();
+
     List<String> weekdays = [
-      'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
     ];
     List<String> months = [
-      'January', 'February', 'March', 'April', 'May', 'June', 'July',
-      'August', 'September', 'October', 'November', 'December'
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
     ];
     String dayOfWeek = weekdays[now.weekday - 1];
     String dayOfMonth = now.day.toString();
@@ -77,7 +85,7 @@ class _MainHomeState extends State<MainHome> {
           children: [
             SizedBox(height: 10),
             Text(
-              "welcome Ahmed !",
+              "welcome $userName !",
               style: TextStyle(
                 fontSize: 20.0,
                 fontFamily: 'Poppins',
@@ -96,49 +104,41 @@ class _MainHomeState extends State<MainHome> {
             ),
             SizedBox(height: 10),
             TextFormField(
-              onChanged: (value) {
-                setState(() {
+                onChanged: (value) {
                   searchText = value;
-                }
-                );
-              },
-
+                },
                 decoration: InputDecoration(
-                    contentPadding:
-                    const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
-                    floatingLabelStyle: const TextStyle(color: Colors.black),
-                    labelText: 'Search',
-                    suffixIcon: Icon(Icons.search),
-                    filled:true,
-                    fillColor: Color(0xffF7F9FD),
-                    labelStyle: TextStyle( color: Colors.black),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                        const BorderSide(width: 1, color: Colors.white)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                        const BorderSide(width: 1, color: Colors.white)),
-                )
-
-
-
-
-
-
-            ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+                  floatingLabelStyle: const TextStyle(color: Colors.black),
+                  labelText: 'Search',
+                  suffixIcon: Icon(Icons.search),
+                  filled: true,
+                  fillColor: Color(0xffF7F9FD),
+                  labelStyle: TextStyle(color: Colors.black),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide:
+                          const BorderSide(width: 1, color: Colors.white)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide:
+                          const BorderSide(width: 1, color: Colors.white)),
+                )),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Categorie',
-                  style: TextStyle(fontSize:18.0,fontWeight:FontWeight.bold),
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                 ),
                 TextButton(
                   onPressed: () {
-                    // Action lorsque le bouton "See All" est pressé
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CategoriesList()),
+                    );
                   },
                   child: Text(
                     'See All',
@@ -150,11 +150,12 @@ class _MainHomeState extends State<MainHome> {
             SizedBox(height: 10),
             Container(
               height: 60.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  for (var category in categories)
-                    Padding(
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: controller.categories.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final category = controller.categories[index];
+                    return Padding(
                       padding: EdgeInsets.symmetric(horizontal: 5.0),
                       child: Column(
                         children: [
@@ -166,27 +167,25 @@ class _MainHomeState extends State<MainHome> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white,
-
-                                border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.0),
+                                border:
+                                    Border.all(color: Colors.grey, width: 1.0),
                               ),
                               child: CircleAvatar(
-                                backgroundImage: AssetImage(category['image']!),
+                                backgroundImage:
+                                    NetworkImage(category.image.toString()),
                               ),
                             ),
                           ),
                           SizedBox(height: 5),
                           Text(
-                            category['name'].toString(),
+                            category.name.toString(),
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.black),
                           ),
                         ],
                       ),
-                    ),
-                ],
-              ),
+                    );
+                  }),
             ),
             SizedBox(height: 10),
             Row(
@@ -216,13 +215,11 @@ class _MainHomeState extends State<MainHome> {
                   ],
                 ),
                 TextButton(
-
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => ActivityList()),
                     );
-
                   },
                   child: Text(
                     'See All',
@@ -232,74 +229,81 @@ class _MainHomeState extends State<MainHome> {
               ],
             ),
             SizedBox(height: 10),
-            Flexible(
+            Expanded(
               child: Container(
                 height: 200.0,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    for (var activity in activities)
-                      Padding(
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: activitiesController.activities.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final activity = activitiesController.activities[index];
+                      return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5.0),
-                        child: Container(
-                          width: 300.0,
-                          height: 300.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            shape: BoxShape.rectangle,
-                            color: Colors.black12,
-                          ),
-                          child: Stack(
-                            alignment: Alignment.bottomLeft,
-                            children: <Widget>[
-                              GestureDetector(
-                              onTap: () {
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Activity()),
-                        );
-                        },
-                             child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: Image.asset(activity['image']!,
-                                    width: 300,
-                                    height: 300,
-                                    fit: BoxFit.cover,
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(Activity(), arguments: activity);
+                          },
+                          child: Container(
+                            width: 300.0,
+                            height: 300.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              shape: BoxShape.rectangle,
+                              color: Colors.black12,
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(),
+                              child: Stack(
+                                alignment: Alignment.bottomLeft,
+                                children: <Widget>[
+                                  ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Image.network(
+                                        activity.image,
+                                        width: 300,
+                                        height: 300,
+                                        fit: BoxFit.cover,
+                                      )),
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(
+                                            15)), // Adjust the radius as needed
 
-                                  )
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                          sigmaX: 3, sigmaY: 3),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2,
+                                        padding: EdgeInsets.all(8.0), // Adjust padding as needed
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
 
+                                            Expanded(
 
-                              ),
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15)), // Adjust the radius as needed
-                                child: BackdropFilter(
-                                  filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width/2,
-                                    padding: EdgeInsets.all(8.0), // Adjust padding as needed
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Text(
-                                          activity['description']!,
-                                          style: TextStyle(color: Colors.white),
+                                              child: Text(
+                                                activity.description,
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                            Icon(Icons.star),
+                                          ],
                                         ),
-                                        Icon(
-                                      Icons.star
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                  ],
-                ),
+                      );
+                    }),
               ),
             ),
             SizedBox(height: 10),
@@ -333,7 +337,7 @@ class _MainHomeState extends State<MainHome> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Trainers()),
+                      MaterialPageRoute(builder: (context) => TrainersList()),
                     );
                   },
                   child: Text(
@@ -346,11 +350,12 @@ class _MainHomeState extends State<MainHome> {
             SizedBox(height: 10),
             Container(
               height: 60.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  for (var trainer in trainers)
-                    Padding(
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: trainersController.trainers.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final trainer = trainersController.trainers[index];
+                    return Padding(
                       padding: EdgeInsets.symmetric(horizontal: 5.0),
                       child: Column(
                         children: [
@@ -362,27 +367,26 @@ class _MainHomeState extends State<MainHome> {
                                 shape: BoxShape.circle,
                                 color: Colors.white,
                                 border: Border.all(
-                                    color: Colors.grey, // Couleur du cercle gris
+                                    color:
+                                        Colors.grey, // Couleur du cercle gris
                                     width: 1.0),
                               ),
                               child: CircleAvatar(
-                                backgroundImage:
-                                AssetImage(trainer['image']!),
+                                backgroundImage: NetworkImage(trainer.image),
                               ),
                             ),
                           ),
                           SizedBox(height: 5),
                           Text(
-                            trainer['name'].toString(),
+                            trainer.name.toString(),
                             textAlign: TextAlign.center,
-                            style:  GoogleFonts.poppins(color: Colors.black,fontSize: 12),
-
+                            style: GoogleFonts.poppins(
+                                color: Colors.black, fontSize: 12),
                           ),
                         ],
                       ),
-                    ),
-                ],
-              ),
+                    );
+                  }),
             ),
           ],
         ),
@@ -415,7 +419,10 @@ class CustomBottomAppBar extends StatelessWidget {
                     },
                   ),
                 ),
-                Text('Home', style: TextStyle(color: Color(0xFFf34e3a),fontSize: 12), ),
+                Text(
+                  'Home',
+                  style: TextStyle(color: Color(0xFFf34e3a), fontSize: 12),
+                ),
               ],
             ),
           ),
@@ -434,7 +441,10 @@ class CustomBottomAppBar extends StatelessWidget {
                     },
                   ),
                 ),
-                Text('Planning', style: TextStyle(fontSize: 12),),
+                Text(
+                  'Planning',
+                  style: TextStyle(fontSize: 12),
+                ),
               ],
             ),
           ),
@@ -443,7 +453,6 @@ class CustomBottomAppBar extends StatelessWidget {
               width: 60.0,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-
               ),
               child: CircleAvatar(
                 backgroundColor: Color(0xFFf34e3a),
@@ -469,8 +478,10 @@ class CustomBottomAppBar extends StatelessWidget {
                     },
                   ),
                 ),
-
-                Text('Abonnement',style: TextStyle(fontSize: 12),),
+                Text(
+                  'Abonnement',
+                  style: TextStyle(fontSize: 12),
+                ),
               ],
             ),
           ),
@@ -489,7 +500,10 @@ class CustomBottomAppBar extends StatelessWidget {
                     },
                   ),
                 ),
-                Text('Profil',style: TextStyle(fontSize: 12),),
+                Text(
+                  'Profil',
+                  style: TextStyle(fontSize: 12),
+                ),
               ],
             ),
           ),
@@ -498,4 +512,3 @@ class CustomBottomAppBar extends StatelessWidget {
     );
   }
 }
-

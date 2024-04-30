@@ -62,7 +62,7 @@ class Register extends GetView<AuthController> {
                 child: Column(
                   children: [
                     TextFormField(
-                      controller: controller.fullNameController,
+                      controller: controller.NameController,
 
                       decoration: InputDecoration(
                         filled: true,
@@ -91,7 +91,7 @@ class Register extends GetView<AuthController> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                      controller: controller.phoneNumberController,
+                      controller: controller.surNameController,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
@@ -119,7 +119,7 @@ class Register extends GetView<AuthController> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                      controller: controller.emailController,
+                      controller: controller.phoneNumberController,
                       onChanged: (value) {
 
                       },
@@ -150,7 +150,7 @@ class Register extends GetView<AuthController> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                      controller: controller.adressController,
+                      controller: controller.emailController,
                       onChanged: (value) {
 
                       },
@@ -182,7 +182,7 @@ class Register extends GetView<AuthController> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                      controller: controller.dateOfBirthController,
+                      controller: controller.adressController,
 
                       decoration: InputDecoration(
                         filled: true,
@@ -331,20 +331,20 @@ class Register extends GetView<AuthController> {
                         minimumSize: Size(285, 49),
                       ),
                       onPressed: () async {
-                   /*     if (_registerKey.currentState!.validate()) {
-                          _registerKey.currentState!.save();
-*/
+                      if (_registerKey.currentState!.validate()) {
+                        _registerKey.currentState!.save();
+                      }
 
 
-                        print('presseddd');
+
                           await controller.register(UserRequest(
-                              name: controller.fullNameController.text,
+                              name: controller.NameController.text,
                               surName: controller.surNameController.text,
                               number: controller.phoneNumberController.text,
                               email: controller.emailController.text,
                               adress: controller.adressController.text,
                               dateOfBirth: controller.dateOfBirthController.text,
-                              password: controller.passwordController.text,));
+                              password: controller.passwordController.text,),context);
 
 
 

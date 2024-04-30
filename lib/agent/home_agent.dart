@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:gymproconnect_flutter/agent/Members.dart';
-import 'package:gymproconnect_flutter/agent/catecories.dart';
+import 'package:gymproconnect_flutter/agent/categories_agent.dart';
 import 'package:gymproconnect_flutter/agent/coachs.dart';
 import 'package:gymproconnect_flutter/agent/profil_agent.dart';
 import 'package:gymproconnect_flutter/home/abonnement.dart';
@@ -147,7 +147,7 @@ class _MainHomeState extends State<HomeAgent> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Categories()),
+                      MaterialPageRoute(builder: (context) => CategoriesAgent()),
                     );                  },
                   child: Text(
                     'See All',
@@ -324,7 +324,7 @@ class _MainHomeState extends State<HomeAgent> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Trainers()),
+                      MaterialPageRoute(builder: (context) => TrainersList()),
                     );
                   },
                   child: Text(

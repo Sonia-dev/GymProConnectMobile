@@ -6,6 +6,7 @@ class ApiClient extends GetConnect implements GetxService {
   final Map<String, String> queryParameters = {};
   final String appBaseUrl;
   late Map<String, String> _mainHeaders;
+
   ApiClient({required this.appBaseUrl}) {
     baseUrl = appBaseUrl;
     timeout = const Duration(seconds: 30);

@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymproconnect_flutter/data/controllers/activity_find_by_name_controller.dart';
 
-class filtre extends StatelessWidget {
+import '../data/api/api_client.dart';
+import '../data/controllers/activities_controller.dart';
+import '../data/repository/activities_repo.dart';
+
+class filtre extends GetView<ActFindByNameController> {
   @override
   Widget build(BuildContext context) {
+    Get.put(ApiClient(appBaseUrl: "http://192.168.1.107:8000/api/"));
+    Get.put(ActivitiesRepo( apiClient: Get.find(),));
+    Get.put(ActivitiesController(activitiesRepo: Get.find()));
     return  Scaffold(
           appBar: AppBar(
             title: Text('Filtre',style: GoogleFonts.poppins(
@@ -38,15 +47,15 @@ class _FilterScreenState extends State<FilterScreen> {
   int _rating = 4;
   List<String> _selectedGender = ["mixed"];
   List<String> _selectedAge = ["Adults"];
-  List<Map<String, String>> categories = [
-    {'name': ' yoga', 'image': 'assets/yoga.png'},
-    {'name': ' Swimming', 'image': 'assets/swimming.png'},
-    {'name': ' gymnastique', 'image': 'assets/gymnastique.png'},
-    {'name': '4', 'image': 'assets/bodyCombat.jpg'},
-    {'name': ' 5', 'image': 'assets/bodyCombat.jpg'},
-     {'name': ' 6', 'image': 'assets/bodyCombat.jpg'},
-    {'name': ' 7', 'image': 'assets/bodyCombat.jpg'},
-  ];
+  // List<Map<String, String>> categories = [
+  //   {'name': ' yoga', 'image': 'assets/yoga.png'},
+  //   {'name': ' Swimming', 'image': 'assets/swimming.png'},
+  //   {'name': ' gymnastique', 'image': 'assets/gymnastique.png'},
+  //   {'name': '4', 'image': 'assets/bodyCombat.jpg'},
+  //   {'name': ' 5', 'image': 'assets/bodyCombat.jpg'},
+  //    {'name': ' 6', 'image': 'assets/bodyCombat.jpg'},
+  //   {'name': ' 7', 'image': 'assets/bodyCombat.jpg'},
+  // ];
   final _formKey = GlobalKey<FormState>();
   double _minPrice = 0;
   double _maxPrice = 300;
@@ -54,6 +63,8 @@ class _FilterScreenState extends State<FilterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final category = Get.arguments;
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Form(
@@ -88,17 +99,17 @@ class _FilterScreenState extends State<FilterScreen> {
                     selectedColor: Color(0xFFF34E3A),
                     showCheckmark: false,
                   ),
-                  for (var category in categories)
+
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 5.0),
                       child: Column(
                         children: [
                           FilterChip(
-                            label: Text(category['name']!),
-                            selected: _selectedCategory == category['name'],
+                            label: Text(category.name),
+                            selected: _selectedCategory == category.name,
                             onSelected: (bool selected) {
                               setState(() {
-                                _selectedCategory = selected ? category['name']! : "All";
+                                _selectedCategory = selected ? category.name : "All";
                               });
                             },
                             visualDensity: VisualDensity(horizontal: -4.0, vertical: -4.0),

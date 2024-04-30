@@ -58,7 +58,7 @@ class _profilState extends State<ProfilAgent> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => edit()),
+                            MaterialPageRoute(builder: (context) => update()),
                           );
                         },
                         child: Image.asset(
@@ -291,7 +291,7 @@ class CustomBottomAppBar extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Trainers()),
+                        MaterialPageRoute(builder: (context) => TrainersList()),
                       );
                     },
                   ),

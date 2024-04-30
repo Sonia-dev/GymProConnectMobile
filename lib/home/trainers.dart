@@ -3,88 +3,44 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymproconnect_flutter/data/repository/trainers_repo.dart';
+import 'package:gymproconnect_flutter/models/trainers_model.dart';
 
-class Trainers extends StatefulWidget {
-  const Trainers({super.key});
+import '../data/api/api_client.dart';
+import '../data/controllers/trainers_controller.dart';
 
-  @override
-  State<Trainers> createState() => _TrainersState();
-}
-
-class _TrainersState extends State<Trainers> {
+class TrainersList extends GetView<TrainersController> {
   @override
   String searchText = '';
-  List<Map<String, String>> trainers = [
-    {
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },
-    {
-      'name': ' Ali Nour',
-      'image': 'assets/bodyCombat.jpg',
-      'titre': 'coach de yoga '
-    },
-    {
-      'name': ' Anis Mohamed',
-      'image': 'assets/bodyCombat.jpg',
-      'titre': 'coach de yoga'
-    },
-    {
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },
-    {
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },
-    {
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },
-    {
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },{
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },{
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },{
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },{
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },
-
-
-
-
-  ];
 
   Widget build(BuildContext context) {
+    Get.put(ApiClient(appBaseUrl: "http://192.168.1.107:8000/api/"));
+    Get.put(TrainersRepo( apiClient: Get.find(),));
+    Get.put(TrainersController(trainersRepo: Get.find()));
+
+
+    Get.put(TrainersRepo(
+      apiClient: Get.find(),
+    ));
+    Get.put(TrainersController(trainersRepo: Get.find()));
     return Scaffold(
       appBar: AppBar(
-        title: Text('Trainers',
+        title: Text(
+          'Trainers',
           style: GoogleFonts.poppins(
             color: Colors.black,
             fontSize: 14,
             fontWeight: FontWeight.w500,
-          ),),
+          ),
+        ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,
+          icon: Icon(
+            Icons.arrow_back,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -101,69 +57,81 @@ class _TrainersState extends State<Trainers> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+        child:
+            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          SizedBox(height: 10.0),
+          Expanded(
+             child:
+             Container(
+             height: 200.0,
+            child: ListView.builder(
+                itemCount: controller.trainers.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final coach = controller.trainers[index];
+                  return
+                      //Padding(
+                      // scrollDirection: Axis.vertical,
+                      // children: [
 
-              SizedBox(height: 10.0),
-              Expanded(
-                child:
-                Container(
-                 // height: 200.0,
-                  child: ListView(
-                    scrollDirection: Axis.vertical,
-                    children: [
-                      for (var trainer in trainers)
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child:Column(
-                            children: [ Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 32,
-                                    backgroundImage: AssetImage(
-                                        trainer['image']!),
-                                  ),
-                                  SizedBox(width: 20),
-
-                                  Column(
-                                      children: [
-
-                                        Text(
-                                          trainer['name']!,
-                                          style: TextStyle(
-                                            color: Color(0xFF170F49),
-                                            fontSize: 18,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-
-                                        SizedBox(height: 5),
-
-                                        Text(
-                                          trainer['titre']!,
-                                          style: TextStyle(
-                                            color: Color(0xFF6E6B8F),
-                                            fontSize: 15,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ]
-                                  ),
-                                ]
-                            ),SizedBox(height: 10,)],
+                      Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Column(
+                      children: [
+                        Row(children: [
+                          CircleAvatar(
+                            radius: 32,
+                            child: Image.network(
+                              coach.image,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return SizedBox(
+                                    child: Image.asset(
+                                        "assets/images/no_image.jpg"));
+                              },
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress?.expectedTotalBytes ==
+                                    loadingProgress?.cumulativeBytesLoaded) {
+                                  return child;
+                                }
+                                return const CircularProgressIndicator();
+                              },
+                            ),
                           ),
-
-
-                        ),
-                    ],
-                  ),
-                ),
-
-              ),]),),
-
+                          SizedBox(width: 20),
+                          Column(children: [
+                            Text(
+                              coach.name.toString(),
+                              style: TextStyle(
+                                color: Color(0xFF170F49),
+                                fontSize: 18,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              coach.title.toString(),
+                              style: TextStyle(
+                                color: Color(0xFF6E6B8F),
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ]),
+                        ]),
+                        SizedBox(
+                          height: 10,
+                        )
+                      ],
+                    ),
+                  );
+                }),
+          ),
+          ),
+        ]),
+      ),
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:gymproconnect_flutter/profil/MyAccount.dart';
 import 'package:gymproconnect_flutter/profil/MyMembership.dart';
 import 'package:gymproconnect_flutter/profil/Settings.dart';
 import 'package:gymproconnect_flutter/profil/edit.dart';
+import '../globals.dart';
 
 
 class profil extends StatefulWidget {
@@ -54,7 +55,7 @@ class _profilState extends State<profil> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => edit()),
+                            MaterialPageRoute(builder: (context) => update()),
                           );
                         },
                         child: Image.asset(
@@ -69,7 +70,7 @@ class _profilState extends State<profil> {
               ),
               SizedBox(height: 10),
               Text(
-                Profil['name']!,
+                "$surName  $userName ",
                 style: GoogleFonts.poppins(
                   color: Colors.black,
                   fontSize: 16,

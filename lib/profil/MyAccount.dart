@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../globals.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({super.key});
@@ -38,7 +39,7 @@ class _MyAccountState extends State<MyAccount> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  Profil['name']!,
+                  "$surName  $userName ",
                   style: GoogleFonts.poppins(
                     color: Colors.black,
                     fontSize: 16,

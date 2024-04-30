@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:gymproconnect_flutter/home/register.dart';
 import 'package:gymproconnect_flutter/models/login_model.dart';
@@ -17,6 +18,7 @@ class login extends GetView<AuthController> {
   String EmailText = '';
   String passwordText = '';
   bool _rememberMe = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,12 +50,10 @@ class login extends GetView<AuthController> {
                 ),
               ),
               SizedBox(height: 100,),
-              TextField(
+              TextFormField(
 
-                onChanged: (value) {
+             controller: controller.emailController,
 
-                },
-              //  emailController=controller.emailController.text,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   filled: true,
@@ -72,13 +72,19 @@ class login extends GetView<AuthController> {
                   hintText: 'Email',
                   suffixIcon: Icon(Icons.email_outlined),
                 ),
+
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a email';
+                  }
+                  return null;
+                },
               ),
               SizedBox(height: 20),
-              TextField(
-                onChanged: (value) {
+              TextFormField(
+               controller: controller.passwordController,
+                obscureText: true,
 
-                },
-            //    passwordController=controller.passwordController,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Color(0xffF7F9FD),
@@ -95,8 +101,16 @@ class login extends GetView<AuthController> {
                   labelText: 'password',
                   hintText: 'password ',
                   suffixIcon: Icon(Icons.lock_outline_rounded),
-                  border: OutlineInputBorder(),
-                ),
+                  border: OutlineInputBorder(),),
+
+                validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a password';
+                    }
+                    return null;
+                  },
+
+
               ),
               SizedBox(height: 5,),
               Row(
@@ -141,7 +155,9 @@ class login extends GetView<AuthController> {
                   minimumSize: Size(285, 49),
                 ),
                 onPressed: () async {
-            await controller.login(LoginRequest(email: controller.emailController.text, password: controller.passwordController.text));
+                      // if (_loginKey.currentState!.validate()) {
+                      //   _loginKey.currentState!.save();}
+            await controller.login(LoginRequest(email: controller.emailController.text, password: controller.passwordController.text,),context);
                 },
                 child: Text('Sign In',
                   style: TextStyle(fontSize: 18.0, color: Colors.white),
