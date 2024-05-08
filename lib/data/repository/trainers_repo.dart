@@ -1,5 +1,6 @@
 import 'package:get/get_connect/http/src/response/response.dart';
 
+import '../../utils/uris.dart';
 import '../api/api_client.dart';
 
 class TrainersRepo{
@@ -7,7 +8,7 @@ class TrainersRepo{
   TrainersRepo({required this.apiClient});
 
   Future<Response> getTrainersList() async{
-    return await apiClient.getData("auth/users/coaches" );
+    return await apiClient.getData(Uris.listingTrainersUrl );
 
   }
 

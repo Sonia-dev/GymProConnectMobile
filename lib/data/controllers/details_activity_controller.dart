@@ -11,18 +11,24 @@ class ActivityDetailsController extends GetxController {
   RxMap<dynamic, dynamic> activitiedetails = {}.obs;
   @override
   void onInit() {
-    getActivityDetails();
+    //getActivityDetails();
     super.onInit();
   }
-  Future getActivityDetails() async {
-    Response response = await activityDetailsRepo.getActivityDetails();
+  Future getActivityDetails(int id) async {
+    Response response = await activityDetailsRepo.getActivityDetails(id);
     if (response.statusCode == 200) {
       print("body ${response.body}");
-      activitiedetails.value = response.body.map((json) => ActivitiesDetails.fromJson(json));
+      activitiedetails.value = response.body.map((json) => ActivityData.fromJson(json));
       print("activities ${activitiedetails}");
     }
     else {
       print("not ooooooooooook");
     }
   }
+
+
+
+
+
+
 }

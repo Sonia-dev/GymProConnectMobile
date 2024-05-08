@@ -1,4 +1,4 @@
-class ActivitiesDetails {
+class ActivityData {
   int? id;
   int? categoryId;
   int? coachId;
@@ -15,7 +15,7 @@ class ActivitiesDetails {
   Category? category;
   Coach? coach;
 
-  ActivitiesDetails(
+  ActivityData(
       {this.id,
         this.categoryId,
         this.coachId,
@@ -32,7 +32,7 @@ class ActivitiesDetails {
         this.category,
         this.coach});
 
-  ActivitiesDetails.fromJson(Map<String, dynamic> json) {
+  ActivityData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     categoryId = json['category_id'];
     coachId = json['coach_id'];

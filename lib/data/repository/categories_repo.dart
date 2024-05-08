@@ -1,5 +1,6 @@
 import 'package:get/get_connect/http/src/response/response.dart';
 
+import '../../utils/uris.dart';
 import '../api/api_client.dart';
 
 class CategoriesRepo{
@@ -8,7 +9,7 @@ class CategoriesRepo{
 
 
   Future<Response> getCategoriesList() async{
-    return await apiClient.getData("categories" );
+      return await apiClient.getData(Uris.listingCategoryUrl);
   }
 
 

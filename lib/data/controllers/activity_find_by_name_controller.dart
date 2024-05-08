@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import '../../home/detailed_activity.dart';
 import '../../models/activities_model.dart';
 import '../repository/activities_repo.dart';
 import '../repository/activity_find_by_name_repo.dart';
@@ -24,7 +23,7 @@ class ActFindByNameController extends GetxController {
     if (response.statusCode == 200) {
       print("body ${response.body}");
       activities.value =
-          response.body.map((json) => Activitie.fromJson(json)).toList();
+          response.body.map((json) => ActivityData.fromJson(json)).toList();
       print("activities ${activities}");
     }
   }

@@ -1,4 +1,30 @@
-class coach {
+class CoachsModel {
+  bool? success;
+  List<CoachesData>? coaches;
+
+  CoachsModel({this.success, this.coaches});
+
+  CoachsModel.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+    if (json['coaches'] != null) {
+      coaches = <CoachesData>[];
+      json['coaches'].forEach((v) {
+        coaches!.add(new CoachesData.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['success'] = this.success;
+    if (this.coaches != null) {
+      data['coaches'] = this.coaches!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class CoachesData {
   int? id;
   String? name;
   String? surname;
@@ -12,7 +38,7 @@ class coach {
   String? image;
   String? title;
 
-  coach(
+  CoachesData(
       {this.id,
         this.name,
         this.surname,
@@ -26,7 +52,7 @@ class coach {
         this.image,
         this.title});
 
-  coach.fromJson(Map<String, dynamic> json) {
+  CoachesData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     surname = json['surname'];

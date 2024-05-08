@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../../utils/uris.dart';
 import '../api/api_client.dart';
 
 class ActivitiesRepo{
@@ -8,7 +9,7 @@ class ActivitiesRepo{
 
 
   Future<Response> getActivityList() async{
-    return await apiClient.getData("activities" );
+    return await apiClient.getData(Uris.listingActivityUrl );
   }
 
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gymproconnect_flutter/home/login.dart';
-import 'package:gymproconnect_flutter/home/main_home.dart';
+import 'package:gymproconnect_flutter/screens/home/login.dart';
+import 'package:gymproconnect_flutter/screens/home/main_home.dart';
 
 class AuthContainer extends StatefulWidget {
   const AuthContainer({super.key});
@@ -13,10 +13,10 @@ class _AuthContainerState extends State<AuthContainer> {
   @override
   Widget build(BuildContext context) {
     //bool IsLoggedIn ;
-    if(true)
+    if(false)
     return MainHome();
     else
-      return login();
+      return Login();
   }
 }
 
