@@ -12,4 +12,9 @@ class PacksRepo{
     return await apiClient.getData(Uris.listingPacksUrl );
   }
 
+  Future<Response> getPackByID(int packId) async
+  {
+    return await apiClient.getData("${Uris.listingPacksUrl}/$packId");
+  }
+
 }

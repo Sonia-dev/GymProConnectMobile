@@ -1,30 +1,25 @@
-class CoachsModel {
+class UserProfil {
   bool? success;
-  List<TrainerDetail>? coaches;
+  User? user;
 
-  CoachsModel({this.success, this.coaches});
+  UserProfil({this.success, this.user});
 
-  CoachsModel.fromJson(Map<String, dynamic> json) {
+  UserProfil.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    if (json['coaches'] != null) {
-      coaches = <TrainerDetail>[];
-      json['coaches'].forEach((v) {
-        coaches!.add(new TrainerDetail.fromJson(v));
-      });
-    }
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['success'] = this.success;
-    if (this.coaches != null) {
-      data['coaches'] = this.coaches!.map((v) => v.toJson()).toList();
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
     }
     return data;
   }
 }
 
-class TrainerDetail {
+class User {
   int? id;
   String? name;
   String? surname;
@@ -35,10 +30,10 @@ class TrainerDetail {
   int? status;
   String? createdAt;
   String? updatedAt;
-  String? image;
-  String? title;
+  Null? image;
+  Null? title;
 
-  TrainerDetail(
+  User(
       {this.id,
         this.name,
         this.surname,
@@ -52,7 +47,7 @@ class TrainerDetail {
         this.image,
         this.title});
 
-  TrainerDetail.fromJson(Map<String, dynamic> json) {
+  User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     surname = json['surname'];
@@ -84,25 +79,3 @@ class TrainerDetail {
     return data;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

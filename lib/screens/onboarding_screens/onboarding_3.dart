@@ -20,7 +20,7 @@ class _Intro1State extends State<Onboarding3> {
       child: Center(
 
           child:  Column(children: [
-            SizedBox(height: 400,),
+            SizedBox(height: 480,),
             SizedBox(
               width: 302,
               child: Text(

@@ -1,420 +1,279 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:gymproconnect_flutter/data/controllers/details_activity_controller.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:gymproconnect_flutter/data/controllers/activities_controller.dart';
 import 'package:gymproconnect_flutter/screens/home/reviews.dart';
 
+import '../../data/controllers/trainers_controller.dart';
+import '../../routes/routes_helper.dart';
+import '../../widgets/circle_avatar_widget.dart';
 import '../payment/payment_methods.dart';
 
-
-class Activity extends GetView<ActivityDetailsController> {
+class ActivityDetail extends GetView<ActivitiesController> {
   @override
   Widget build(BuildContext context) {
-    final activity = Get.arguments;
+    return SafeArea(child:
+        Scaffold(
+            body: GetBuilder<ActivitiesController>(builder: (controller) {
+      return Obx(() => controller.isLoading.value
+          ? const Center(
+              child: SpinKitDoubleBounce(
+              color: Colors.orange,
+            ))
+          : SingleChildScrollView(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                  Stack(
+                    children: [
+                      Image.network(
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
+                        controller.activityDetails.image.toString(),
+                        width: MediaQuery.of(context).size.width,
+                        fit: BoxFit.cover,
+                        height :MediaQuery.of(context).size.height/3,
+                        errorBuilder: (context, error, stackTrace) {
+                          return SizedBox(
+                              height :MediaQuery.of(context).size.height/3,
+                              width: MediaQuery.of(context).size.width,
+                              child: Image.asset("assets/no_image.jpg",
+                              fit: BoxFit.cover
 
-            Container(
-              child: SingleChildScrollView(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        Column(
-                      children: [
-                        Container(
-                          width: 393,
-                          height: 270,
+                              ));
+                        },
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          }
+                          return Center(
+                            child: SpinKitDoubleBounce(
+                              size: 10,
+                              color: Colors.orange,
+                            ),
+                          );
+                        },
+                      ),
+                      Positioned(
+                        left: 10,
+                        top: 10,
+                        child: Container(
+                          width: 44.w,
+                          height: 44.h,
                           decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  activity.image), // Utilisation de NetworkImage
-                              fit: BoxFit.cover,
-                            ),
+                            shape: BoxShape.circle,
+                            color: Color(0xFFF7F9FD),
                           ),
-
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-
-                            children: [
-                              SizedBox(height: 200,),
-                              Positioned(
-                              left: -160,
-                              bottom: -140,
-                              child: SizedBox(
-                                width: 100,
-                                height: 20,
-                                child: Text(
-                                  activity.category.name.toString(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFFF34E3A),
-                                    fontSize: 14,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0.10,
-                                  ),
-                                ),
+                          child: Center(
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.arrow_back,
                               ),
-                            ),
-
-                              Positioned(
-                                left: -80,
-                                bottom: -150,
-                                child: SizedBox(
-                                  width: 150,
-                                  height: 20,
-                                  child: Text(
-                                    activity.name,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0,
-                                    ),
-                                  ),
-                                ),
-                              ),],
-                          ),
-
-                        ),
-
-
-
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 40),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'About',
-                                style: TextStyle(
-                                  color: Color(0xFFF8A69C),
-                                  fontSize: 15,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => reviews()),
-                                  );
-                                },
-                                child: Text(
-                                  'Reviews',
-                                  style: TextStyle(
-                                    color: Color(0xFF555555),
-                                    fontSize: 15,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Description",
-                                style: TextStyle(
-                                  color: Color(0xFF0C1A30),
-                                  fontSize: 20,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(
-                            activity.description.toString(),
-                            style: TextStyle(
-                              color: Color(0xFF0C1A30),
-                              fontSize: 14,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Date',
-                                style: TextStyle(
-                                  color: Color(0xFFABABAB),
-                                  fontSize: 16,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w300,
-                                ),
-                              ),
-                              Spacer(flex: 10),
-                              Text(
-                                'Durée',
-                                style: TextStyle(
-                                  color: Color(0xFFABABAB),
-                                  fontSize: 16,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w300,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Monday & Friday',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              Text(
-                                '45 min',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Capacité',
-                                style: TextStyle(
-                                  color: Color(0xFFABABAB),
-                                  fontSize: 16,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w300,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                '30',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Trainers',
-                                style: TextStyle(
-                                  color: Color(0xFF0C1A30),
-                                  fontSize: 20,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        Container(
-                          height: 200.0,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: ListView(
-                              scrollDirection: Axis.vertical,
-                              children: [
-                                Row(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 32,
-                                      child: Image.network(
-                                        activity.coach.image,
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          return SizedBox(
-                                              child: Image.asset(
-                                                  "assets/no_image.jpg"));
-                                        },
-                                        loadingBuilder:
-                                            (context, child, loadingProgress) {
-                                          if (loadingProgress
-                                                  ?.expectedTotalBytes ==
-                                              loadingProgress
-                                                  ?.cumulativeBytesLoaded) {
-                                            return child;
-                                          }
-                                          return const CircularProgressIndicator();
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    // Ajoute un espace entre l'image et le texte
-                                    Column(
-                                      children: [
-                                        Text(
-                                          activity.coach.name.toString(),
-                                          style: TextStyle(
-                                            color: Color(0xFF170F49),
-                                            fontSize: 18,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-
-                                        SizedBox(height: 5),
-                                        // Ajoute un espace vertical entre les deux textes
-                                        Text(
-                                          activity.coach.title.toString(),
-                                          style: TextStyle(
-                                            color: Color(0xFF6E6B8F),
-                                            fontSize: 15,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height / 8,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment(0.00, -1.00),
+                              end: Alignment(0, 1),
+                              colors: [
+                                Colors.black.withOpacity(0),
+                                Colors.black
                               ],
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ])),
-            ),
-          ],
-        ),
-      ),
-      // body: ListView(
-      // scrollDirection: Axis.vertical,
-      //
-      //
-
-      //    ),
-      //   );
-      //
-      // ),
-      bottomNavigationBar: CustomBottomAppBar(),
-    );
-  }
-}
-
-class CustomBottomAppBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BottomAppBar(
-      color: Colors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          Column(
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                width: 76,
-                height: 21,
-                child: Text(
-                  'Prix',
-                  style: TextStyle(
-                    color: Color(0xFF838589),
-                    fontSize: 14,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w400,
-                    height: 0.13,
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  controller.activityDetails.category?.name
+                                          .toString() ??
+                                      "",
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.poppins(
+                                    color: Color(0xFFF34E3A),
+                                    fontSize: 14.spMin,
+                                    fontWeight: FontWeight.w500,
+                                  )),
+                              10.h.verticalSpace,
+                              Text(controller.activityDetails.name.toString(),
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 20.spMin,
+                                    fontWeight: FontWeight.w500,
+                                  )),
+                              10.h.verticalSpace,
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ),
-              SizedBox(
-                width: 76,
-                height: 21,
-                child: Text(
-                  '120 dt',
-                  style: TextStyle(
-                    color: Color(0xFFF34E3A),
-                    fontSize: 20,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w700,
-                    height: 0.06,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFFf34e3a),
-              minimumSize: Size(145, 49),
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => payment_methods(),
-                ),
-              );
-            },
-            child: Text(
-              'Réserver',
-              style: TextStyle(fontSize: 18.0, color: Colors.white),
-            ),
-          ),
-        ],
-      ),
-    );
+                  20.h.verticalSpace,
+                  Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text("Description",
+                                style: GoogleFonts.poppins(
+                                  color: Color(0xFF0C1A30),
+                                  fontSize: 20.spMin,
+                                  fontWeight: FontWeight.w600,
+                                )),
+                            10.h.verticalSpace,
+                            Text(
+                                controller.activityDetails.description
+                                    .toString(),
+                                style: GoogleFonts.poppins(
+                                  color: Color(0xFF0C1A30),
+                                  fontSize: 14.spMin,
+                                  fontWeight: FontWeight.w400,
+                                )),
+                            10.h.verticalSpace,
+                            Text('muscle groups',
+                                style: GoogleFonts.poppins(
+                                  color: Color(0xFFABABAB),
+                                  fontSize: 16.spMin,
+                                  fontWeight: FontWeight.w300,
+                                )),
+                            Text(
+                              controller.activityDetails.muscleGroups
+                                  .toString(),
+                              style:  GoogleFonts.poppins(
+                                color: Color(0xFF0C1A30),
+                                fontSize: 14.spMin,
+                                fontWeight: FontWeight.w400,
+                              )
+                            ),
+                            10.h.verticalSpace,
+                            Text('tenue recommandée',
+                                style: GoogleFonts.poppins(
+                                  color: Color(0xFFABABAB),
+                                  fontSize: 16.spMin,
+                                  fontWeight: FontWeight.w300,
+                                )),
+                            10.h.verticalSpace,
+                            Text(
+                              controller.activityDetails.recommendedOutfit
+                                  .toString(),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            10.h.verticalSpace,
+                            Text('Recommandations',
+                                style: GoogleFonts.poppins(
+                                  color: Color(0xFFABABAB),
+                                  fontSize: 16.spMin,
+                                  fontWeight: FontWeight.w300,
+                                )),
+                            10.h.verticalSpace,
+                            Text(
+                              controller.activityDetails.recommendations
+                                  .toString(),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            10.h.verticalSpace,
+                            Text('Trainers',
+                                style: GoogleFonts.poppins(
+                                  color: Color(0xFF0C1A30),
+                                  fontSize: 20.spMin,
+                                  fontWeight: FontWeight.w600,
+                                )),
+                            SizedBox(
+                              height: 100.h,
+                              child: buildCircleAvatarhor(
+                                  imagePath: controller
+                                      .activityDetails.coach!.image
+                                      .toString(),
+                                  name: controller.activityDetails.coach!.name
+                                      .toString(),
+                                  title: controller.activityDetails.coach!.title
+                                      .toString()),
+                            ),
+                            Text('Categories',
+                                style: GoogleFonts.poppins(
+                                  color: Color(0xFF0C1A30),
+                                  fontSize: 20.spMin,
+                                  fontWeight: FontWeight.w600,
+                                )),
+                            SizedBox(
+                              height: 100.h,
+                              child: buildCircleAvatarhor(
+                                  imagePath: controller
+                                      .activityDetails.category!.image
+                                      .toString(),
+                                  name: controller
+                                      .activityDetails.category!.name
+                                      .toString(),
+                                  title: controller
+                                      .activityDetails.category!.description
+                                      .toString()),
+                            ),
+                            Text('Packs',
+                                style: GoogleFonts.poppins(
+                                  color: Color(0xFF0C1A30),
+                                  fontSize: 20.spMin,
+                                  fontWeight: FontWeight.w600,
+                                )),
+                            SizedBox(
+                              height: 100.h,
+                              child: controller.activityDetails?.packs != null && controller.activityDetails!.packs!.isNotEmpty ? ListView.builder!(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: controller.activityDetails!.packs!.length,
+                                itemBuilder: (context, index) {
+                                  var pack = controller.activityDetails!.packs![index];
+                                  return buildCircleAvatar(
+                                    imagePath: "https://picsum.photos/250?image=9",
+                                    // pack.image.toString(),
+                                    text: pack.name.toString(),
+
+                                  );
+                                },
+                              ) : Center(
+                                child: Text(
+                                  "Il n'y a pas de packs disponibles pour cette activité.",
+                                  style:  GoogleFonts.poppins(
+                                    color: Color(0xFF6D6A8E),
+                                    fontSize: 16.spMin,
+                                    fontWeight: FontWeight.w300,
+                                  )
+                                ),
+                              ),
+                            ),
+                          ]))
+                ])));
+    })));
   }
 }

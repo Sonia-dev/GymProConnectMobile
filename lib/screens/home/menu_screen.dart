@@ -11,6 +11,8 @@ import 'package:gymproconnect_flutter/screens/home/login.dart';
 import 'package:gymproconnect_flutter/screens/home/main_home.dart';
 import 'package:gymproconnect_flutter/screens/home/planning.dart';
 
+import '../../data/controllers/auth_controller.dart';
+
 class MenuScreen extends StatefulWidget {
   const MenuScreen({Key? key}) : super(key: key);
 
@@ -182,10 +184,7 @@ class MenuContent extends StatelessWidget {
                             size: 24, // Taille de l'icône, ajustez selon vos besoins
                           ),TextButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => profil()),
-                              );                            },
+                              Get.toNamed(RouteHelper.getProfil());                     },
                         child: Text('Mon profil',
                         style: TextStyle(
                           color: Colors.white,
@@ -269,9 +268,9 @@ class MenuContent extends StatelessWidget {
                                       TextButton(
                                         onPressed: () {
 
-                                          logout().then(
-                                              Get.toNamed(RouteHelper.getSignInPage())
-                                          );
+                                          Get.find<AuthController>().clearData();
+
+                                          Get.offAllNamed(RouteHelper.getSignUpPage());
                                         },
                                         child: Text("Déconnexion"),
                                       ),
@@ -306,9 +305,4 @@ class MenuContent extends StatelessWidget {
       ),
     );
   }
-}
-logout()async{
-
-  //api
-  //remove  from  stroge
 }

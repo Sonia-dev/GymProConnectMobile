@@ -8,7 +8,7 @@ class BookingRepo{
   BookingRepo({required this.apiClient});
 
 
-  Future<Response> Booking() async{
+  Future<Response> getBookings() async{
     return await apiClient.getData(Uris.bookingUrl );
   }
 

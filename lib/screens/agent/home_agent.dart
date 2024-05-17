@@ -254,7 +254,7 @@ class _MainHomeState extends State<HomeAgent> {
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => Activity()),
+                                    MaterialPageRoute(builder: (context) => ActivityDetail()),
                                   );
                                 },
                                 child: ClipRRect(

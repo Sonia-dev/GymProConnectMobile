@@ -57,3 +57,22 @@ class Sessions {
     return data;
   }
 }
+
+class Session {
+  final id;
+  final String title;
+  final DateTime? start;
+  final DateTime? end;
+
+  Session({
+    required this.title,
+    this.id,
+    this.start,
+    this.end,
+  }) ;
+
+  @override
+  String toString() => title;
+}
+
+

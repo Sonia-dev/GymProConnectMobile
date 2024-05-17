@@ -11,7 +11,10 @@ class ActivitiesController extends GetxController {
 
   ActivitiesController({required this.activitiesRepo});
 
+  RxBool isLoading =false.obs;
+  ActivityData activityDetails = ActivityData();
   RxList<ActivityData> activitiesList= <ActivityData>[].obs;
+
   @override
   void onReady() {
     getActivities();
@@ -26,22 +29,51 @@ class ActivitiesController extends GetxController {
     super.onInit();
   }
   Future getActivities() async {
+    isLoading.value=true;
+
 
     Response response = await activitiesRepo.getActivityList();
     print("response.body: $response.body");
     print("statuscode: $response.statusCode");
 
     if (response.statusCode == 200) {
-    //  print("*******body ${response.body["data"]["data"]}");
+      isLoading.value=false;
+
+      //  print("*******body ${response.body["data"]["data"]}");
 
       List<dynamic> responseData = response.body["data"]["data"];
       print("activities ok");
+      print("activities list: $responseData");
       activitiesList.value = responseData.map((data) => ActivityData.fromJson(data)).cast<ActivityData>().toList();
       update();
     }
     else
       {
+        isLoading.value =false;
+
         print("not okkk");
       }
   }
+
+
+
+
+
+  Future<void> getActivityByID(int ActivityId) async {
+    isLoading.value =true;
+    Response response = await activitiesRepo.getActivityById(ActivityId);
+
+
+    if (response.statusCode == 200) {
+      isLoading.value=false;
+
+      activityDetails = ActivityData.fromJson(response.body);
+
+
+    } else {
+      isLoading.value=false;
+      print("Erreur lors de la récupération des données d'activitie.");
+    }
+  }
+
 }

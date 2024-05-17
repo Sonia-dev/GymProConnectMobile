@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
@@ -9,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gymproconnect_flutter/screens/home/planning.dart';
 
 import '../../data/controllers/activities_controller.dart';
+import '../../routes/routes_helper.dart';
 import 'Profil.dart';
 import 'abonnement.dart';
 import 'detailed_activity.dart';
@@ -16,12 +18,12 @@ import 'filtre.dart';
 import 'main_home.dart';
 
 class ActivityList extends GetView<ActivitiesController> {
-  // final ActFindByNameController controller;
   String searchText = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
           'Activities',
           style: GoogleFonts.poppins(
@@ -43,31 +45,41 @@ class ActivityList extends GetView<ActivitiesController> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child:
-        Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5.0),
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
                   child: TextFormField(
                       onChanged: (value) {
-                        //   controller.getFindByName(value);
+                        searchText = value;
                       },
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 12),
-                        floatingLabelStyle:
-                        const TextStyle(color: Colors.black),
+                        floatingLabelStyle: GoogleFonts.poppins(
+                          color: Color(0xFFB7C4E0),
+                          fontSize: 11.spMin,
+                          fontWeight: FontWeight.w400,
+                        ),
                         labelText: 'Search',
-                        suffixIcon: Icon(Icons.search),
+                        suffixIcon: Icon(
+                          Icons.search,
+                          color: Color(0xffB7C4E0),
+                        ),
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle: GoogleFonts.poppins(
+                          color: Color(0xFFB7C4E0),
+                          fontSize: 11.spMin,
+                          fontWeight: FontWeight.w400,
+                        ),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: const BorderSide(
-                                width: 1, color: Colors.white)),
+                                width: 1, color: Color(0xFFf34e3a))),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: const BorderSide(
@@ -76,7 +88,7 @@ class ActivityList extends GetView<ActivitiesController> {
                 ),
               ),
               IconButton(
-                icon: ImageIcon(
+                icon: const ImageIcon(
                   AssetImage('assets/filtre.png'),
                   size: 24,
                 ),
@@ -89,17 +101,23 @@ class ActivityList extends GetView<ActivitiesController> {
               ),
             ],
           ),
-          SizedBox(height: 10.0),
+          10.h.verticalSpace,
           Expanded(
             child: ListView.builder(
               itemCount: Get.find<ActivitiesController>().activitiesList.length,
               itemBuilder: (BuildContext context, int index) {
-                final activity = Get.find<ActivitiesController>().activitiesList[index];
+                final activity =
+                    Get.find<ActivitiesController>().activitiesList[index];
                 return Padding(
                   padding: EdgeInsets.symmetric(vertical: 10.0),
                   child: GestureDetector(
                     onTap: () {
-                      Get.to(Activity(), arguments: activity);
+                      Get.toNamed(
+                        RouteHelper.activitieById,
+                      );
+
+                      Get.find<ActivitiesController>()
+                          .getActivityByID(activity.id!);
                     },
                     child: Container(
                       height: 150,
@@ -108,7 +126,7 @@ class ActivityList extends GetView<ActivitiesController> {
                           ClipRRect(
                               borderRadius: BorderRadius.circular(15),
                               child: Image.network(
-                                activity.image !,
+                                activity.image!,
                                 width: double.infinity,
                                 height: 150,
                                 fit: BoxFit.cover,
@@ -127,15 +145,6 @@ class ActivityList extends GetView<ActivitiesController> {
                                 },
                               )),
                           Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            child: Text(
-                              activity.name.toString(),
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                          Positioned(
                             left: 0,
                             bottom: 0,
                             child: ClipRRect(
@@ -146,18 +155,28 @@ class ActivityList extends GetView<ActivitiesController> {
                                 child: Container(
                                   width: MediaQuery.of(context).size.width / 2,
                                   padding: EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Expanded(
-                                        child: Text(
-                                          activity.description.toString(),
-                                          style: TextStyle(color: Colors.white),
-                                          overflow: TextOverflow.ellipsis,
+                                      Text(
+                                        activity.name.toString(),
+                                        style: GoogleFonts.poppins(
+                                          color: Color(0xFFf34e3a),
+                                          fontSize: 12.spMax,
+                                          fontWeight: FontWeight.w400,
                                         ),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      Icon(Icons.star, color: Colors.white),
+                                      Text(
+                                        activity.description.toString(),
+                                        style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontSize: 12.spMax,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -174,123 +193,153 @@ class ActivityList extends GetView<ActivitiesController> {
           ),
         ]),
       ),
-      bottomNavigationBar: CustomBottomAppBar(),
-    );
-  }
-}
-class CustomBottomAppBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BottomAppBar(
-      color: Colors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          Flexible(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+      bottomNavigationBar: Stack(children: [
+        ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
+          ),
+          child: BottomAppBar(
+            color: Color(0xFFFFFFFF),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Flexible(
-                  child: IconButton(
-                    icon: Icon(Icons.home, color: Color(0xFFf34e3a)),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => MainHome()),
-                      );
-                    },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Flexible(
+                        child: IconButton(
+                          icon: Icon(Icons.home, color: Color(0xFFf34e3a)),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MainHome()),
+                            );
+                          },
+                        ),
+                      ),
+                      Text(
+                        'Home',
+                        style:
+                            TextStyle(color: Color(0xFFf34e3a), fontSize: 12),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  'Home',
-                  style: TextStyle(color: Color(0xFFf34e3a), fontSize: 12),
-                ),
-              ],
-            ),
-          ),
-          Flexible(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
                 Flexible(
-                  child: IconButton(
-                    icon: Icon(Icons.calendar_today_rounded),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Planning()),
-                      );
-                    },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                        child: IconButton(
+                          icon: Icon(Icons.calendar_today_rounded,
+                              color: Color(0xFFA5A5A7)),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Planning()),
+                            );
+                          },
+                        ),
+                      ),
+                      Text(
+                        'Planning',
+                        style:
+                            TextStyle(fontSize: 12, color: Color(0xFFA2A2A2)),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  'Planning',
-                  style: TextStyle(fontSize: 12),
+                Flexible(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Flexible(
+                        child: IconButton(
+                          icon:
+                              Icon(Icons.access_time, color: Color(0xFFA5A5A7)),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => abonnement()),
+                            );
+                          },
+                        ),
+                      ),
+                      Text(
+                        'Abonnement',
+                        style:
+                            TextStyle(fontSize: 12, color: Color(0xFFA5A5A7)),
+                      ),
+                    ],
+                  ),
+                ),
+                Flexible(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Flexible(
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.person,
+                            color: Color(0xFFA5A5A7),
+                          ),
+                          onPressed: () {
+
+
+                            Get.toNamed(RouteHelper.getProfil());
+
+
+                          },
+                        ),
+                      ),
+                      Text(
+                        'Profil',
+                        style:
+                            TextStyle(fontSize: 12, color: Color(0xFFA5A5A7)),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
-          Expanded(
-            child: Container(
-              width: 60.0,
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          top: 0,
+          child: Container(
+              height: kToolbarHeight /
+                  6, // Utilise kToolbarHeight pour la hauteur de la barre d'applications
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: CircleAvatar(
-                backgroundColor: Color(0xFFf34e3a),
-                child: Icon(
-                  Icons.qr_code_scanner_sharp,
-                  color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
                 ),
-              ),
-            ),
-          ),
-          Flexible(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Expanded(
-                  child: IconButton(
-                    icon: Icon(Icons.access_time),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => abonnement()),
-                      );
-                    },
-                  ),
+                gradient: LinearGradient(
+                  begin: Alignment(0.00, -1.00),
+                  end: Alignment(0, 1),
+                  colors: [Color(0xFFDCDCDC), Color(0xFFDCDCDC).withOpacity(0)],
                 ),
-                Text(
-                  'Abonnement',
-                  style: TextStyle(fontSize: 12),
-                ),
-              ],
-            ),
-          ),
-          Flexible(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Flexible(
-                  child: IconButton(
-                    icon: Icon(Icons.person),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => profil()),
-                      );
-                    },
-                  ),
-                ),
-                Text(
-                  'Profil',
-                  style: TextStyle(fontSize: 12),
-                ),
-              ],
-            ),
-          ),
-        ],
+              )),
+        ),
+      ]),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFFf34e3a),
+        onPressed: () {},
+        child: Image.asset(
+          "assets/scanner.jfif",
+          width: 30,
+          height: 30,
+        ),
+        shape: CircleBorder(),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

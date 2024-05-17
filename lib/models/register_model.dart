@@ -7,6 +7,8 @@
   String adress ;
   String dateOfBirth;
   String password;
+  int status;
+
   UserRequest({
     required this.name,
     required this.surName,
@@ -15,6 +17,8 @@
     required this.email,
     required this.dateOfBirth,
     required this.password,
+    required this.status,
+
 
 
 

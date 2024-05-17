@@ -1,105 +1,6 @@
-class ActivitiesModel {
-  bool? success;
-  Data? data;
-
-  ActivitiesModel({this.success, this.data});
-
-  ActivitiesModel.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
-  }
-}
-
-class Data {
-  int? currentPage;
-  List<Data>? data;
-  String? firstPageUrl;
-  int? from;
-  int? lastPage;
-  String? lastPageUrl;
-  List<Links>? links;
-  Null? nextPageUrl;
-  String? path;
-  int? perPage;
-  Null? prevPageUrl;
-  int? to;
-  int? total;
-
-  Data(
-      {this.currentPage,
-        this.data,
-        this.firstPageUrl,
-        this.from,
-        this.lastPage,
-        this.lastPageUrl,
-        this.links,
-        this.nextPageUrl,
-        this.path,
-        this.perPage,
-        this.prevPageUrl,
-        this.to,
-        this.total});
-
-  Data.fromJson(Map<String, dynamic> json) {
-    currentPage = json['current_page'];
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
-      });
-    }
-    firstPageUrl = json['first_page_url'];
-    from = json['from'];
-    lastPage = json['last_page'];
-    lastPageUrl = json['last_page_url'];
-    if (json['links'] != null) {
-      links = <Links>[];
-      json['links'].forEach((v) {
-        links!.add(new Links.fromJson(v));
-      });
-    }
-    nextPageUrl = json['next_page_url'];
-    path = json['path'];
-    perPage = json['per_page'];
-    prevPageUrl = json['prev_page_url'];
-    to = json['to'];
-    total = json['total'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['current_page'] = this.currentPage;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    data['first_page_url'] = this.firstPageUrl;
-    data['from'] = this.from;
-    data['last_page'] = this.lastPage;
-    data['last_page_url'] = this.lastPageUrl;
-    if (this.links != null) {
-      data['links'] = this.links!.map((v) => v.toJson()).toList();
-    }
-    data['next_page_url'] = this.nextPageUrl;
-    data['path'] = this.path;
-    data['per_page'] = this.perPage;
-    data['prev_page_url'] = this.prevPageUrl;
-    data['to'] = this.to;
-    data['total'] = this.total;
-    return data;
-  }
-}
-
 class ActivityData {
   int? id;
+  String? name;
   int? categoryId;
   int? coachId;
   String? muscleGroups;
@@ -110,13 +11,17 @@ class ActivityData {
   String? createdAt;
   String? updatedAt;
   int? duration;
-  String? name;
-  String? price;
+  int? price;
+  int? promotionId;
+  int? packId;
+  String? imageUrl;
   Category? category;
   Coach? coach;
+  List<Packs>? packs;
 
   ActivityData(
       {this.id,
+        this.name,
         this.categoryId,
         this.coachId,
         this.muscleGroups,
@@ -127,13 +32,17 @@ class ActivityData {
         this.createdAt,
         this.updatedAt,
         this.duration,
-        this.name,
         this.price,
+        this.promotionId,
+        this.packId,
+        this.imageUrl,
         this.category,
-        this.coach});
+        this.coach,
+        this.packs});
 
   ActivityData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    name = json['name'];
     categoryId = json['category_id'];
     coachId = json['coach_id'];
     muscleGroups = json['muscle_groups'];
@@ -144,17 +53,26 @@ class ActivityData {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     duration = json['duration'];
-    name = json['name'];
-    price = json['price'];
+    //price = json['price'];
+    promotionId = json['promotion_id'];
+    packId = json['pack_id'];
+    imageUrl = json['image_url'];
     category = json['category'] != null
         ? new Category.fromJson(json['category'])
         : null;
     coach = json['coach'] != null ? new Coach.fromJson(json['coach']) : null;
+    if (json['packs'] != null) {
+      packs = <Packs>[];
+      json['packs'].forEach((v) {
+        packs!.add(new Packs.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['name'] = this.name;
     data['category_id'] = this.categoryId;
     data['coach_id'] = this.coachId;
     data['muscle_groups'] = this.muscleGroups;
@@ -165,13 +83,18 @@ class ActivityData {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['duration'] = this.duration;
-    data['name'] = this.name;
     data['price'] = this.price;
+    data['promotion_id'] = this.promotionId;
+    data['pack_id'] = this.packId;
+    data['image_url'] = this.imageUrl;
     if (this.category != null) {
       data['category'] = this.category!.toJson();
     }
     if (this.coach != null) {
       data['coach'] = this.coach!.toJson();
+    }
+    if (this.packs != null) {
+      data['packs'] = this.packs!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -183,9 +106,9 @@ class Category {
   String? forWho;
   String? gender;
   String? description;
+  String? image;
   String? createdAt;
   String? updatedAt;
-  String? image;
 
   Category(
       {this.id,
@@ -193,9 +116,9 @@ class Category {
         this.forWho,
         this.gender,
         this.description,
+        this.image,
         this.createdAt,
-        this.updatedAt,
-        this.image});
+        this.updatedAt});
 
   Category.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -203,9 +126,9 @@ class Category {
     forWho = json['for_who'];
     gender = json['gender'];
     description = json['description'];
+    image = json['image'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
@@ -215,9 +138,9 @@ class Category {
     data['for_who'] = this.forWho;
     data['gender'] = this.gender;
     data['description'] = this.description;
+    data['image'] = this.image;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
-    data['image'] = this.image;
     return data;
   }
 }
@@ -235,6 +158,7 @@ class Coach {
   String? updatedAt;
   String? image;
   String? title;
+  int? siteId;
 
   Coach(
       {this.id,
@@ -248,7 +172,8 @@ class Coach {
         this.createdAt,
         this.updatedAt,
         this.image,
-        this.title});
+        this.title,
+        this.siteId});
 
   Coach.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -263,6 +188,7 @@ class Coach {
     updatedAt = json['updated_at'];
     image = json['image'];
     title = json['title'];
+    siteId = json['site_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -279,28 +205,60 @@ class Coach {
     data['updated_at'] = this.updatedAt;
     data['image'] = this.image;
     data['title'] = this.title;
+    data['site_id'] = this.siteId;
     return data;
   }
 }
 
-class Links {
-  String? url;
-  String? label;
-  bool? active;
+class Packs {
+  int? id;
+  String? name;
+  int? activityId;
+  int? nbrOfSession;
+  int? duration;
+  String? price;
+  String? image;
+  String? createdAt;
+  String? updatedAt;
+  int? promoId;
 
-  Links({this.url, this.label, this.active});
+  Packs(
+      {this.id,
+        this.name,
+        this.activityId,
+        this.nbrOfSession,
+        this.duration,
+        this.price,
+        this.image,
+        this.createdAt,
+        this.updatedAt,
+        this.promoId});
 
-  Links.fromJson(Map<String, dynamic> json) {
-    url = json['url'];
-    label = json['label'];
-    active = json['active'];
+  Packs.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    activityId = json['activity_id'];
+    nbrOfSession = json['nbr_of_session'];
+    duration = json['duration'];
+    price = json['price'];
+    image = json['image'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    promoId = json['promo_id'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['url'] = this.url;
-    data['label'] = this.label;
-    data['active'] = this.active;
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['activity_id'] = this.activityId;
+    data['nbr_of_session'] = this.nbrOfSession;
+    data['duration'] = this.duration;
+    data['price'] = this.price;
+    data['image'] = this.image;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['promo_id'] = this.promoId;
     return data;
   }
 }

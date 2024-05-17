@@ -11,5 +11,8 @@ class ActivitiesRepo{
   Future<Response> getActivityList() async{
     return await apiClient.getData(Uris.listingActivityUrl );
   }
+  Future<Response> getActivityById(int activityId) async{
+    return await apiClient.getData("${Uris.listingActivityUrl}/$activityId" );
 
+  }
 }

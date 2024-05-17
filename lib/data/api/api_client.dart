@@ -1,5 +1,4 @@
 
-
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:gymproconnect_flutter/routes/routes_helper.dart';
@@ -8,7 +7,7 @@ class ApiClient extends GetConnect implements GetxService {
   final Map<String, String> queryParameters = {};
   final String appBaseUrl;
   late  String token="";
-  final  box=GetStorage();
+  final  box= GetStorage();
   late Map<String, String> _mainHeaders;
 
   ApiClient({required this.appBaseUrl}) {
@@ -17,12 +16,12 @@ class ApiClient extends GetConnect implements GetxService {
     token= GetStorage().read<String>('token')??"";
 
 
-
-    print(token);
     _mainHeaders = {
       'Content-type': 'application/json; charset=UTF-8',
       'Accept': 'application/json',
-      'Authorization':'Bearer $token'
+      //'Authorization':'Bearer $token'
+
+      'Authorization':'Bearer 93|gGhS9EZu7VqmUH2HjPHtO1DMdmNUtMzS39wQSXjD'
     };
   }
 

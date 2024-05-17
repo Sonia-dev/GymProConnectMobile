@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
+import '../../data/controllers/auth_controller.dart';
+import '../../routes/routes_helper.dart';
 import '../home/trainers.dart';
 import '../profil/Help.dart';
 import '../profil/MyAccount.dart';
@@ -197,8 +201,14 @@ class _profilState extends State<ProfilAgent> {
                           TextButton(
                             child: Text('Yes, Logout'),
                             onPressed: () {
-                              // Implement logout logic here.
-                              Navigator.of(context).pop();
+
+
+
+                              Get.find<AuthController>().clearData();
+
+                              Get.offAllNamed(RouteHelper.getSignUpPage());
+
+
                             },
                           ),
                         ],

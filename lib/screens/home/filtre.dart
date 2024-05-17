@@ -10,7 +10,7 @@ import '../../data/repository/activities_repo.dart';
 class filtre extends GetView<ActFindByNameController> {
   @override
   Widget build(BuildContext context) {
-    Get.put(ApiClient(appBaseUrl: "http://192.168.1.107:8000/api/"));
+    Get.put(ApiClient(appBaseUrl: "http://192.168.1.191:8000/api/"));
     Get.put(ActivitiesRepo( apiClient: Get.find(),));
     Get.put(ActivitiesController(activitiesRepo: Get.find()));
     return  Scaffold(
@@ -100,7 +100,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     showCheckmark: false,
                   ),
 
-                    Padding(
+                  /*  Padding(
                       padding: EdgeInsets.symmetric(horizontal: 5.0),
                       child: Column(
                         children: [
@@ -118,7 +118,7 @@ class _FilterScreenState extends State<FilterScreen> {
                           ),
                         ],
                       ),
-                    ),
+                    ),*/
                 ],
               ),
             ),
@@ -182,34 +182,12 @@ class _FilterScreenState extends State<FilterScreen> {
             SizedBox(height: 10,),
             Column(
               children: [
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    for (int i = 0; i < 5; i++)
-                      IconButton(
-                        onPressed: () {
-                          // Faites quelque chose lorsque l'étoile est sélectionnée
-                        },
-                        icon: Icon(Icons.star),
-                        color: i < 5 ? Colors.orange : Colors.grey,
-                      ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(
-                children: [
-                  IconButton(
-                onPressed: () {
-                  // Add your onPressed logic here
-                    },
-        icon: Icon(Icons.star),
-        color: Color(0xFFF34E3A),
-      ),
-      ],
-    ),
-                // Ajoutez d'autres lignes d'étoiles ici selon vos besoins
+
+
 
             ElevatedButton(
               style: ElevatedButton.styleFrom(

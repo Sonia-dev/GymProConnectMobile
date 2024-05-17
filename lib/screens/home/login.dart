@@ -18,7 +18,7 @@ class Login extends GetView<AuthController> {
   String EmailText = '';
   String passwordText = '';
   bool _rememberMe = false;
-
+  bool _passwordVisible = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,8 +82,9 @@ class Login extends GetView<AuthController> {
               ),
               SizedBox(height: 20),
               TextFormField(
+                keyboardType: TextInputType.text,
+                obscureText: !_passwordVisible,
                controller: controller.passwordController,
-                obscureText: true,
 
                 decoration: InputDecoration(
                   filled: true,
@@ -100,7 +101,20 @@ class Login extends GetView<AuthController> {
 
                   labelText: 'password',
                   hintText: 'password ',
-                  suffixIcon: Icon(Icons.lock_outline_rounded),
+                  suffixIcon: IconButton(
+                    // Based on passwordVisible state choose the icon
+                    icon: Icon(
+                      _passwordVisible ? Icons.visibility : Icons.visibility_off,
+                      color: Theme.of(context).primaryColorDark,
+                    ),
+                    onPressed: () {
+                      // Update the state i.e. toggle the state of passwordVisible variable
+
+                        _passwordVisible = !_passwordVisible;
+
+                    },
+                  ),
+
                   border: OutlineInputBorder(),),
 
                 validator: (value) {

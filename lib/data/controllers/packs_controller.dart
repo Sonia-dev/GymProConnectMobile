@@ -12,7 +12,8 @@ class PacksController extends GetxController {
   final PacksRepo packsRepo;
 
   PacksController({required this.packsRepo});
-
+  RxBool isLoading =false.obs;
+  PacksData packsData = PacksData();
   RxList<PacksData> packsList= <PacksData>[].obs;
   @override
   void onReady() {
@@ -39,6 +40,8 @@ class PacksController extends GetxController {
       List<dynamic> responseData = response.body["packs"];
       print("packs ok");
       packsList.value = responseData.map((data) => PacksData.fromJson(data)).cast<PacksData>().toList();
+      print("packs ok*********:${packsList[1].activity!.image.toString()}");
+
       update();
     }
     else
@@ -46,4 +49,25 @@ class PacksController extends GetxController {
       print("not okkk");
     }
   }
+
+  Future<void> getPackByID(int packId) async {
+    isLoading.value =true;
+    Response response = await packsRepo.getPackByID(packId);
+
+
+    if (response.statusCode == 200) {
+      isLoading.value=false;
+      print("testttt");
+      packsData = PacksData.fromJson(response.body);
+      print("testttt2");
+      print("body:${response.body}");
+
+
+    } else {
+      isLoading.value=false;
+      print("Erreur lors de la récupération des données de catégorie.");
+    }
+  }
+
+
 }

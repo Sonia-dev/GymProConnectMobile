@@ -1,21 +1,16 @@
 class packsModel {
-  List<PacksData>? packs;
+  PacksData? pack;
 
-  packsModel({this.packs});
+  packsModel({this.pack});
 
   packsModel.fromJson(Map<String, dynamic> json) {
-    if (json['packs'] != null) {
-      packs = <PacksData>[];
-      json['packs'].forEach((v) {
-        packs!.add(new PacksData.fromJson(v));
-      });
-    }
+    pack = json['pack'] != null ? new PacksData.fromJson(json['pack']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.packs != null) {
-      data['packs'] = this.packs!.map((v) => v.toJson()).toList();
+    if (this.pack != null) {
+      data['pack'] = this.pack!.toJson();
     }
     return data;
   }
@@ -24,48 +19,134 @@ class packsModel {
 class PacksData {
   int? id;
   String? name;
-  int? activityId;
-  int? nbrOfSession;
-  int? duration;
   String? price;
-  String? image;
-  String? createdAt;
-  String? updatedAt;
+  int? sessionCount;
+  Activity? activity;
 
-  PacksData(
-      {this.id,
-        this.name,
-        this.activityId,
-        this.nbrOfSession,
-        this.duration,
-        this.price,
-        this.image,
-        this.createdAt,
-        this.updatedAt});
+  PacksData({this.id, this.name, this.price, this.sessionCount, this.activity});
 
   PacksData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    activityId = json['activity_id'];
-    nbrOfSession = json['nbr_of_session'];
-    duration = json['duration'];
     price = json['price'];
-    image = json['image'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    sessionCount = json['session_count'];
+    activity = json['activity'] != null
+        ? new Activity.fromJson(json['activity'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
-    data['activity_id'] = this.activityId;
-    data['nbr_of_session'] = this.nbrOfSession;
-    data['duration'] = this.duration;
     data['price'] = this.price;
-    data['image'] = this.image;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['session_count'] = this.sessionCount;
+    if (this.activity != null) {
+      data['activity'] = this.activity!.toJson();
+    }
     return data;
   }
 }
+
+class Activity {
+  int? id;
+  String? name;
+  String? description;
+  String? image;
+  Category? category;
+  Coach? coach;
+
+  Activity(
+      {this.id,
+        this.name,
+        this.description,
+        this.image,
+        this.category,
+        this.coach});
+
+  Activity.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    description = json['description'];
+    image = json['image'];
+    category = json['category'] != null
+        ? new Category.fromJson(json['category'])
+        : null;
+    coach = json['coach'] != null ? new Coach.fromJson(json['coach']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['description'] = this.description;
+    data['image'] = this.image;
+    if (this.category != null) {
+      data['category'] = this.category!.toJson();
+    }
+    if (this.coach != null) {
+      data['coach'] = this.coach!.toJson();
+    }
+    return data;
+  }
+}
+
+class Category {
+  int? id;
+  String? name;
+  String? description;
+  String? image;
+
+  Category({this.id, this.name, this.description, this.image});
+
+  Category.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    description = json['description'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['description'] = this.description;
+    data['image'] = this.image;
+    return data;
+  }
+}
+
+class Coach {
+  int? id;
+  String? name;
+  String? description;
+  String? image;
+
+  Coach({this.id, this.name, this.description, this.image});
+
+  Coach.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    description = json['description'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['description'] = this.description;
+    data['image'] = this.image;
+    return data;
+  }
+}
+
+
+
+
+
+
+
+
+
+

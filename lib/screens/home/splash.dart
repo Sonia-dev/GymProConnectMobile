@@ -1,39 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:gymproconnect_flutter/screens/home/login.dart';
 import 'package:gymproconnect_flutter/screens/onboarding_screens/onboarding.dart';
 
-class Splash extends StatefulWidget {
+import '../../data/controllers/splash_controller.dart';
+
+
+
+
+
+
+class Splash extends GetView<SplashScreenController> {
   const Splash({super.key});
 
   @override
-  State<Splash> createState() => _SplashState();
-}
 
-class _SplashState extends State<Splash>
-with SingleTickerProviderStateMixin {
-
-  @override
-  void initState(){
-    super.initState();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-    Future.delayed(const Duration(seconds: 2),(){
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const Onboarding()),
-      );
-    });
-  }
-  @override
-  void dispose(){
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,overlays: SystemUiOverlay.values);
-    super.dispose();
-  }
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-      child:Image.asset("assets/splash.png",
-      height: 218,
-      width: 167,),),
+        child:Image.asset("assets/splash.png",
+          height: 218.h,
+          width: 167.w,),),
     );
   }
 }
+
+
+
+
+
+

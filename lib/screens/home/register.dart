@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:gymproconnect_flutter/data/controllers/auth_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -124,6 +125,10 @@ class Register extends GetView<AuthController> {
                       onChanged: (value) {
 
                       },
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
@@ -345,7 +350,8 @@ class Register extends GetView<AuthController> {
                               email: controller.emailController.text,
                               adress: controller.adressController.text,
                               dateOfBirth: controller.dateOfBirthController.text,
-                              password: controller.passwordController.text,),context);
+                              password: controller.passwordController.text,
+                          status: 1,),context);
 
 
 

@@ -15,7 +15,7 @@ class update extends GetView<UpDateController> {
   Map<String, dynamic> Profil = {'name': 'Ahmed','email': 'Itunuoluwa Abidoye@yahoo.fr','number':'99654753','dateofbirth':"21/02/2000" ,'image': 'assets/yoga.png','gender':"female"};
 
   Widget build(BuildContext context) {
-    Get.put(ApiClient(appBaseUrl: "http://192.168.1.107:8000/api/"));
+    Get.put(ApiClient(appBaseUrl: "http://192.168.1.191:8000/api/"));
     //Get.put(UpdateRepo( apiClient: Get.find(),));
    // Get.put(UpDateController(updateRepo: Get.find()));
 

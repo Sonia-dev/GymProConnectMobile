@@ -12,4 +12,9 @@ class PlanningRepo{
     return await apiClient.getData(Uris.plannigUrl );
   }
 
+  Future<Response> getPlanning() async{
+    return await apiClient.getData(Uris.myBookingUrl );
+  }
+
+
 }
