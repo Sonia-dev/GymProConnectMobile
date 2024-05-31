@@ -1,169 +1,111 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymproconnect_flutter/data/controllers/adherent_controller.dart';
+import '../../widgets/circle_avatar_widget.dart';
 
-class Members extends StatefulWidget {
-  const Members({super.key});
+class Adherents extends StatelessWidget {
+  final AdherentsController controller = Get.find<AdherentsController>();
 
   @override
-  State<Members> createState() => _TrainersState();
-}
-
-class _TrainersState extends State<Members> {
-  @override
-  String searchText = '';
-  List<Map<String, String>> trainers = [
-    {
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },
-    {
-      'name': ' Ali Nour',
-      'image': 'assets/bodyCombat.jpg',
-      'titre': 'coach de yoga '
-    },
-    {
-      'name': ' Anis Mohamed',
-      'image': 'assets/bodyCombat.jpg',
-      'titre': 'coach de yoga'
-    },
-    {
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },
-    {
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },
-    {
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },
-    {
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },{
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },{
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },{
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },{
-      'name': ' Ahmed Ali',
-      'image': 'assets/ahmed.png',
-      'titre': 'coach de fitness '
-    },
-
-
-
-
-  ];
-
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Members',
-          style: GoogleFonts.poppins(
-            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Center(child: const Text("Ahdérents")),
+          bottom: const TabBar(
+            indicatorColor: Color(0xFFF34E3A),
+            labelColor: Color(0xFFF8A69C),
+            tabs: [
+              Tab(
+                text: "All",
+              ),
+              Tab(
+                text: "Present",
+              ),
+            ],
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              // Ajoutez ici la logique pour la recherche
-            },
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-
-              SizedBox(height: 10.0),
-              Expanded(
-                child:
-                Container(
-                  // height: 200.0,
-                  child: ListView(
-                    scrollDirection: Axis.vertical,
-                    children: [
-                      for (var trainer in trainers)
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child:Column(
-                            children: [ Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 32,
-                                    backgroundImage: AssetImage(
-                                        trainer['image']!),
+        body: TabBarView(
+          children: [
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: Obx(
+                      () => ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: controller.adherentsList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final adherent = controller.adherentsList[index];
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.0),
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Stack(
+                            children: <Widget>[
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: Container(
+                                  height: 100,
+                                  child: buildCircleAvatarhor(
+                                    imagePath: adherent.image.toString(),
+                                    name: adherent.name.toString(),
+                                    title: adherent.surname.toString(),
                                   ),
-                                  SizedBox(width: 20),
-
-                                  Column(
-                                      children: [
-
-                                        Text(
-                                          trainer['name']!,
-                                          style: TextStyle(
-                                            color: Color(0xFF170F49),
-                                            fontSize: 18,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-
-                                        SizedBox(height: 5),
-
-                                        Text(
-                                          trainer['titre']!,
-                                          style: TextStyle(
-                                            color: Color(0xFF6E6B8F),
-                                            fontSize: 15,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ]
-                                  ),
-                                ]
-                            ),SizedBox(height: 10,)],
+                                ),
+                              ),
+                            ],
                           ),
-
-
                         ),
-                    ],
+                      );
+                    },
                   ),
                 ),
-
-              ),]),),
-
+              ),
+            ),
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: Obx(
+                      () => ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: controller.adherentsList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final adherent = controller.adherentsList[index];
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.0),
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Stack(
+                            children: <Widget>[
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: Container(
+                                  height: 100,
+                                  child: buildCircleAvatarhor(
+                                    imagePath: adherent.image.toString(),
+                                    name: adherent.name.toString(),
+                                    title: adherent.surname.toString(),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

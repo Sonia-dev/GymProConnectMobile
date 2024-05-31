@@ -101,7 +101,7 @@ class _CategoriesAgentState extends State<CategoriesAgent> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => filtre()),
+                        MaterialPageRoute(builder: (context) => Filtre()),
                       );
                     },
                   ),

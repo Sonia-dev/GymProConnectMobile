@@ -215,38 +215,44 @@ class Register extends GetView<AuthController> {
                       },
                     ),
                     const SizedBox(height: 20),
+
                     TextFormField(
                       controller: controller.dateOfBirthController,
-
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
-                        labelStyle: TextStyle( color: Colors.black),
+                        labelStyle: TextStyle(color: Colors.black),
                         focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                            const BorderSide(width: 1, color: Colors.white)),
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(width: 1, color: Colors.white),
+                        ),
                         enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                            const BorderSide(width: 1, color: Colors.white)),
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(width: 1, color: Colors.white),
+                        ),
                         border: OutlineInputBorder(),
-                        labelText: 'date of birth',
-                        hintText: 'DateOfBirth',
+                        labelText: 'Date of Birth',
+                        hintText: 'Date of Birth',
                         suffixIcon: IconButton(
                           icon: Icon(Icons.date_range),
                           onPressed: () async {
                             final selectedDate = await showDatePicker(
                               context: context,
                               initialDate: DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2100),
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime.now(),
                             );
 
+                            if (selectedDate != null) {
+                              // Formater la date au format "aaaa-mm-jj"
+                              final formattedDate = "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}";
+
+                              // Mettre à jour le contrôleur de texte avec la date sélectionnée formatée
+                              controller.dateOfBirthController.text = formattedDate;
+                            }
                           },
                         ),
                       ),
-
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your date of birth';

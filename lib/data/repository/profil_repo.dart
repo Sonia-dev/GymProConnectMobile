@@ -12,4 +12,8 @@ class ProfilRepo{
     return await apiClient.getData(Uris.profilUrl );
   }
 
+  Future<Response> update(Map body) async{
+    return await apiClient.putData(Uris.upDateUserUrl, body);
+  }
+
 }

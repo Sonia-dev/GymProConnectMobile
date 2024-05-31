@@ -30,8 +30,8 @@ class User {
   int? status;
   String? createdAt;
   String? updatedAt;
-  Null? image;
-  Null? title;
+  String? image;
+  String? title;
 
   User(
       {this.id,

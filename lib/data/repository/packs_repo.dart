@@ -16,5 +16,11 @@ class PacksRepo{
   {
     return await apiClient.getData("${Uris.listingPacksUrl}/$packId");
   }
-
+  Future<Response> book(Map body) async {
+    return await apiClient.postData(Uris.BookUrl, body);
+  }
+  Future<Response> getSessions(int packId) async
+  {
+    return await apiClient.getData("${Uris.listingPacksUrl}/$packId/sessions");
+  }
 }

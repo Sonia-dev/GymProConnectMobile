@@ -1,32 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymproconnect_flutter/data/controllers/profil_controller.dart';
-import 'package:gymproconnect_flutter/screens/home/menu_screen.dart';
-import 'package:gymproconnect_flutter/screens/home/planning.dart';
-
-import '../../constants/constants.dart';
 import '../../data/controllers/auth_controller.dart';
-import '../../globals.dart';
 import '../../routes/routes_helper.dart';
 import '../profil/Help.dart';
 import '../profil/MyAccount.dart';
 import '../profil/MyMembership.dart';
 import '../profil/Settings.dart';
 import '../profil/edit.dart';
-import 'abonnement.dart';
-import 'main_home.dart';
 
 
-class Profil extends StatelessWidget {
-  const Profil({super.key});
+class Profil extends GetView<ProfilController> {
+   Profil({super.key});
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: GetBuilder<ProfilController>(builder: (controller) {
+      return Obx(() => controller.isLoading.value
+          ? const Center(
+          child: SpinKitDoubleBounce(
+            color: Colors.orange,
+          ))
+          : Center(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
@@ -45,10 +46,10 @@ class Profil extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 50,
-            /* backgroundImage: NetworkImage(
-              "profil.image.toString()",
-             ),*/
-            backgroundColor: Colors.red,
+             backgroundImage: NetworkImage(
+             controller.user.user?.image.toString()??"",
+             ),
+           // backgroundColor: Colors.red,
           ),
           Positioned(
             bottom: 0,
@@ -71,13 +72,27 @@ class Profil extends StatelessWidget {
       )
               ),
               SizedBox(height: 10),
-              Text(
-                "$surName  $userName ",
-                style: GoogleFonts.poppins(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    controller.user.user?.name.toString()??"",
+                    style: GoogleFonts.poppins(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(width: 10,),
+                  Text(
+                    controller.user.user?.surname.toString()??"",
+                    style: GoogleFonts.poppins(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: 30),
               ListTile(
@@ -199,9 +214,10 @@ class Profil extends StatelessWidget {
                           TextButton(
                             child: Text('Yes, Logout'),
                             onPressed: () {
-                              // Implement logout logic here.
-                              Get.find<AuthController>().clearData();
 
+                              final box = GetStorage();
+                              box.erase();
+                              print('box ${box}');
                               Get.offNamed(RouteHelper.getSignUpPage());
 
                             },
@@ -216,152 +232,8 @@ class Profil extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Stack(children: [
-        ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15),
-            topRight: Radius.circular(15),
-          ),
-          child: BottomAppBar(
-            color: Color(0xFFFFFFFF),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Flexible(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Flexible(
-                        child: IconButton(
-                          icon: Icon(Icons.home, color: Color(0xFFA5A5A7)),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MainHome()),
-                            );
-                          },
-                        ),
-                      ),
-                      Text(
-                        'Home',
-                        style:
-                        TextStyle(color: Color(0xFFA2A2A2), fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-                Flexible(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flexible(
-                        child: IconButton(
-                          icon: Icon(Icons.calendar_today_rounded,
-                              color: Color(0xFFA5A5A7)),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Planning()),
-                            );
-                          },
-                        ),
-                      ),
-                      Text(
-                        'Planning',
-                        style:
-                        TextStyle(fontSize: 12, color: Color(0xFFA5A5A7)),
-                      ),
-                    ],
-                  ),
-                ),
-                Flexible(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Flexible(
-                        child: IconButton(
-                          icon: Icon(Icons.access_time,
-                              color:   Color(0xFFA5A5A7)),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => abonnement()),
-                            );
-                          },
-                        ),
-                      ),
-                      Text(
-                        'Abonnement',
-                        style:
-                        TextStyle(fontSize: 12, color: Color(0xFFA5A5A7)),
-                      ),
-                    ],
-                  ),
-                ),
-                Flexible(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Flexible(
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.person,
-                            color: Color(0xFFf34e3a),
-                          ),
-                          onPressed: () {
-                            Get.toNamed(RouteHelper.getProfil());
-                          },
-                        ),
-                      ),
-                      Text(
-                        'Profil',
-                        style:
-                        TextStyle(fontSize: 12, color: Color(0xFFf34e3a)),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Positioned(
-          left: 0,
-          right: 0,
-          top: 0,
-          child: Container(
-              height: kToolbarHeight /
-                  6, // Utilise kToolbarHeight pour la hauteur de la barre d'applications
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ),
-                gradient: LinearGradient(
-                  begin: Alignment(0.00, -1.00),
-                  end: Alignment(0, 1),
-                  colors: [
-                    Color(0xFFDCDCDC),
-                    Color(0xFFDCDCDC).withOpacity(0)
-                  ],
-                ),
-              )),
-        ),
-      ]),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xFFf34e3a),
-        onPressed: () {},
-        child: Image.asset(
-          "assets/scanner.jfif",
-          width: 30,
-          height: 30,
-        ),
-        shape: CircleBorder(),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
+
+      );}
+    ));
   }
 }

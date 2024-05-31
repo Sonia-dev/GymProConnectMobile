@@ -13,7 +13,7 @@ class CategoriesRepo{
   }
 Future<Response> getCategoryById(int categoryId) async
 {
-  return await apiClient.getData("${Uris.listingCategoryUrl}/$categoryId");
+  return await apiClient.getData("${Uris.listingCategoryUrl}s/$categoryId");
 }
 
 

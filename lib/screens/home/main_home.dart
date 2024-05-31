@@ -8,52 +8,48 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:gymproconnect_flutter/data/controllers/packs_controller.dart';
 import 'package:gymproconnect_flutter/data/controllers/trainers_controller.dart';
-import 'package:gymproconnect_flutter/data/repository/trainers_repo.dart';
-
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gymproconnect_flutter/screens/home/detailed_pack.dart';
-import 'package:gymproconnect_flutter/screens/home/planning.dart';
-
 import '../../constants/constants.dart';
-import '../../data/api/api_client.dart';
 import '../../data/controllers/activities_controller.dart';
-import '../../data/controllers/auth_controller.dart';
 import '../../data/controllers/categories_controller.dart';
-import '../../data/repository/activities_repo.dart';
-import '../../data/repository/auth_repo.dart';
-import '../../data/repository/categories_repo.dart';
-import '../../data/repository/packs_repo.dart';
-import '../../globals.dart';
+import '../../data/controllers/profil_controller.dart';
 import '../../routes/routes_helper.dart';
 import '../../widgets/circle_avatar_widget.dart';
-import 'Profil.dart';
-import 'abonnement.dart';
-import 'detailed_activity.dart';
+
+
 
 class MainHome extends StatelessWidget{
   String searchText = '';
 
   @override
   Widget build(BuildContext context) {
-    Get.put(AuthRepo(apiClient: Get.find()));
-    Get.put(AuthController(authRepo: Get.find()));
-
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
+        body: GetBuilder<ProfilController>(builder: (controller) {
+      return Obx(() => controller.isLoading.value
+          ? const Center(
+          child: SpinKitDoubleBounce(
+            color: Colors.orange,
+          ))
+          : SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding:  EdgeInsets.only(left: 16.0,right:16.w,bottom:50.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 20.h.verticalSpace,
-                Text(
-                  "welcome $userName !",
-                  style: GoogleFonts.poppins(
-                    color: Colors.black,
-                    fontSize: 20.spMin,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      "welcome ${controller.user.user?.name.toString()??""} !",
+                      style: GoogleFonts.poppins(
+                        color: Colors.black,
+                        fontSize: 20.spMin,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                  ],
                 ),
                 10.h.verticalSpace,
                 Text('$dayOfWeek, $dayOfMonth $month $year',
@@ -63,40 +59,7 @@ class MainHome extends StatelessWidget{
                       fontWeight: FontWeight.w500,
                     )),
                 10.h.verticalSpace,
-                TextFormField(
-                    onChanged: (value) {
-                      searchText = value;
-                    },
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 0, horizontal: 12),
-                      floatingLabelStyle: GoogleFonts.poppins(
-                        color: Color(0xFFB7C4E0),
-                        fontSize: 11.spMin,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      labelText: 'Search',
-                      suffixIcon: Icon(
-                        Icons.search,
-                        color: Color(0xffB7C4E0),
-                      ),
-                      filled: true,
-                      fillColor: Color(0xffF7F9FD),
-                      labelStyle: GoogleFonts.poppins(
-                        color: Color(0xFFB7C4E0),
-                        fontSize: 11.spMin,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(
-                              width: 1, color: Color(0xFFf34e3a))),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              const BorderSide(width: 1, color: Colors.white)),
-                    )),
-                20.h.verticalSpace,
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -109,9 +72,9 @@ class MainHome extends StatelessWidget{
                       ),
                     ),
                     TextButton(
-                      onPressed: () {
+                      onPressed: () async  {
                         Get.toNamed(RouteHelper.getCategories());
-                        Get.find<CategoriesController>().getCategories();
+                        await Get.find<CategoriesController>().getCategories();
                       },
                       child: Text(
                         'SEE ALL',
@@ -145,11 +108,10 @@ class MainHome extends StatelessWidget{
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(right: 8.0),
-                            child: buildCircleAvatar(
-                                imagePath: category.image.toString(),
-                                text: category.name.toString()),
-                          ),
-                        );
+                        child: buildCircleAvatar(
+                        imagePath: category.image != null ? category.image.toString() : "assets/no_image.jpg",
+                        text: category.name.toString(),
+                        ),));
                       })),
                 ),
                 10.h.verticalSpace,
@@ -203,16 +165,13 @@ class MainHome extends StatelessWidget{
                                   .getActivityByID(activity.id!);
                             },
                             child: buildCircleAvatar(
-                                imagePath: activity.image.toString(),
+                                imagePath: activity.image != null ? activity.image.toString() : "assets/no_image.jpg",
                                 text: activity.name.toString()),
                           ),
                         );
                       })),
                 ),
-               Get.find<AuthController>().userRole == admin?Container(height: 20,
-
-                 color:Colors.orange,
-                 width: 50,) :Row(
+               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -241,7 +200,7 @@ class MainHome extends StatelessWidget{
                 ),
                 10.h.verticalSpace,
                 SizedBox(
-                  height: 150.h,
+                  height: 170.h,
                   child: Obx(() => ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: Get.find<PacksController>().packsList.length,
@@ -251,23 +210,25 @@ class MainHome extends StatelessWidget{
                         return Padding(
                           padding: const EdgeInsets.only(right: 8.0),
                           child: GestureDetector(
-                            onTap: () {
+                            onTap: () async {
+
+                              await Get.find<PacksController>().getPackByID(pack.id!);
                               Get.toNamed(
-                                RouteHelper.packById,
+                                RouteHelper.getPackById(),
                               );
 
-                              Get.find<PacksController>().getPackByID(pack.id!);
                             },
                             child: Stack(
                               alignment: Alignment.bottomLeft,
                               children: <Widget>[
                                 ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: Image.network(
-                                        pack.activity!.image.toString(),
-                                        width: MediaQuery.of(context).size.width / 1.2,
-                                        fit: BoxFit.cover, loadingBuilder:
-                                            (context, child, loadingProgress) {
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: pack.image != null
+                                      ? Image.network(
+                                    pack.image.toString(),
+                                    width: MediaQuery.of(context).size.width / 1.2,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder: (context, child, loadingProgress) {
                                       if (loadingProgress == null) {
                                         return child;
                                       }
@@ -277,7 +238,14 @@ class MainHome extends StatelessWidget{
                                           color: Colors.orange,
                                         ),
                                       );
-                                    })),
+                                    },
+                                  )
+                                      : Image.asset(
+                                    "assets/no_image.jpg",
+                                    width: MediaQuery.of(context).size.width / 1.2,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                                 ClipRRect(
                                   borderRadius: BorderRadius.only(
                                       bottomLeft: Radius.circular(15)),
@@ -374,7 +342,7 @@ class MainHome extends StatelessWidget{
                           child: Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: buildCircleAvatar(
-                                imagePath: trainer.image.toString(),
+                                imagePath:  trainer.image != null ? trainer.image.toString() : "assets/no_image.jpg",
                                 text: trainer.name.toString()),
                           ),
                         );
@@ -384,148 +352,8 @@ class MainHome extends StatelessWidget{
             ),
           ),
         ),
-        bottomNavigationBar: Stack(
-          children: [
-
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
-            ),
-            child: BottomAppBar(
-              color: Color(0xFFFFFFFF),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Flexible(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Flexible(
-                          child: IconButton(
-                            icon: Icon(Icons.home, color: Color(0xFFf34e3a)),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => MainHome()),
-                              );
-                            },
-                          ),
-                        ),
-                        Text(
-                          'Home',
-                          style: TextStyle(color: Color(0xFFf34e3a), fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Flexible(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Flexible(
-                          child: IconButton(
-                            icon: Icon(Icons.calendar_today_rounded,color: Color(0xFFA5A5A7)),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => Planning()),
-                              );
-                            },
-                          ),
-                        ),
-                        Text(
-                          'Planning',
-                          style: TextStyle(fontSize: 12,color: Color(0xFFA2A2A2)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Flexible(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Flexible(
-                          child: IconButton(
-                            icon: Icon(Icons.access_time,color: Color(0xFFA5A5A7)),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => abonnement()),
-                              );
-                            },
-                          ),
-                        ),
-                        Text(
-                          'Abonnement',
-                          style: TextStyle(fontSize: 12,color: Color(0xFFA5A5A7)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Flexible(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Flexible(
-                          child: IconButton(
-                            icon: Icon(Icons.person,color: Color(0xFFA5A5A7),),
-                            onPressed: () {
-                              Get.toNamed(RouteHelper.getProfil());
-                            },
-                          ),
-                        ),
-                        Text(
-                          'Profil',
-                          style: TextStyle(fontSize: 12,color: Color(0xFFA5A5A7)),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-            Positioned(
-              left: 0,
-              right: 0,
-              top: 0,
-              child: Container(
-                height: kToolbarHeight/6, // Utilise kToolbarHeight pour la hauteur de la barre d'applications
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-
-                  ),
-                  gradient: LinearGradient(
-                    begin: Alignment(0.00, -1.00),
-                    end: Alignment(0, 1),
-                    colors: [
-
-                      Color(0xFFDCDCDC),
-                      Color(0xFFDCDCDC).withOpacity(0)
-                    ],
-                  ),
-                )
-              ),
-            ),
-          ]
-        ),
-
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Color(0xFFf34e3a),
-          onPressed: () {
-
-              Get.toNamed(RouteHelper.getQrCode());
-
-          },
-          child: Image.asset("assets/scanner.jfif",width: 30,height: 30,),
-          shape: CircleBorder(),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      );}
       ),
-    );
+    ));
   }
 }

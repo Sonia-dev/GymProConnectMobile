@@ -14,10 +14,14 @@ class ActivitiesController extends GetxController {
   RxBool isLoading =false.obs;
   ActivityData activityDetails = ActivityData();
   RxList<ActivityData> activitiesList= <ActivityData>[].obs;
+  RxList<ActivityData> coachActivitiesList= <ActivityData>[].obs;
+  RxList<ActivityData> filterList= <ActivityData>[].obs;
+
 
   @override
   void onReady() {
     getActivities();
+
     super.onReady();
   }
 
@@ -26,6 +30,7 @@ class ActivitiesController extends GetxController {
   @override
   void onInit() {
     getActivities();
+
     super.onInit();
   }
   Future getActivities() async {
@@ -41,10 +46,10 @@ class ActivitiesController extends GetxController {
 
       //  print("*******body ${response.body["data"]["data"]}");
 
-      List<dynamic> responseData = response.body["data"]["data"];
-      print("activities ok");
-      print("activities list: $responseData");
+      List<dynamic> responseData = response.body["activities"];
       activitiesList.value = responseData.map((data) => ActivityData.fromJson(data)).cast<ActivityData>().toList();
+      print("activities list: $activitiesList");
+
       update();
     }
     else
@@ -54,8 +59,6 @@ class ActivitiesController extends GetxController {
         print("not okkk");
       }
   }
-
-
 
 
 
@@ -76,4 +79,32 @@ class ActivitiesController extends GetxController {
     }
   }
 
+
+
+  Future getfilterList(Data) async {
+    isLoading.value=true;
+
+
+    Response response = await activitiesRepo.getFilterList();
+    print("response.body: $response.body");
+    print("statuscode: $response.statusCode");
+
+    if (response.statusCode == 200) {
+      isLoading.value=false;
+
+      //  print("*******body ${response.body["data"]["data"]}");
+
+      List<dynamic> responseData = response.body["activities"];
+      print("filter ok");
+      print("filter list: $responseData");
+      activitiesList.value = responseData.map((data) => ActivityData.fromJson(data)).cast<ActivityData>().toList();
+      update();
+    }
+    else
+    {
+      isLoading.value =false;
+
+      print("not okkk");
+    }
+  }
 }

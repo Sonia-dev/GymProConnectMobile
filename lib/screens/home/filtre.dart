@@ -1,216 +1,259 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gymproconnect_flutter/data/controllers/activity_find_by_name_controller.dart';
+import '../../data/controllers/filter_controller.dart';
 
-import '../../data/api/api_client.dart';
-import '../../data/controllers/activities_controller.dart';
-import '../../data/repository/activities_repo.dart';
 
-class filtre extends GetView<ActFindByNameController> {
-  @override
-  Widget build(BuildContext context) {
-    Get.put(ApiClient(appBaseUrl: "http://192.168.1.191:8000/api/"));
-    Get.put(ActivitiesRepo( apiClient: Get.find(),));
-    Get.put(ActivitiesController(activitiesRepo: Get.find()));
-    return  Scaffold(
-          appBar: AppBar(
-            title: Text('Filtre',style: GoogleFonts.poppins(
-              color: Colors.black,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),),
-            centerTitle: true,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-        body: FilterScreen(),
-
-    );
-  }
-}
-
-class FilterScreen extends StatefulWidget {
-  @override
-  _FilterScreenState createState() => _FilterScreenState();
-}
-
-class _FilterScreenState extends State<FilterScreen> {
+class Filtre extends GetView<FilterController> {
   String _selectedCategory = "All";
-  double _target = 150;
-  double _price = 30;
-  int _rating = 4;
-  List<String> _selectedGender = ["mixed"];
-  List<String> _selectedAge = ["Adults"];
-  // List<Map<String, String>> categories = [
-  //   {'name': ' yoga', 'image': 'assets/yoga.png'},
-  //   {'name': ' Swimming', 'image': 'assets/swimming.png'},
-  //   {'name': ' gymnastique', 'image': 'assets/gymnastique.png'},
-  //   {'name': '4', 'image': 'assets/bodyCombat.jpg'},
-  //   {'name': ' 5', 'image': 'assets/bodyCombat.jpg'},
-  //    {'name': ' 6', 'image': 'assets/bodyCombat.jpg'},
-  //   {'name': ' 7', 'image': 'assets/bodyCombat.jpg'},
-  // ];
-  final _formKey = GlobalKey<FormState>();
-  double _minPrice = 0;
-  double _maxPrice = 300;
+  String _selectedGender = "Mixed";
+  String _selectedTarget = "All";
 
+  final _formKey = GlobalKey<FormState>();
+  RangeValues _selectedPriceRange;
+
+  Filtre() : _selectedPriceRange = RangeValues(0, 500);
 
   @override
   Widget build(BuildContext context) {
-    final category = Get.arguments;
+    final categories = Get.find<FilterController>().filter.category;
+    final genders = Get.find<FilterController>().filter.gender ?? [];
+    final targets = Get.find<FilterController>().filter.target ?? [];
+    final priceMinStr = Get.find<FilterController>().filter.prices?.min ?? "0.0";
+    final priceMaxStr = Get.find<FilterController>().filter.prices?.max ?? "500.0";
 
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Category",
-                style: GoogleFonts.poppins(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
+
+    double priceMin = double.tryParse(priceMinStr) ?? 0.0;
+    double priceMax = double.tryParse(priceMaxStr) ?? 500.0;
+
+    _selectedPriceRange = RangeValues(priceMin, priceMax);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Filtre',
+          style: GoogleFonts.poppins(
+            color: Colors.black,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Category",
+                  style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 10),
-            Container(
-              height: 40.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  FilterChip(
-                    label: Text("All"),
-                    selected: _selectedCategory == "All",
-                    onSelected: (bool selected) {
-                      setState(() {
-                        _selectedCategory = selected ? "All" : "";
-                      });
-                    },
-                    selectedColor: Color(0xFFF34E3A),
-                    showCheckmark: false,
-                  ),
-
-                  /*  Padding(
+              SizedBox(height: 10),
+              Container(
+                height: 40.0,
+                child: (categories == null)
+                    ? Container()
+                    : ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categories.length + 1, // Include "All"
+                  itemBuilder: (BuildContext context, int index) {
+                    final category = index == 0 ? "All" : categories[index - 1];
+                    return Padding(
                       padding: EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Column(
-                        children: [
-                          FilterChip(
-                            label: Text(category.name),
-                            selected: _selectedCategory == category.name,
-                            onSelected: (bool selected) {
-                              setState(() {
-                                _selectedCategory = selected ? category.name : "All";
-                              });
-                            },
-                            visualDensity: VisualDensity(horizontal: -4.0, vertical: -4.0),
-                            selectedColor: Color(0xFFF34E3A),
-                            showCheckmark: false,
-                          ),
-                        ],
+                      child: FilterChip(
+                        label: Text(category),
+                        selected: _selectedCategory == category,
+                        onSelected: (bool selected) {
+                          _selectedCategory = selected ? category : "";
+                          // If another category is selected, deselect "All"
+                          if (category != "All") {
+                            _selectedCategory = category;
+                          }
+                          // Update state
+                          (context as Element).markNeedsBuild();
+                        },
+                        selectedColor: category == "All" ? Colors.red : Color(0xFFF34E3A),
+                        showCheckmark: false,
                       ),
-                    ),*/
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Price Range",
+                  style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Stack(
+                children: [
+
+
+                  RangeSlider(
+                    values: _selectedPriceRange,
+                    min: priceMin,
+                    max: priceMax,
+                    divisions: 30,
+                    onChanged: (values) {
+                      _selectedPriceRange = values;
+                    },
+                    labels: RangeLabels(
+                      _selectedPriceRange.start.toStringAsFixed(2),
+                      _selectedPriceRange.end.toStringAsFixed(2),
+                    ),
+                    activeColor: Color(0xFFF34E3A),
+                  ),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "${_selectedPriceRange.start.toStringAsFixed(2)} DT",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          "${_selectedPriceRange.end.toStringAsFixed(2)} DT",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-            SizedBox(height: 10),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Price Range",
-                style: GoogleFonts.poppins(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            Stack(
-              children: [
-                RangeSlider(
-                  values: RangeValues(_minPrice, _maxPrice),
-                  min: 0,
-                  max: 300,
-                  divisions: 30,
-                  onChanged: (values) {
-                    setState(() {
-                      _minPrice = values.start;
-                      _maxPrice = values.end;
-                    });
-                  },
-                  labels: RangeLabels(
-                    _minPrice.toStringAsFixed(0) + " DT",
-                    _maxPrice.toStringAsFixed(0) + " DT",
+              SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Gender",
+                  style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
                   ),
-                  activeColor: Color(0xFFF34E3A), // Changez cette couleur selon votre préférence
-                ),
-                SizedBox(height: 10,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      _minPrice.toStringAsFixed(0) + " DT",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      _maxPrice.toStringAsFixed(0) + " DT",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 10,),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Reviews",
-                style: GoogleFonts.poppins(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
                 ),
               ),
-            ),
-            SizedBox(height: 10,),
-            Column(
-              children: [
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-
-
-
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFf34e3a),
-                minimumSize: Size(285, 49),
-              ),
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                }
-              },
-              child: Text(
-                'Apply',
-                style: TextStyle(fontSize: 18.0, color: Colors.white),
-              ),
-            ),
-                  ],
+              SizedBox(height: 10),
+              Container(
+                height: 40.0,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: genders.length + 1, // Include "Mixed"
+                  itemBuilder: (BuildContext context, int index) {
+                    final gender = index == 0 ? "Mixed" : genders[index - 1];
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.0),
+                      child: FilterChip(
+                        label: Text(gender),
+                        selected: _selectedGender == gender,
+                        onSelected: (bool selected) {
+                          _selectedGender = selected ? gender : "";
+                          // If another gender is selected, deselect "Mixed"
+                          if (gender != "Mixed") {
+                            _selectedGender = gender;
+                          }
+                          // Update state
+                          (context as Element).markNeedsBuild();
+                        },
+                        selectedColor: gender == "Mixed" ? Colors.red : Color(0xFFF34E3A),
+                        showCheckmark: false,
+                      ),
+                    );
+                  },
                 ),
-        ]
+              ),
+              SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Target",
+                  style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Container(
+                height: 40.0,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: targets.length + 1, // Include "All"
+                  itemBuilder: (BuildContext context, int index) {
+                    final target = index == 0 ? "All" : targets[index - 1];
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.0),
+                      child: FilterChip(
+                        label: Text(target),
+                        selected: _selectedTarget == target,
+                        onSelected: (bool selected) {
+                          _selectedTarget = selected ? target : "";
+                          // If another target is selected, deselect "All"
+                          if (target != "All") {
+                            _selectedTarget = target;
+                          }
+                          // Update state
+                          (context as Element).markNeedsBuild();
+                        },
+                        selectedColor: target == "All" ? Colors.red : Color(0xFFF34E3A),
+                        showCheckmark: false,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 250.h),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFFF34E3A),
+                          minimumSize: Size(285, 49),
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                          }
+                        },
+                        child: Text(
+                          'Apply',
+                          style: TextStyle(fontSize: 18.0, color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
-        ]
-    ),
-    ),
     );
   }
 }

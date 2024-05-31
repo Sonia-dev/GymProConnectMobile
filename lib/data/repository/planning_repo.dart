@@ -15,6 +15,16 @@ class PlanningRepo{
   Future<Response> getPlanning() async{
     return await apiClient.getData(Uris.myBookingUrl );
   }
+  Future<Response> cancelBooking( Map body,int id)async{
+    return await apiClient.putData(Uris.cancelBooking+"$id" , body );
+  }
+
+  Future<Response> rebookBooking( Map body,int id)async{
+    return await apiClient.putData(Uris.rebookBooking+"$id" , body );
+  }
+  Future<Response> getBookingsList(int statut) async{
+    return await apiClient.getData(Uris.BookingsListUrl+"$statut" );
+  }
 
 
 }

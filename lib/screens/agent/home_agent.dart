@@ -1,566 +1,377 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
+import 'package:gymproconnect_flutter/data/controllers/adherent_controller.dart';
+import 'package:gymproconnect_flutter/data/controllers/packs_controller.dart';
+import 'package:gymproconnect_flutter/data/controllers/trainers_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gymproconnect_flutter/screens/agent/profil_agent.dart';
-
-import '../home/activities.dart';
-import '../home/detailed_activity.dart';
-import '../home/trainers.dart';
-import 'Members.dart';
-import 'categories_agent.dart';
-import 'coachs.dart';
 
 
+import '../../constants/constants.dart';
+import '../../data/controllers/activities_controller.dart';
+import '../../data/controllers/auth_controller.dart';
+import '../../data/controllers/categories_controller.dart';
+import '../../data/controllers/profil_controller.dart';
 
-class HomeAgent extends StatefulWidget {
-  const HomeAgent({Key? key}) : super(key: key);
+import '../../routes/routes_helper.dart';
+import '../../widgets/circle_avatar_widget.dart';
 
-  @override
-  State<HomeAgent> createState() => _MainHomeState();
-}
 
-class _MainHomeState extends State<HomeAgent> {
+class HomeAgent extends StatelessWidget{
   String searchText = '';
-
-  List<Map<String, String>> categories = [
-    {'name': ' yoga', 'image': 'assets/yoga.png'},
-    {'name': ' Swimming', 'image': 'assets/swimming.png'},
-    {'name': ' gymnastique', 'image': 'assets/gymnastique.png'},
-
-  ];
-
-  List<Map<String, String>> activities = [
-    {'name': 'bodypump', 'image': 'assets/swimming.png', 'description': 'Training for beginner'},
-    {'name': '2', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
-    {'name': '3', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
-    {'name': '4', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
-    {'name': '5', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
-    {'name': '6', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
-    {'name': '7', 'image': 'assets/bodyCombat.jpg', 'description': 'Training for beginner'},
-  ];
-  List<Map<String, String>> trainers = [
-    {'name': ' Ahmed', 'image': 'assets/ahmed.png'},
-    {'name': ' Ali', 'image': 'assets/bodyCombat.jpg'},
-    {'name': ' Anis', 'image': 'assets/bodyCombat.jpg'},
-    {'name': ' Anis', 'image': 'assets/bodyCombat.jpg'},
-    {'name': ' Anis', 'image': 'assets/bodyCombat.jpg'},
-    {'name': ' Anis', 'image': 'assets/bodyCombat.jpg'},
-
-  ];
-  List<Map<String, String>> members = [
-    {'name': ' Ahmed', 'image': 'assets/ahmed.png'},
-    {'name': ' Ali', 'image': 'assets/bodyCombat.jpg'},
-    {'name': ' Anis', 'image': 'assets/bodyCombat.jpg'},
-    {'name': ' Anis', 'image': 'assets/bodyCombat.jpg'},
-    {'name': ' Anis', 'image': 'assets/bodyCombat.jpg'},
-    {'name': ' Anis', 'image': 'assets/bodyCombat.jpg'},
-
-  ];
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    List<String> weekdays = [
-      'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
-    ];
-    List<String> months = [
-      'January', 'February', 'March', 'April', 'May', 'June', 'July',
-      'August', 'September', 'October', 'November', 'December'
-    ];
-    String dayOfWeek = weekdays[now.weekday - 1];
-    String dayOfMonth = now.day.toString();
-    String month = months[now.month - 1];
-    String year = now.year.toString();
-
-    return Scaffold(
-        body:  Container(
-        margin: EdgeInsets.only(top: 45, bottom: 15),
-        padding: EdgeInsets.only(left: 20, right: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(height: 10),
-            Text(
-              "welcome Ahmed !",
-              style: TextStyle(
-                fontSize: 20.0,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 10),
-            Text(
-              '$dayOfWeek, $dayOfMonth $month $year',
-              style: TextStyle(
-                fontSize: 11,
-                color: Color(0xFFf34e3a),
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            SizedBox(height: 10),
-            TextFormField(
-                onChanged: (value) {
-                  setState(() {
-                    searchText = value;
-                  }
-                  );
-                },
-
-                decoration: InputDecoration(
-                  contentPadding:
-                  const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
-                  floatingLabelStyle: const TextStyle(color: Colors.black),
-                  labelText: 'Search',
-                  suffixIcon: Icon(Icons.search),
-                  filled:true,
-                  fillColor: Color(0xffF7F9FD),
-                  labelStyle: TextStyle( color: Colors.black),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide:
-                      const BorderSide(width: 1, color: Colors.white)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide:
-                      const BorderSide(width: 1, color: Colors.white)),
-                )
-
-
-
-
-
-
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SafeArea(
+      child: Scaffold(
+        body: GetBuilder<ProfilController>(builder: (controller) {
+      return Obx(() => controller.isLoading.value
+          ? const Center(
+          child: SpinKitDoubleBounce(
+            color: Colors.orange,
+          ))
+          :SingleChildScrollView(
+          child: Padding(
+            padding:  EdgeInsets.only(left: 16.0,right:16.w,bottom:50.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  'Categorie',
-                  style: TextStyle(fontSize:18.0,fontWeight:FontWeight.bold),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CategoriesAgent()),
-                    );                  },
-                  child: Text(
-                    'See All',
-                    style: TextStyle(fontSize: 18.0, color: Color(0xFFf34e3a)),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Container(
-              height: 60.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  for (var category in categories)
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              width: 60.0,
-                              height: 60,
-                              padding: EdgeInsets.all(2.0),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white,
-
-                                border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.0),
-                              ),
-                              child: CircleAvatar(
-                                backgroundImage: AssetImage(category['image']!),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            category['name'].toString(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        ],
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                20.h.verticalSpace,
+                Row(
                   children: [
                     Text(
-                      "Activities",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'Poppins',
+                      "welcome ${controller.user.user?.name.toString()??""} !",
+                      style: GoogleFonts.poppins(
+                        color: Colors.black,
+                        fontSize: 20.spMin,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
 
                   ],
                 ),
-                TextButton(
+                10.h.verticalSpace,
+                Text('$dayOfWeek, $dayOfMonth $month $year',
+                    style: GoogleFonts.poppins(
+                      color: Color(0xFFf34e3a),
+                      fontSize: 11.spMin,
+                      fontWeight: FontWeight.w500,
+                    )),
+                10.h.verticalSpace,
 
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ActivityList()),
-                    );
-
-                  },
-                  child: Text(
-                    'See All',
-                    style: TextStyle(fontSize: 18.0, color: Color(0xFFf34e3a)),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Flexible(
-              child: Container(
-                height: 200.0,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    for (var activity in activities)
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.0),
-                        child: Container(
-                          width: 300.0,
-                          height: 300.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            shape: BoxShape.rectangle,
-                            color: Colors.black12,
+                    Text(
+                      'Catégorie',
+                      style: GoogleFonts.poppins(
+                        color: Colors.black,
+                        fontSize: 16.spMin,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () async  {
+                        Get.toNamed(RouteHelper.getCategories());
+                        await Get.find<CategoriesController>().getCategories();
+                      },
+                      child: Text(
+                        'SEE ALL',
+                        style: GoogleFonts.poppins(
+                          color: Color(0xFFf34e3a),
+                          fontSize: 10.spMax,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                10.h.verticalSpace,
+                SizedBox(
+                  height: 100.h,
+                  child: Obx(() => ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: Get.find<CategoriesController>().categoriesList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final category = Get.find<CategoriesController>()
+                            .categoriesList
+                            .value[index];
+                        return GestureDetector(
+                            onTap: () {
+                              Get.toNamed(
+                                RouteHelper.categorieById,
+                              );
+
+                              Get.find<CategoriesController>()
+                                  .getCategorieByID(category.id!);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: buildCircleAvatar(
+                                imagePath: category.image != null ? category.image.toString() : "assets/no_image.jpg",
+                                text: category.name.toString(),
+                              ),));
+                      })),
+                ),
+                10.h.verticalSpace,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Activities',
+                      style: GoogleFonts.poppins(
+                        color: Colors.black,
+                        fontSize: 16.spMin,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Get.toNamed(RouteHelper.getActivities());
+                      },
+                      child: Text(
+                        'SEE ALL',
+                        style: GoogleFonts.poppins(
+                          color: Color(0xFFf34e3a),
+                          fontSize: 10.spMax,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                10.h.verticalSpace,
+                SizedBox(
+                  height: 100.h,
+                  child: Obx(() => ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: Get.find<ActivitiesController>()
+                          .activitiesList
+                          .length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final activity = Get.find<ActivitiesController>()
+                            .activitiesList
+                            .value[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed(
+                                RouteHelper.activitieById,
+                              );
+
+                              Get.find<ActivitiesController>()
+                                  .getActivityByID(activity.id!);
+                            },
+                            child: buildCircleAvatar(
+                                imagePath: activity.image != null ? activity.image.toString() : "assets/no_image.jpg",
+                                text: activity.name.toString()),
                           ),
-                          child: Stack(
-                            alignment: Alignment.bottomLeft,
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => ActivityDetail()),
-                                  );
-                                },
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: Image.asset(activity['image']!,
-                                      width: 300,
-                                      height: 300,
-                                      fit: BoxFit.cover,
+                        );
+                      })),
+                ),
+                Get.find<AuthController>().userRole == admin?Container(height: 20,
 
-                                    )
+                  color:Colors.orange,
+                  width: 50,) :Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Packs',
+                      style: GoogleFonts.poppins(
+                        color: Colors.black,
+                        fontSize: 16.spMin,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        print("tessst ");
+                        Get.toNamed(RouteHelper.getPacks());
+                      },
+                      child: Text(
+                        'SEE ALL',
+                        style: GoogleFonts.poppins(
+                          color: Color(0xFFf34e3a),
+                          fontSize: 10.spMax,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                10.h.verticalSpace,
+                SizedBox(
+                  height: 170.h,
+                  child: Obx(() => ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: Get.find<PacksController>().packsList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final pack =
+                        Get.find<PacksController>().packsList.value[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: GestureDetector(
+                            onTap: () async {
 
+                              await Get.find<PacksController>().getPackByID(pack.id!);
+                              Get.toNamed(
+                                RouteHelper.getPackByIdAgent(),
+                              );
 
+                            },
+                            child: Stack(
+                              alignment: Alignment.bottomLeft,
+                              children: <Widget>[
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: pack.image != null
+                                      ? Image.network(
+                                    pack.image.toString(),
+                                    width: MediaQuery.of(context).size.width / 1.2,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder: (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      }
+                                      return Center(
+                                        child: SpinKitDoubleBounce(
+                                          size: 10,
+                                          color: Colors.orange,
+                                        ),
+                                      );
+                                    },
+                                  )
+                                      : Image.asset(
+                                    "assets/no_image.jpg",
+                                    width: MediaQuery.of(context).size.width / 1.2,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15)), // Adjust the radius as needed
-                                child: BackdropFilter(
-                                  filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width/2,
-                                    padding: EdgeInsets.all(8.0), // Adjust padding as needed
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Text(
-                                          activity['description']!,
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        Icon(
-                                            Icons.star
-                                        ),
-                                      ],
+                                ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(15)),
+                                  child: BackdropFilter(
+                                    filter:
+                                    ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                                    child: Container(
+                                      width:
+                                      MediaQuery.of(context).size.width / 2,
+                                      padding: EdgeInsets.all(8.0),
+                                      // Adjust padding as needed
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Expanded(
+                                            child: SizedBox(
+                                              height: 20.h,
+                                              child: Text(
+
+                                                pack.price! + " dt",
+                                                style: GoogleFonts.poppins(
+                                                  color: Colors.white,
+                                                  fontSize: 16.spMin,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ),
-                  ],
+                        );
+                      })),
                 ),
-              ),
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Trainers",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
 
-                  ],
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TrainersList()),
-                    );
-                  },
-                  child: Text(
-                    'See All',
-                    style: TextStyle(fontSize: 18.0, color: Color(0xFFf34e3a)),
+
+
+                10.h.verticalSpace,
+                Text(
+                  "Coachs",
+                  style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontSize: 16.spMin,
+                    fontWeight: FontWeight.w500,
                   ),
+                ),
+                10.h.verticalSpace,
+                SizedBox(
+                  height: 100.h,
+                  child: Obx(() => ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount:
+                      Get.find<TrainersController>().trainersList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final trainer = Get.find<TrainersController>()
+                            .trainersList
+                            .value[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Get.toNamed(
+                              RouteHelper.trainerById,
+                            );
+                            Get.find<TrainersController>()
+                                .getTrainerByID(trainer.id!);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: buildCircleAvatar(
+                                imagePath:  trainer.image != null ? trainer.image.toString() : "assets/no_image.jpg",
+                                text: trainer.name.toString()),
+                          ),
+                        );
+                      })),
+                ),
+                10.h.verticalSpace,
+                Text(
+                  "Adhérents",
+                  style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontSize: 16.spMin,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                10.h.verticalSpace,
+                SizedBox(
+                  height: 100.h,
+                  child: Obx(() => ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount:
+                      Get.find<AdherentsController>().adherentsList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final adherent = Get.find<AdherentsController>()
+                            .adherentsList
+                            .value[index];
+                        return GestureDetector(
+                          onTap: () {
+
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: buildCircleAvatar(
+                                imagePath:  adherent.image != null ? adherent.image.toString() : "assets/no_image.jpg",
+                                text: adherent.name.toString()),
+                          ),
+                        );
+                      })),
                 ),
               ],
             ),
-            SizedBox(height: 10),
-            Container(
-              height: 60.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  for (var trainer in trainers)
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              width: 54.0,
-                              padding: EdgeInsets.all(2.0),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white,
-                                border: Border.all(
-                                    color: Colors.grey, // Couleur du cercle gris
-                                    width: 1.0),
-                              ),
-                              child: CircleAvatar(
-                                backgroundImage:
-                                AssetImage(trainer['image']!),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            trainer['name'].toString(),
-                            textAlign: TextAlign.center,
-                            style:  GoogleFonts.poppins(color: Colors.black,fontSize: 12),
-
-                          ),
-                        ],
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Members",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                  ],
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Members()),
-                    );
-                  },
-                  child: Text(
-                    'See All',
-                    style: TextStyle(fontSize: 18.0, color: Color(0xFFf34e3a)),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Container(
-              height: 60.0,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  for (var trainer in trainers)
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              width: 54.0,
-                              padding: EdgeInsets.all(2.0),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white,
-                                border: Border.all(
-                                    color: Colors.grey, // Couleur du cercle gris
-                                    width: 1.0),
-                              ),
-                              child: CircleAvatar(
-                                backgroundImage:
-                                AssetImage(trainer['image']!),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            trainer['name'].toString(),
-                            textAlign: TextAlign.center,
-                            style:  GoogleFonts.poppins(color: Colors.black,fontSize: 12),
-
-                          ),
-                        ],
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
+      );}
       ),
-
-      bottomNavigationBar: CustomBottomAppBar(),
-    );
+    ));
   }
 }
-
-class CustomBottomAppBar extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomAppBar(
-      color: Colors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          Flexible(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Flexible(
-                  child: IconButton(
-                    icon: Icon(Icons.home, color: Color(0xFFf34e3a)),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeAgent()),
-                      );
-                    },
-                  ),
-                ),
-                Text('Home', style: TextStyle(color: Color(0xFFf34e3a),fontSize: 12), ),
-              ],
-            ),
-          ),
-          Flexible(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Flexible(
-                  child: IconButton(
-                    icon: Icon(Icons.people),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Members()),
-                      );
-                    },
-                  ),
-                ),
-                Text('Members', style: TextStyle(fontSize: 12),),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Container(
-              width: 60.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-
-              ),
-              child: CircleAvatar(
-                backgroundColor: Color(0xFFf34e3a),
-                child: Icon(
-                  Icons.qr_code_scanner_sharp,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-          Flexible(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Expanded(
-                  child: IconButton(
-                    icon: Icon(Icons.people),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => TrainersAgent()),
-                      );
-                    },
-                  ),
-                ),
-
-                Text('Trainers',style: TextStyle(fontSize: 12),),
-              ],
-            ),
-          ),
-          Flexible(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Flexible(
-                  child: IconButton(
-                    icon: Icon(Icons.person),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ProfilAgent()),
-                      );
-                    },
-                  ),
-                ),
-                Text('Profil',style: TextStyle(fontSize: 12),),
-              ],
-            ),
-          ),
-        ],
-      ),
-
-    );
-  }
-}
-

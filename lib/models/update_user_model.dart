@@ -1,25 +1,5 @@
-class Update {
-  String? message;
-  User? user;
 
-  Update({this.message, this.user});
-
-  Update.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
-    }
-    return data;
-  }
-}
-
-class User {
+class UpdateModel {
   int? id;
   String? name;
   String? surname;
@@ -31,7 +11,7 @@ class User {
   String? createdAt;
   String? updatedAt;
 
-  User(
+  UpdateModel(
       {this.id,
         this.name,
         this.surname,
@@ -43,7 +23,7 @@ class User {
         this.createdAt,
         this.updatedAt});
 
-  User.fromJson(Map<String, dynamic> json) {
+  UpdateModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     surname = json['surname'];

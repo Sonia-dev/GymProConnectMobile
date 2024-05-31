@@ -5,16 +5,12 @@ import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:gymproconnect_flutter/Shared/local_network.dart';
 import 'package:gymproconnect_flutter/data/repository/auth_repo.dart';
-import 'package:gymproconnect_flutter/models/logout_model.dart';
 import 'package:gymproconnect_flutter/models/register_model.dart';
 import 'package:gymproconnect_flutter/routes/routes_helper.dart';
-import 'package:gymproconnect_flutter/screens/home/main_home.dart';
 import 'package:info_popup/info_popup.dart';
-import '../../constants/constants.dart';
-import '../../globals.dart';
 import '../../models/login_model.dart';
+import '../../screens/gym_pro_layout.dart';
 import '../../snack_bar.dart';
 
 class AuthController extends GetxController {
@@ -30,9 +26,12 @@ class AuthController extends GetxController {
   final TextEditingController dateOfBirthController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  get apiClient => null;
 
   String? userRole ;
+  String? userName ;
+  String? userSurname ;
+  int? userId ;
+
 
 
 
@@ -41,7 +40,7 @@ class AuthController extends GetxController {
 
   //   return token;
   // }
-  final box = GetStorage();
+
 
   Future<void> register(UserRequest userRequest, BuildContext context) async {
     Map<String, dynamic> data = {
@@ -84,35 +83,45 @@ class AuthController extends GetxController {
       "email": userRequest.email,
       "password": userRequest.password,
     };
-
     try {
 
       Response response = await authRepo.login(data);
 
-      await box.write('useToken', token);
-
-
-      String? savedToken = box.read('userToken');
-
-
       if (response.statusCode == 200) {
-
-        debugPrint('Token saved successfully: $savedToken');
         String token = response.body["success"]["token"];
         userRole = response.body["success"]["role"][0];
+        userId =response.body["success"]["userId"];
 
-        debugPrint('use role is $userRole');
-
-       // authRepo.saveUserToken(token);
-
-        Navigator.pushReplacementNamed(context, '/home');
-
-              update();
+        authRepo.saveUserToken(token);
+        await GetStorage().write('userId', userId);
 
 
+        debugPrint('user role is $userRole');
+        debugPrint('user id is $userId');
+        print('token: $token');
+
+
+
+        if (userRole == "adherent") {
+
+          Get.offAllNamed(RouteHelper.getHome());
+        }
+        else if (userRole == "coach") {
+
+          Get.offAllNamed(RouteHelper.getHomeCoach());
+
+        }
+        else if (userRole == "agent") {
+          Get.offAllNamed(RouteHelper.getHomeAgent());
+
+
+        }
       }
+
+
+
       else if (response.statusCode == 401) {
-        // Email ou mot de passe incorrects
+
         showDialog(
           context: context,
           builder: (_) => AlertDialog(
@@ -125,8 +134,9 @@ class AuthController extends GetxController {
             ),
           ),
         );
-      } else {
-        // Autre erreur
+      }
+      else {
+
         showDialog(
           context: context,
           builder: (_) => AlertDialog(
@@ -140,44 +150,43 @@ class AuthController extends GetxController {
           ),
         );
       }
-    } catch (e, s) {
+    }
+    catch (e, s) {
       print("Erreur : $e");
       print("StackTrace : $s");
       // print("$test");
     }
   }
-  Future<void> logout(BuildContext context) async {
 
-
-
-    try {
-      // Suppression du token enregistré
-      await box.remove('userToken');
-
-      // Navigation vers l'écran de connexion ou une autre destination appropriée
-      Navigator.pushReplacementNamed(context, '/login');
-
-      // Mise à jour de l'UI si nécessaire
-      update();
-    } catch (e) {
-      // Gestion des erreurs...
-    }
-
-
-
-
-
-      }
 
 
 
   Future goto() async {
-    if (userLoggedIn()) {
 
-      Navigator.pushReplacement(
-        Get.context!,
-        MaterialPageRoute(builder: (context) =>  MainHome()),
-      );
+
+
+
+    print("userLoggedIn()${userLoggedIn()}");
+    if (userLoggedIn()) {
+      Get.offAllNamed(RouteHelper.getHome());
+      if (userRole == "adherent") {
+
+
+        Get.offAllNamed(RouteHelper.getHome());
+
+      }
+      else if (userRole == "coach") {
+
+        Get.offAllNamed(RouteHelper.getHomeCoach());
+
+
+
+      }
+      else if (userRole == "agent") {
+        Get.offAllNamed(RouteHelper.getHomeAgent());
+
+
+       }
     } else {
       Get.offAllNamed(RouteHelper.getSignUpPage());
     }
@@ -187,13 +196,13 @@ class AuthController extends GetxController {
 
 
   clearData(){
-    box.remove("token");
+    GetStorage().remove("token");
   }
 
 
 
   bool userLoggedIn() {
-    return box.hasData("token")
+    return GetStorage().hasData("token")
         ? true
         : false;
   }

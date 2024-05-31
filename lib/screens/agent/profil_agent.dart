@@ -115,15 +115,7 @@ class _profilState extends State<ProfilAgent> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                trailing: Icon(
-                    Icons.arrow_forward_ios_rounded, color: Color(0xFFABABAB),
-                    size: 15),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyMembership()),
-                  );
-                },
+
               ),
               SizedBox(height: 10,),
               ListTile(
@@ -264,7 +256,7 @@ class CustomBottomAppBar extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Members()),
+                        MaterialPageRoute(builder: (context) => Adherents()),
                       );
                     },
                   ),

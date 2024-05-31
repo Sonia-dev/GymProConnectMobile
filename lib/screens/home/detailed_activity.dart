@@ -7,8 +7,10 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymproconnect_flutter/data/controllers/activities_controller.dart';
+import 'package:gymproconnect_flutter/data/controllers/categories_controller.dart';
 import 'package:gymproconnect_flutter/screens/home/reviews.dart';
 
+import '../../data/controllers/packs_controller.dart';
 import '../../data/controllers/trainers_controller.dart';
 import '../../routes/routes_helper.dart';
 import '../../widgets/circle_avatar_widget.dart';
@@ -18,8 +20,7 @@ class ActivityDetail extends GetView<ActivitiesController> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(child:
-        Scaffold(
-            body: GetBuilder<ActivitiesController>(builder: (controller) {
+        Scaffold(body: GetBuilder<ActivitiesController>(builder: (controller) {
       return Obx(() => controller.isLoading.value
           ? const Center(
               child: SpinKitDoubleBounce(
@@ -32,19 +33,16 @@ class ActivityDetail extends GetView<ActivitiesController> {
                   Stack(
                     children: [
                       Image.network(
-
                         controller.activityDetails.image.toString(),
                         width: MediaQuery.of(context).size.width,
                         fit: BoxFit.cover,
-                        height :MediaQuery.of(context).size.height/3,
+                        height: MediaQuery.of(context).size.height / 3,
                         errorBuilder: (context, error, stackTrace) {
                           return SizedBox(
-                              height :MediaQuery.of(context).size.height/3,
+                              height: MediaQuery.of(context).size.height / 3,
                               width: MediaQuery.of(context).size.width,
                               child: Image.asset("assets/no_image.jpg",
-                              fit: BoxFit.cover
-
-                              ));
+                                  fit: BoxFit.cover));
                         },
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) {
@@ -160,14 +158,13 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                   fontWeight: FontWeight.w300,
                                 )),
                             Text(
-                              controller.activityDetails.muscleGroups
-                                  .toString(),
-                              style:  GoogleFonts.poppins(
-                                color: Color(0xFF0C1A30),
-                                fontSize: 14.spMin,
-                                fontWeight: FontWeight.w400,
-                              )
-                            ),
+                                controller.activityDetails.muscleGroups
+                                    .toString(),
+                                style: GoogleFonts.poppins(
+                                  color: Color(0xFF0C1A30),
+                                  fontSize: 14.spMin,
+                                  fontWeight: FontWeight.w400,
+                                )),
                             10.h.verticalSpace,
                             Text('tenue recommandée',
                                 style: GoogleFonts.poppins(
@@ -215,12 +212,18 @@ class ActivityDetail extends GetView<ActivitiesController> {
                               height: 100.h,
                               child: buildCircleAvatarhor(
                                   imagePath: controller
-                                      .activityDetails.coach!.image
-                                      .toString(),
-                                  name: controller.activityDetails.coach!.name
-                                      .toString(),
-                                  title: controller.activityDetails.coach!.title
-                                      .toString()),
+                                              .activityDetails.coach?.image !=
+                                          null
+                                      ? controller.activityDetails?.coach?.image
+                                              .toString() ??
+                                          ""
+                                      : "assets/no_image.jpg",
+                                  name: controller.activityDetails.coach?.name
+                                          .toString() ??
+                                      "",
+                                  title: controller.activityDetails.coach?.title
+                                          .toString() ??
+                                      ""),
                             ),
                             Text('Categories',
                                 style: GoogleFonts.poppins(
@@ -230,17 +233,28 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                 )),
                             SizedBox(
                               height: 100.h,
-                              child: buildCircleAvatarhor(
-                                  imagePath: controller
-                                      .activityDetails.category!.image
-                                      .toString(),
-                                  name: controller
-                                      .activityDetails.category!.name
-                                      .toString(),
-                                  title: controller
-                                      .activityDetails.category!.description
-                                      .toString()),
+                              child: GestureDetector(
+                                onTap: () async {
+                                  await Get.find<
+                                      CategoriesController>()
+                                      .getCategorieByID(
+                                      controller.activityDetails?.category?.id??1);
+                                  Get.toNamed(
+                                    RouteHelper.getActivitieById(),
+                                  );
+
+                                },
+                                child: buildCircleAvatarhor(
+                                  imagePath: controller.activityDetails.category?.image != null
+                                      ? controller.activityDetails?.coach?.image.toString() ?? ""
+                                      : "assets/no_image.jpg",
+                                  name: controller.activityDetails.category?.name.toString() ?? "",
+                                  title: controller.activityDetails.category?.description.toString() ?? "",
+                                ),
+                              ),
                             ),
+
+
                             Text('Packs',
                                 style: GoogleFonts.poppins(
                                   color: Color(0xFF0C1A30),
@@ -249,28 +263,37 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                 )),
                             SizedBox(
                               height: 100.h,
-                              child: controller.activityDetails?.packs != null && controller.activityDetails!.packs!.isNotEmpty ? ListView.builder!(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: controller.activityDetails!.packs!.length,
-                                itemBuilder: (context, index) {
-                                  var pack = controller.activityDetails!.packs![index];
-                                  return buildCircleAvatar(
-                                    imagePath: "https://picsum.photos/250?image=9",
-                                    // pack.image.toString(),
-                                    text: pack.name.toString(),
-
-                                  );
-                                },
-                              ) : Center(
-                                child: Text(
-                                  "Il n'y a pas de packs disponibles pour cette activité.",
-                                  style:  GoogleFonts.poppins(
-                                    color: Color(0xFF6D6A8E),
-                                    fontSize: 16.spMin,
-                                    fontWeight: FontWeight.w300,
-                                  )
-                                ),
-                              ),
+                              child: controller.activityDetails?.packs != null
+                                  ? ListView.builder!(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: controller
+                                          .activityDetails?.packs?.length,
+                                      itemBuilder: (context, index) {
+                                        var pack = controller
+                                            .activityDetails?.packs?[index];
+                                        return InkWell(onTap: () async {
+                                          await Get.find<PacksController>()
+                                              .getPackByID(pack!.id!);
+                                          Get.toNamed(
+                                            RouteHelper.getPackById(),
+                                          );
+                                          child:buildCircleAvatar(
+                                            imagePath:
+                                                pack?.image.toString() ?? "",
+                                            text: pack?.name.toString() ?? "",
+                                          );
+                                        });
+                                      },
+                                    )
+                                  : Center(
+                                      child: Text(
+                                          "Il n'y a pas de packs disponibles pour cette activité.",
+                                          style: GoogleFonts.poppins(
+                                            color: Color(0xFF6D6A8E),
+                                            fontSize: 16.spMin,
+                                            fontWeight: FontWeight.w300,
+                                          )),
+                                    ),
                             ),
                           ]))
                 ])));

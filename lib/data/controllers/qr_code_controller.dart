@@ -12,7 +12,7 @@ class QrCodeController extends GetxController {
 
   QrCodeController({required this.qrCodeRepo});
 
-  RxBool isLoading =false.obs;
+  RxBool isLoading = false.obs;
   QrCodeModel qrCode = QrCodeModel();
 
   @override
@@ -23,31 +23,36 @@ class QrCodeController extends GetxController {
 
   @override
   void onInit() {
-    getQrCode();
     super.onInit();
   }
 
   Future<void> getQrCode() async {
-    Response response = await qrCodeRepo.getQrCode();
+    isLoading.value = true;
+    try {
+      Response response = await qrCodeRepo.getQrCode();
 
-    print("statuscode: ${response.statusCode}");
+      print("status code: ${response.statusCode}");
 
-    if (response.statusCode == 200) {
-      // Convertissez le corps de la réponse en une Map<String, dynamic>
-      Map<String, dynamic> responseBody = json.decode(response.body);
+      if (response.statusCode == 200) {
+        if (response.bodyString != null) {
+          Map<String, dynamic> responseData = json.decode(response.bodyString!);
 
-      // Créez une instance de QrCodeModel en utilisant la méthode fromJson
-      qrCode = QrCodeModel.fromJson(responseBody);
+          print("QR Code Data: $responseData");
 
-      print("Qr Code ok");
-      update();
-    } else {
-      print("not okkk");
+          qrCode = QrCodeModel.fromJson(responseData);
+
+          print("Qr Code ok");
+          update();
+        } else {
+          print("Response body is not a valid JSON string");
+        }
+      } else {
+        print("HTTP Request failed with status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error: $e");
+    } finally {
+      isLoading.value = false;
     }
   }
-
-
-
-
-
 }

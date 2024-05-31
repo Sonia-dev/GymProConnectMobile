@@ -8,16 +8,14 @@ import 'package:gymproconnect_flutter/data/repository/categories_repo.dart';
 import 'package:gymproconnect_flutter/models/activities_model.dart';
 import 'package:gymproconnect_flutter/models/categories_model.dart';
 
-
 class CategoriesController extends GetxController {
   final CategoriesRepo categoriesRepo;
 
   CategoriesController({required this.categoriesRepo});
 
-  RxBool isLoading =false.obs;
+  RxBool isLoading = false.obs;
   RxList<CategoryData> categoriesList = <CategoryData>[].obs;
   CategoryData categoryDetail = CategoryData();
-
 
   @override
   void onReady() {
@@ -25,50 +23,44 @@ class CategoriesController extends GetxController {
     super.onReady();
   }
 
-
-
-
   @override
   void onInit() {
-    getCategories();
     super.onInit();
   }
 
   Future<void> getCategories() async {
-    isLoading.value=true;
-    Response response = await categoriesRepo.getCategoriesList();
-
-
-    if (response.statusCode == 200) {
-      isLoading.value =false;
-      List<dynamic> responseData = response.body["data"]["data"];
-    categoriesList.value = responseData.map((data) => CategoryData.fromJson(data)).cast<CategoryData>().toList();
-    update();
-
-
+    isLoading.value = true;
+    try {
+      Response response = await categoriesRepo.getCategoriesList();
+      if (response.statusCode == 200) {
+        List<dynamic> responseData = response.body["data"]["data"];
+        categoriesList.value = responseData.map((data) => CategoryData.fromJson(data)).toList();
+        print("categories list : $categoriesList");
       } else {
         print("Erreur lors de la récupération des données de catégorie.");
       }
-    }
-
-
-
- Future<void> getCategorieByID(int categoryId) async {
-    isLoading.value =true;
-    Response response = await categoriesRepo.getCategoryById(categoryId);
-
-
-    if (response.statusCode == 200) {
-      isLoading.value=false;
-
-      categoryDetail = CategoryData.fromJson(response.body['data']);
-
-
-    } else {
-      isLoading.value=false;
-      print("Erreur lors de la récupération des données de catégorie.");
+    } catch (e, st) {
+      print("Exception lors de la récupération des catégories: $e");
+      print(st);
+    } finally {
+      isLoading.value = false;
     }
   }
 
-
+  Future<void> getCategorieByID(int categoryId) async {
+    isLoading.value = true;
+    try {
+      Response response = await categoriesRepo.getCategoryById(categoryId);
+      if (response.statusCode == 200) {
+        categoryDetail = CategoryData.fromJson(response.body['data']);
+      } else {
+        print("Erreur lors de la récupération des données de catégorie.");
+      }
+    } catch (e, st) {
+      print("Exception lors de la récupération de la catégorie par ID: $e");
+      print(st);
+    } finally {
+      isLoading.value = false;
+    }
   }
+}

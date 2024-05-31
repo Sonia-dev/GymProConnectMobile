@@ -30,7 +30,8 @@ Widget buildCircleAvatar({required String imagePath, required String text}) {
               foregroundColor: Colors.transparent,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(70.w), // Match the CircleAvatar's radius
-                child: Image.network(
+                child: imagePath.startsWith('http')
+                    ? Image.network(
                   imagePath,
                   fit: BoxFit.cover, // Use BoxFit.cover to fill the circle
                   width: double.infinity,
@@ -46,6 +47,12 @@ Widget buildCircleAvatar({required String imagePath, required String text}) {
                       ),
                     );
                   },
+                )
+                    : Image.asset(
+                  imagePath,
+                  fit: BoxFit.cover, // Use BoxFit.cover to fill the circle
+                  width: double.infinity,
+                  height: double.infinity, // Set the height to infinity to fill the circle
                 ),
               ),
             ),
@@ -87,23 +94,30 @@ Widget buildCircleAvatarhor({required String imagePath, required String name, re
             foregroundColor: Colors.transparent,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(70.w), // Match the CircleAvatar's radius
-              child: Image.network(
-                imagePath,
-                fit: BoxFit.cover, // Use BoxFit.cover to fill the circle
-                width: double.infinity,
-                height: double.infinity, // Set the height to infinity to fill the circle
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  }
-                  return Center(
-                    child: SpinKitDoubleBounce(
-                      size: 10,
-                      color: Colors.orange,
-                    ),
-                  );
-                },
-              ),
+                child: imagePath.startsWith('http')
+                    ? Image.network(
+                  imagePath,
+                  fit: BoxFit.cover, // Use BoxFit.cover to fill the circle
+                  width: double.infinity,
+                  height: double.infinity, // Set the height to infinity to fill the circle
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Center(
+                      child: SpinKitDoubleBounce(
+                        size: 10,
+                        color: Colors.orange,
+                      ),
+                    );
+                  },
+                )
+                    : Image.asset(
+                  imagePath,
+                  fit: BoxFit.cover, // Use BoxFit.cover to fill the circle
+                  width: double.infinity,
+                  height: double.infinity, // Set the height to infinity to fill the circle
+                ),
             ),
           ),
         ),

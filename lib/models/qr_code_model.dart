@@ -1,15 +1,21 @@
 class QrCodeModel {
-  String? qrCodeData;
+  int? userId;
+  String? name;
+  String? tokencode;
 
-  QrCodeModel({this.qrCodeData});
+  QrCodeModel({this.userId, this.name, this.tokencode});
 
   QrCodeModel.fromJson(Map<String, dynamic> json) {
-    qrCodeData = json['qr_code_data'];
+    userId = json['user_id'];
+    name = json['name'];
+    tokencode = json['code'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['qr_code_data'] = this.qrCodeData;
+    data['user_id'] = this.userId;
+    data['name'] = this.name;
+    data['code'] = this.tokencode;
     return data;
   }
 }

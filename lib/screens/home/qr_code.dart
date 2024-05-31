@@ -9,31 +9,76 @@ class QrCode extends GetView<QrCodeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center( // Enveloppez votre contenu avec Center
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // Alignez les éléments au centre verticalement
+
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.redAccent,
+
+        body: Stack(
           children: [
-            QrImageView(
-              data: controller.qrCode.qrCodeData.toString(),
-              version: QrVersions.auto,
-              size: 200.0,
-            ),
-30.h.verticalSpace,
-            Text(
-              "Qr Code",
-              style: TextStyle(
-                color: Color(0xFFf34e3a),
-                fontSize: 30.spMin,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w600,
-                height: 0.06,
-                letterSpacing: 0.20,
+            Positioned(
+              left: 10,
+              top: 10,
+              child: Container(
+                width: 44.w,
+                height: 44.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xFFF7F9FD),
+                ),
+                child: Center(
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.arrow_back,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
               ),
-            )
+            ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+
+                  Stack(children: [
+                    Container( width: 200.0,
+                      height: 200.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white, // Couleur de fond gris
+                        borderRadius: BorderRadius.circular(10.0),
+                        // Coins arrondis de rayon 10.0
+                      ),),
+
+                    QrImageView(
+                    data: controller.qrCode.toString(),
+
+                      version: QrVersions.auto,
+                    size: 200.0,
+                  ),
+                  ],),
+                  SizedBox(height: 30.h),
+
+                  Text(
+                    "Qr Code",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 30.spMin,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      height: 0.06,
+                      letterSpacing: 0.20,
+                    ),
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
+
   }
 }

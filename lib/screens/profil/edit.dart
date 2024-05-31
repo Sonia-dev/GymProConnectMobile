@@ -1,34 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gymproconnect_flutter/data/repository/update_user_repo.dart';
-import '../../data/api/api_client.dart';
-import '../../data/controllers/update_user_controller.dart';
-import '../../globals.dart';
+import '../../data/controllers/profil_controller.dart';
+import '../../models/update_user_model.dart';
 
+final _updateKey = GlobalKey<FormState>();
 
-
-
-class update extends GetView<UpDateController> {
+class update extends GetView<ProfilController> {
   @override
-  Map<String, dynamic> Profil = {'name': 'Ahmed','email': 'Itunuoluwa Abidoye@yahoo.fr','number':'99654753','dateofbirth':"21/02/2000" ,'image': 'assets/yoga.png','gender':"female"};
-
   Widget build(BuildContext context) {
-    Get.put(ApiClient(appBaseUrl: "http://192.168.1.191:8000/api/"));
-    //Get.put(UpdateRepo( apiClient: Get.find(),));
-   // Get.put(UpDateController(updateRepo: Get.find()));
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Profile',style: GoogleFonts.poppins(
-          color: Colors.black,
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-        ),),
+        title: Text(
+          'Edit Profile',
+          style: GoogleFonts.poppins(
+            color: Colors.black,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,
+          icon: Icon(
+            Icons.arrow_back,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -37,25 +34,23 @@ class update extends GetView<UpDateController> {
       ),
       body: Center(
         child:
- //   itemCount: updatecontroller.activities.length,
- //    itemBuilder: (BuildContext context, int index) {
- //    final activity = updatecontroller.activities[index];
- //    return
-    Padding(
-
-        padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-              SizedBox(height: 20),
-          Container(
+            //   itemCount: updatecontroller.activities.length,
+            //    itemBuilder: (BuildContext context, int index) {
+            //    final activity = updatecontroller.activities[index];
+            //    return
+            Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            SizedBox(height: 20),
+            Container(
               width: 101.0,
               height: 101.0,
               padding: EdgeInsets.all(2.0),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Color(0xFFF34E3A),
-            ),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color(0xFFF34E3A),
+              ),
               child: Container(
                 width: 97.0,
                 height: 97.0,
@@ -63,172 +58,233 @@ class update extends GetView<UpDateController> {
                   shape: BoxShape.circle,
                   color: Colors.white,
                 ),
-            child:CircleAvatar(
-                radius: 50,
-                backgroundImage: AssetImage(
-                  Profil['image']!,
+                child: CircleAvatar(
+                  radius: 50.w,
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.transparent,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                        50.w), // Match the CircleAvatar's radius
+                    child: controller.user.user?.image?.isNotEmpty == true
+                        ? Image.network(
+                            controller.user.user!.image.toString(),
+                            fit: BoxFit
+                                .cover, // Use BoxFit.cover to fill the circle
+                            width: double.infinity,
+                            height: double
+                                .infinity, // Set the height to infinity to fill the circle
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return Center(
+                                child: SpinKitDoubleBounce(
+                                  size: 10,
+                                  color: Colors.orange,
+                                ),
+                              );
+                            },
+                          )
+                        : Image.asset(
+                            'assets/no_image.png',
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                          ),
+                  ),
                 ),
-                backgroundColor: Colors.transparent,
               ),
-
+            ),
+            Text(
+              'change Picture',
+              style: GoogleFonts.poppins(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
               ),
-          ),
-                Text('change Picture', style: GoogleFonts.poppins(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.normal,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextField(
+              onChanged: (value) {
+                controller.user.user?.image = value;
+              },
+              controller: TextEditingController(
+                text: controller.user.user?.name.toString() ?? "",
+              ),
+              style: GoogleFonts.poppins(
+                color: Color(0xFF555555),
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+              ),
+              decoration: InputDecoration(
+                suffix: Image.asset(
+                  'assets/profil.png',
+                  width: 25,
+                  height: 20,
                 ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextField(
+              onChanged: (value) {
+                controller.user.user?.surname = value;
+              },
+              controller: TextEditingController(
+                text: controller.user.user?.surname.toString() ?? "",
+              ),
+              style: GoogleFonts.poppins(
+                color: Color(0xFF555555),
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+              ),
+              decoration: InputDecoration(
+                suffix: Image.asset(
+                  'assets/profil.png',
+                  width: 25,
+                  height: 20,
                 ),
-                SizedBox(height: 20,),
-                TextField(
-                  onChanged: (value) {
-
-                      userName  = value;
-
-                  },
-                  controller: TextEditingController(
-                    text: "$userName ",
-                  ),
-                  style: GoogleFonts.poppins(
-                    color: Color(0xFF555555),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,                  ),
-                    decoration: InputDecoration(
-
-                      suffix: Image.asset('assets/profil.png',
-                        width: 25,
-                        height: 20,),),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextField(
+              onChanged: (value) {
+                controller.user.user?.email = value;
+              },
+              controller: TextEditingController(
+                text: controller.user.user?.email.toString() ?? "",
+              ),
+              style: GoogleFonts.poppins(
+                color: Color(0xFF555555),
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+              ),
+              decoration: InputDecoration(
+                suffix: Image.asset(
+                  'assets/gmail.png',
+                  width: 25,
+                  height: 20,
                 ),
-                SizedBox(height: 10,),
-                TextField(
-                  onChanged: (value) {
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextField(
+              onChanged: (value) {
+                controller.user.user?.phone = value;
 
-                      surName   = value;
-
-                  },
-                  controller: TextEditingController(
-                    text: surName  ,
+              },
+              controller: TextEditingController(
+                text: controller.user.user?.phone.toString() ?? "",
+              ),
+              style: GoogleFonts.poppins(
+                color: Color(0xFF555555),
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+              ),
+              decoration: InputDecoration(
+                prefix: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Image.asset(
+                    'assets/tunisie.png',
+                    width: 24,
+                    height: 16,
                   ),
-                  style: GoogleFonts.poppins(
-                    color: Color(0xFF555555),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,                  ),
-                  decoration: InputDecoration(
-
-                    suffix: Image.asset('assets/profil.png',
-                      width: 25,
-                      height: 20,),),
+                  VerticalDivider(
+                    color: Colors.grey,
+                  ),
+                ]),
+                suffix: Image.asset(
+                  'assets/téléphone.png',
+                  width: 25,
+                  height: 25,
                 ),
-                SizedBox(height: 10,),
-                TextField(
-                  onChanged: (value) {
-
-                      Profil['email']  = value;
-
-                  },
-                  controller: TextEditingController(
-                    text: Profil['email'],
-                  ),
-                  style: GoogleFonts.poppins(
-                    color: Color(0xFF555555),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,                  ),
-                  decoration: InputDecoration(
-
-                    suffix: Image.asset('assets/gmail.png',
-                      width: 25,
-                      height: 20,),),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextField(
+              onChanged: (value) {
+                controller.user.user?.birthDate = value;
+              },
+              controller: TextEditingController(
+                text: controller.user.user?.birthDate.toString() ?? "",
+              ),
+              style: GoogleFonts.poppins(
+                color: Color(0xFF555555),
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+              ),
+              decoration: InputDecoration(
+                suffix: Image.asset(
+                  'assets/calendrie.png',
+                  width: 25,
+                  height: 20,
                 ),
-                SizedBox(height: 10,),
-                TextField(
-                  onChanged: (value) {
-
-                      Profil['number']  = value;
-
-                  },
-                  controller: TextEditingController(
-                    text: Profil['number'],
-                  ),
-                  style: GoogleFonts.poppins(
-                    color: Color(0xFF555555),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,                  ),
-                  decoration: InputDecoration(
-
-                    prefix: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                      Image.asset(
-                      'assets/tunisie.png',
-                      width: 24,
-                      height: 16,
-                    ),
-                    VerticalDivider(
-                        color: Colors.grey,
-                    ),
-                    ]),
-                       suffix: Image.asset('assets/téléphone.png',
-                      width: 25,
-                      height: 25,),
-                  ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextField(
+              onChanged: (value) {
+                controller.user.user?.adress = value;
+              },
+              controller: TextEditingController(
+                text: controller.user.user?.adress.toString() ?? "",
+              ),
+              style: GoogleFonts.poppins(
+                color: Color(0xFF555555),
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+              ),
+              decoration: InputDecoration(
+                suffixIcon: Icon(
+                  Icons.location_on,
+                  color: Color(0xFFf34e3a),
+                  // Changez la couleur ici
                 ),
-                SizedBox(height: 10,),
-                TextField(
-                  onChanged: (value) {
+              ),
+            ),
+            SizedBox(
+              height: 60,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFFf34e3a),
+                minimumSize: Size(285, 49),
+              ),
+              onPressed: () async {
+              /*  if (_updateKey.currentState!.validate()) {
+                  _updateKey.currentState!.save();
+                }*/
 
-                      Profil['dateofbirth']  = value;
-
-                  },
-                  controller: TextEditingController(
-                    text: Profil['dateofbirth'],
-                  ),
-                  style: GoogleFonts.poppins(
-                    color: Color(0xFF555555),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,                  ),
-                  decoration: InputDecoration(
-
-                    suffix: Image.asset('assets/calendrie.png',
-                      width: 25,
-                      height: 20,),),
-                ),
-                SizedBox(height: 10,),
-          Container(
-            width: 400,
-              child:DropdownButton<String>(
-                onChanged: (String? newValue) {
-
-                Profil['gender'] = newValue!;
-
-            },
-
-            items: <String>['Male', 'Female']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),),
-                SizedBox(height: 20,),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFf34e3a),
-                    minimumSize: Size(285, 49),
-                  ),
-                  onPressed: () {
+                UpdateModel updateData=UpdateModel(
+                  name: controller.user.user?.name ,
+                  surname: controller.user.user?.surname ,
+                  email: controller.user.user?.email ,
+                  phone: controller.user.user?.phone ,
+                  birthDate: controller.user.user?.birthDate ,
+                  adress: controller.user.user?.adress ,
+                );
+         await controller.UpdateProfil(updateData,context);
 
 
-                  },
-                  child: Text(
-                    'update profil',
-                    style: TextStyle(fontSize: 18.0, color: Colors.white),
-                  ),
-                ),
-          ]
 
-          ),
+
+              },
+              child: Text(
+                'update profil',
+                style: TextStyle(fontSize: 18.0, color: Colors.white),
+              ),
+            ),
+          ]),
         ),
       ),
     );

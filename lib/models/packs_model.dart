@@ -20,16 +20,24 @@ class PacksData {
   int? id;
   String? name;
   String? price;
-  int? sessionCount;
+  String? sessionCount;
+  String? image;
   Activity? activity;
 
-  PacksData({this.id, this.name, this.price, this.sessionCount, this.activity});
+  PacksData(
+      {this.id,
+        this.name,
+        this.price,
+        this.sessionCount,
+        this.image,
+        this.activity});
 
   PacksData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     price = json['price'];
     sessionCount = json['session_count'];
+    image = json['image'];
     activity = json['activity'] != null
         ? new Activity.fromJson(json['activity'])
         : null;
@@ -41,6 +49,7 @@ class PacksData {
     data['name'] = this.name;
     data['price'] = this.price;
     data['session_count'] = this.sessionCount;
+    data['image'] = this.image;
     if (this.activity != null) {
       data['activity'] = this.activity!.toJson();
     }
@@ -140,13 +149,3 @@ class Coach {
     return data;
   }
 }
-
-
-
-
-
-
-
-
-
-

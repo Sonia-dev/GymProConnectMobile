@@ -12,7 +12,17 @@ class ActivitiesRepo{
     return await apiClient.getData(Uris.listingActivityUrl );
   }
   Future<Response> getActivityById(int activityId) async{
-    return await apiClient.getData("${Uris.listingActivityUrl}/$activityId" );
+    return await apiClient.getData("${Uris.getActivityById}$activityId" );
+
+  }
+
+
+  Future<Response> getFilterList() async{
+    return await apiClient.getData(Uris.listingActivityUrl );
+  }
+
+  Future<Response> getCoachActivity() async{
+    return await apiClient.getData("${Uris.listingActivityUrl}" );
 
   }
 }

@@ -95,7 +95,7 @@ class ActivityList extends GetView<ActivitiesController> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => filtre()),
+                    MaterialPageRoute(builder: (context) => Filtre()),
                   );
                 },
               ),
@@ -120,30 +120,36 @@ class ActivityList extends GetView<ActivitiesController> {
                           .getActivityByID(activity.id!);
                     },
                     child: Container(
-                      height: 150,
+                      height: 200,
                       child: Stack(
                         children: <Widget>[
                           ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: Image.network(
-                                activity.image!,
-                                width: double.infinity,
-                                height: 150,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return SizedBox(
-                                      child: Image.asset(
-                                          "assets/images/no_image.jpg"));
-                                },
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                  if (loadingProgress?.expectedTotalBytes ==
-                                      loadingProgress?.cumulativeBytesLoaded) {
-                                    return child;
-                                  }
-                                  return const CircularProgressIndicator();
-                                },
-                              )),
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image.network(
+                              activity.image!,
+                              width: double.infinity,
+                              height: 200,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return SizedBox(
+                                  height: 200,
+                                  width: double.infinity,
+                                  child: Image.asset(
+                                    "assets/no_image.jpg",
+                                    fit: BoxFit.cover,
+                                  ),
+                                );
+                              },
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress?.expectedTotalBytes ==
+                                    loadingProgress?.cumulativeBytesLoaded) {
+                                  return child;
+                                }
+                                return const CircularProgressIndicator();
+                              },
+                            ),
+                          ),
+
                           Positioned(
                             left: 0,
                             bottom: 0,
@@ -193,153 +199,6 @@ class ActivityList extends GetView<ActivitiesController> {
           ),
         ]),
       ),
-      bottomNavigationBar: Stack(children: [
-        ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15),
-            topRight: Radius.circular(15),
-          ),
-          child: BottomAppBar(
-            color: Color(0xFFFFFFFF),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Flexible(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Flexible(
-                        child: IconButton(
-                          icon: Icon(Icons.home, color: Color(0xFFf34e3a)),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MainHome()),
-                            );
-                          },
-                        ),
-                      ),
-                      Text(
-                        'Home',
-                        style:
-                            TextStyle(color: Color(0xFFf34e3a), fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-                Flexible(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flexible(
-                        child: IconButton(
-                          icon: Icon(Icons.calendar_today_rounded,
-                              color: Color(0xFFA5A5A7)),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Planning()),
-                            );
-                          },
-                        ),
-                      ),
-                      Text(
-                        'Planning',
-                        style:
-                            TextStyle(fontSize: 12, color: Color(0xFFA2A2A2)),
-                      ),
-                    ],
-                  ),
-                ),
-                Flexible(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Flexible(
-                        child: IconButton(
-                          icon:
-                              Icon(Icons.access_time, color: Color(0xFFA5A5A7)),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => abonnement()),
-                            );
-                          },
-                        ),
-                      ),
-                      Text(
-                        'Abonnement',
-                        style:
-                            TextStyle(fontSize: 12, color: Color(0xFFA5A5A7)),
-                      ),
-                    ],
-                  ),
-                ),
-                Flexible(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Flexible(
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.person,
-                            color: Color(0xFFA5A5A7),
-                          ),
-                          onPressed: () {
-
-
-                            Get.toNamed(RouteHelper.getProfil());
-
-
-                          },
-                        ),
-                      ),
-                      Text(
-                        'Profil',
-                        style:
-                            TextStyle(fontSize: 12, color: Color(0xFFA5A5A7)),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Positioned(
-          left: 0,
-          right: 0,
-          top: 0,
-          child: Container(
-              height: kToolbarHeight /
-                  6, // Utilise kToolbarHeight pour la hauteur de la barre d'applications
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ),
-                gradient: LinearGradient(
-                  begin: Alignment(0.00, -1.00),
-                  end: Alignment(0, 1),
-                  colors: [Color(0xFFDCDCDC), Color(0xFFDCDCDC).withOpacity(0)],
-                ),
-              )),
-        ),
-      ]),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xFFf34e3a),
-        onPressed: () {},
-        child: Image.asset(
-          "assets/scanner.jfif",
-          width: 30,
-          height: 30,
-        ),
-        shape: CircleBorder(),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
+       );
   }
 }
