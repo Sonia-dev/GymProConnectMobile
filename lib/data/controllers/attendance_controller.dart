@@ -7,14 +7,18 @@ class AttendanceController extends GetxController {
 
   AttendanceController({required this.attendanceRepo});
 
-  Future<void> scan(ScanRequest request) async {
+  Future<void> scan(ScanRequest scanRequest) async {
+    Map<String, dynamic> data = {
+      "token": scanRequest.token,
+
+    };
     try {
-      Response response = await attendanceRepo.scan(request.toJson());
+      Response response = await attendanceRepo.scan(data);
 
       if (response.statusCode == 200) {
         print("Attendance recorded successfully");
-      } else {
-        print("Failed to record attendance: ${response.statusText}");
+      } else  if (response.statusCode == 409) {
+        print("Today's attendance is already marked");
       }
     } catch (e) {
       print("Error recording attendance: $e");

@@ -236,9 +236,10 @@ class Filtre extends GetView<FilterController> {
                           backgroundColor: Color(0xFFF34E3A),
                           minimumSize: Size(285, 49),
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
+
                           }
                         },
                         child: Text(

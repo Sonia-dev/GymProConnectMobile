@@ -18,4 +18,13 @@ class QrCodeModel {
     data['code'] = this.tokencode;
     return data;
   }
+
+
+  String toStr(){
+
+  print('{"user_id": ${this.userId},"name": "${this.name}","code":"${this.tokencode}"}');
+    return '{"user_id": ${this.userId},"name": "${this.name}","code":"${this.tokencode}"}';
+  }
+
+
 }

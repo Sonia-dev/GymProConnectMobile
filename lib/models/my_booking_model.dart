@@ -63,7 +63,7 @@ class Pack {
   String? image;
   String? createdAt;
   String? updatedAt;
-  Null? promoId;
+  int? promoId;
   Activity? activity;
 
   Pack(
@@ -127,9 +127,9 @@ class Activity {
   String? createdAt;
   String? updatedAt;
   int? duration;
-  Null? price;
-  Null? promotionId;
-  Null? packId;
+  String? price;
+  int? promotionId;
+  int? packId;
   Coach? coach;
   List<Sessions>? sessions;
 
@@ -215,10 +215,10 @@ class Coach {
   int? status;
   String? createdAt;
   String? updatedAt;
-  Null? image;
+  String? image;
   String? title;
-  Null? siteId;
-  Null? token;
+  int? siteId;
+  String? token;
 
   Coach(
       {this.id,
@@ -285,7 +285,7 @@ class Sessions {
   String? createdAt;
   String? updatedAt;
   int? status;
-  Null? coach;
+  Coach? coach;
 
   Sessions(
       {this.id,

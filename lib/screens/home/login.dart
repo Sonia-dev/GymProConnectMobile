@@ -25,7 +25,9 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+          automaticallyImplyLeading: false
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -122,7 +124,7 @@ class _LoginState extends State<Login> {
               ),
               SizedBox(height: 5),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Checkbox(
                     value: _rememberMe,
@@ -132,7 +134,7 @@ class _LoginState extends State<Login> {
                       });
                     },
                   ),
-                  SizedBox(width: 2),
+
                   Text(
                     "Remember me",
                     style: TextStyle(
@@ -142,7 +144,7 @@ class _LoginState extends State<Login> {
                       color: Color(0xFF252525),
                     ),
                   ),
-                  SizedBox(width: 150),
+                  SizedBox(width: 190),
                   Flexible(
                     child: TextButton(
                       onPressed: () {
@@ -156,7 +158,7 @@ class _LoginState extends State<Login> {
                   ),
                 ],
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 150),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFf34e3a),

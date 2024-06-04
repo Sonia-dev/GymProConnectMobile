@@ -136,7 +136,7 @@ class _CoachLayoutState extends State<CoachLayout> {
                             ),
                           ),
                           Text(
-                            'Proposer Séance',
+                            'Propose session',
                             style:
                             TextStyle(fontSize: 12, color: _currentPage ==2?Color(0xFFF34E3A):Color(0xFFA5A5A7)),
                           ),
@@ -162,7 +162,7 @@ class _CoachLayoutState extends State<CoachLayout> {
                             ),
                           ),
                           Text(
-                            'Profil',
+                            'Profile',
                             style:
                             TextStyle(fontSize: 12, color: _currentPage ==3?Color(0xFFF34E3A):Color(0xFFA5A5A7),),
                           ),

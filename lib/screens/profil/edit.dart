@@ -261,26 +261,23 @@ class update extends GetView<ProfilController> {
                 minimumSize: Size(285, 49),
               ),
               onPressed: () async {
-              /*  if (_updateKey.currentState!.validate()) {
+                if (_updateKey.currentState!.validate()) {
                   _updateKey.currentState!.save();
-                }*/
-
-                UpdateModel updateData=UpdateModel(
-                  name: controller.user.user?.name ,
-                  surname: controller.user.user?.surname ,
-                  email: controller.user.user?.email ,
-                  phone: controller.user.user?.phone ,
-                  birthDate: controller.user.user?.birthDate ,
-                  adress: controller.user.user?.adress ,
-                );
-         await controller.UpdateProfil(updateData,context);
 
 
-
-
+                  UpdateModel updateData = UpdateModel(
+                    name: controller.user.user?.name,
+                    surname: controller.user.user?.surname,
+                    email: controller.user.user?.email,
+                    phone: controller.user.user?.phone,
+                    birthDate: controller.user.user?.birthDate,
+                    adress: controller.user.user?.adress,
+                  );
+                  await controller.UpdateProfil(updateData, context);
+                }
               },
               child: Text(
-                'update profil',
+                'update profile',
                 style: TextStyle(fontSize: 18.0, color: Colors.white),
               ),
             ),

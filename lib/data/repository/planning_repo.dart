@@ -22,9 +22,13 @@ class PlanningRepo{
   Future<Response> rebookBooking( Map body,int id)async{
     return await apiClient.putData(Uris.rebookBooking+"$id" , body );
   }
-  Future<Response> getBookingsList(int statut) async{
-    return await apiClient.getData(Uris.BookingsListUrl+"$statut" );
+  Future<Response> getBookingsList() async{
+    return await apiClient.getData(Uris.myBookingUrl );
+
   }
+  // Future<Response> getBookingsList(int statut) async{
+  //   return await apiClient.getData(Uris.BookingsListUrl+"$statut" );
+  // }
 
 
 }

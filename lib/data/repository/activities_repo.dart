@@ -16,10 +16,10 @@ class ActivitiesRepo{
 
   }
 
-
-  Future<Response> getFilterList() async{
-    return await apiClient.getData(Uris.listingActivityUrl );
+  Future<Response> review(int Activityid, Map body) async {
+    return await apiClient.postData("${Uris.reviewUrl}/$Activityid", body);
   }
+
 
   Future<Response> getCoachActivity() async{
     return await apiClient.getData("${Uris.listingActivityUrl}" );

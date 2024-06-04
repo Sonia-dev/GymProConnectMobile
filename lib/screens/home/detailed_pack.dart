@@ -249,19 +249,35 @@ class PackDetail extends GetView<PacksController> {
                           ),
                         ),
                       ),
-                      10.h.verticalSpace,
                       SizedBox(
-                        width: 76,
+                        width: 90,
                         height: 21,
-                        child: Text(
-                          "${controller.packsData.price.toString()}" + "dt",
-                          style: TextStyle(
-                            color: Color(0xFFF34E3A),
-                            fontSize: 20,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w700,
-                            height: 0.06,
-                          ),
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                "${controller.packsData.price.toString()}",
+                                style: TextStyle(
+                                  color: Color(0xFFF34E3A),
+                                  fontSize: 20,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w700,
+                                  height: 0.06,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 5,),
+                            Text(
+                              "dt",
+                              style: TextStyle(
+                                color: Color(0xFFF34E3A),
+                                fontSize: 20,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w700,
+                                height: 0.06,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

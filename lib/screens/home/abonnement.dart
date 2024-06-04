@@ -364,53 +364,7 @@ class abonnement extends GetView<PlanningController> {
                                       ),
                                     ],
                                   ),
-                                  Divider(
-                                    color: Color(0xFFC3C2C2),
-                                    thickness: 1.0,
-                                  ),
-                                  Center(
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: Text(
-                                                  'Confirmer la réservation'),
-                                              content: Text(
-                                                  'Souhaitez-vous confirmer la réservation de ce pack ?'),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  child: Text('Annuler'),
-                                                  onPressed: () {
-                                                    Navigator.of(context)
-                                                        .pop(); // Fermer la boîte de dialogue
-                                                  },
-                                                ),
-                                                TextButton(
-                                                  child: Text('Confirmer'),
-                                                  onPressed: () async {
-                                                    await controller
-                                                        .rebookBooking(
-                                                        context,
-                                                        booking.id!);
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color(0xFFE5E7EB),
-                                        minimumSize: Size(350, 50),
-                                      ),
-                                      child: Text('Re-Book',
-                                          style: TextStyle(
-                                              fontSize: 18.0,
-                                              color: Color(0xFF1C2A3A))),
-                                    ),
-                                  ),
+
                                 ],
                               ),
                             ),

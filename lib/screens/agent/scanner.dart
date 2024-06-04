@@ -2,8 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
+import '../../data/controllers/attendance_controller.dart';
+import '../../models/Attendance_model.dart';
 import '../../models/qr_code_model.dart';
 
 class Scanner extends StatefulWidget {
@@ -19,6 +22,9 @@ class _ScannerState extends State<Scanner> {
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
+
+  var attendanceContr = Get.find<AttendanceController>();
+
   @override
   void reassemble() {
     super.reassemble();
@@ -30,6 +36,10 @@ class _ScannerState extends State<Scanner> {
 
   @override
   Widget build(BuildContext context) {
+
+
+print("qrCodeModel${qrCodeModel}")    ;
+
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -44,77 +54,16 @@ class _ScannerState extends State<Scanner> {
                   if (qrCodeModel != null)
                     Column(
                       children: [
+
                         Text('User ID: ${qrCodeModel!.userId}'),
                         Text('Name: ${qrCodeModel!.name}'),
                         Text('Token Code: ${qrCodeModel!.tokencode}'),
                       ],
                     )
                   else
-                    const Text('Scan a code'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              await controller?.toggleFlash();
-                              setState(() {});
-                            },
-                            child: FutureBuilder(
-                              future: controller?.getFlashStatus(),
-                              builder: (context, snapshot) {
-                                return Text('Flash: ${snapshot.data}');
-                              },
-                            )),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              await controller?.flipCamera();
-                              setState(() {});
-                            },
-                            child: FutureBuilder(
-                              future: controller?.getCameraInfo(),
-                              builder: (context, snapshot) {
-                                if (snapshot.data != null) {
-                                  return Text('Camera facing');
-                                } else {
-                                  return const Text('loading');
-                                }
-                              },
-                            )),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await controller?.pauseCamera();
-                          },
-                          child: const Text('pause',
-                              style: TextStyle(fontSize: 20)),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await controller?.resumeCamera();
-                          },
-                          child: const Text('resume',
-                              style: TextStyle(fontSize: 20)),
-                        ),
-                      )
-                    ],
-                  ),
+                    const Text('Scan a code',  style: TextStyle(fontSize: 16.0, color: Colors.deepOrange, fontWeight: FontWeight.bold),),
+
+
                 ],
               ),
             ),
@@ -127,8 +76,8 @@ class _ScannerState extends State<Scanner> {
   Widget _buildQrView(BuildContext context) {
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
         MediaQuery.of(context).size.height < 400)
-        ? 150.0
-        : 300.0;
+        ? 300.0
+        : 200.0;
     return QRView(
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
@@ -147,12 +96,12 @@ class _ScannerState extends State<Scanner> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
+      setState(()  {
         result = scanData;
         if (result != null && result!.code != null) {
           try {
+
             // Affichez le contenu brut et le type des données reçues
-            log('QR Code raw data: ${result!.code}');
             log('QR Code raw data type: ${result!.code.runtimeType}');
 
             // Tentez de décoder le JSON
@@ -160,6 +109,9 @@ class _ScannerState extends State<Scanner> {
             if (jsonData is Map<String, dynamic>) {
               qrCodeModel = QrCodeModel.fromJson(jsonData);
               log('Decoded QR Code: ${qrCodeModel!.toJson()}');
+
+                attendanceContr.scan(ScanRequest(token: qrCodeModel!.tokencode!));
+
             } else {
               throw FormatException("The decoded data is not a Map");
             }
@@ -170,6 +122,8 @@ class _ScannerState extends State<Scanner> {
           }
         }
       });
+
+
     });
   }
 

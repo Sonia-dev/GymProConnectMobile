@@ -21,8 +21,10 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         backgroundColor: Colors.white,
-        title: Center(child: const Text("Proposer une séance")),
+        title: Center(child: const Text("Propose a session")),
+
 
       ),
       body: Padding(
@@ -32,6 +34,7 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+
               Form(
                 key: _proposerKey,
                 child: Column(
@@ -163,8 +166,8 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                             borderSide: const BorderSide(
                                 width: 1, color: Colors.white)),
                         border: OutlineInputBorder(),
-                        labelText: "Nombre maximum d'adherents",
-                        hintText: "Nombre maximum d'adherents",
+                        labelText: "Maximum number of members",
+                        hintText: "Maximum number of members",
                         suffixIcon: Icon(Icons.people),
                       ),
                       validator: (value) {
@@ -246,7 +249,7 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                     update();
                   },
                   child: Text(
-                    'Proposer',
+                    'Propose',
                     style: TextStyle(fontSize: 18.0, color: Colors.white),
                   ),
                 ),

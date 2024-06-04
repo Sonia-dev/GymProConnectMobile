@@ -23,7 +23,8 @@ class detailCategory extends GetView<CategoriesController> {
         body: GetBuilder<CategoriesController>(
           builder: (controller) {
             return Obx(
-                  () => controller.isLoading.value
+                  () =>
+              controller.isLoading.value
                   ? Center(
                 child: SpinKitDoubleBounce(
                   color: Colors.orange,
@@ -80,8 +81,14 @@ class detailCategory extends GetView<CategoriesController> {
                         Positioned(
                           bottom: 0,
                           child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height / 8,
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width,
+                            height: MediaQuery
+                                .of(context)
+                                .size
+                                .height / 8,
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 begin: Alignment(0.00, -1.00),
@@ -183,32 +190,22 @@ class detailCategory extends GetView<CategoriesController> {
                               ),
                             )
                           else
-                            Column(
-                              children: [
-                                if (controller.categoryDetail.activities !=
-                                    null)
-                                  for (var activity
-                                  in controller.categoryDetail.activities
-                                  as List<Activities>)
-                                    MyGridView(
-                                      imagePath:
-                                      activity.image.toString(),
-                                      name: activity.name.toString(),
-                                      activities_length: controller
-                                          .categoryDetail
-                                          .activities!
-                                          .length,
-                                      activityId: activity.id,
-                                    )
-                                else
-                                  Text(
-                                    "Il n'y a pas d'activités disponibles pour cette catégorie.",
-                                    style: GoogleFonts.poppins(
-                                      color: Color(0xFF6D6A8E),
-                                      fontSize: 16.spMin,
-                                      fontWeight: FontWeight.w300,
-                                    ),
-                                  ),
+            Column(
+            children: [
+            if (controller.categoryDetail.activities != null && controller.categoryDetail.activities!.isNotEmpty)
+            MyGridView(
+            activitiesList: controller.categoryDetail.activities!,
+            )
+            else
+            Text(
+            "Il n'y a pas d'activités disponibles pour cette catégorie.",
+            style: GoogleFonts.poppins(
+            color: Color(0xFF6D6A8E),
+            fontSize: 16.spMin,
+            fontWeight: FontWeight.w300,
+            ),
+            ),
+
                               ],
                             )
                         ],
@@ -223,68 +220,60 @@ class detailCategory extends GetView<CategoriesController> {
       ),
     );
   }
-  Widget MyGridView({required String imagePath, required String name, required int activities_length , required  activityId}) {
-    return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child:
-        GridView.builder(
-            shrinkWrap:true,
-            itemCount: activities_length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4, // Nombre de colonnes dans la grille
-              mainAxisSpacing: 10.0, // Espacement vertical entre les éléments
-              crossAxisSpacing: 10.0, // Espacement horizontal entre les éléments
-              childAspectRatio: 1.0, // Rapport hauteur/largeur des éléments
-            ),
-            itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: () async {
-                  await Get.find<
-                      ActivitiesController>()
-                      .getActivityByID(
-                      activityId!);
-                  Get.toNamed(
-                    RouteHelper.getActivitieById(),
-                  );
 
-                },
-                child: GridTile(
-                  child: Expanded(
-                    child: Container(
-                      color: Colors.blue[100],
-                      child: Stack(
-                        children: [
-                          Image.network(
-                            imagePath,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: double.infinity,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              }
-                              return Center(
-                                child: SpinKitDoubleBounce(
-                                  size: 10,
-                                  color: Colors.orange,
-                                ),
-                              );
-                            },
+  Widget MyGridView({required List<Activities> activitiesList}) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GridView.builder(
+        shrinkWrap: true,
+        itemCount: activitiesList.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          mainAxisSpacing: 10.0, // Espacement vertical entre les éléments
+          crossAxisSpacing: 10.0, // Espacement horizontal entre les éléments
+          childAspectRatio: 1.0, // Rapport hauteur/largeur des éléments
+        ),
+        itemBuilder: (BuildContext context, int index) {
+          var activity = activitiesList[index];
+          return GestureDetector(
+            onTap: () async {
+              await Get.find<ActivitiesController>().getActivityByID(activity.id!);
+              Get.toNamed(RouteHelper.getActivitieById());
+            },
+            child: GridTile(
+              child: Container(
+                color: Colors.blue[100],
+                child: Stack(
+                  children: [
+                    Image.network(
+                      activity.image.toString(),
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return Center(
+                          child: SpinKitDoubleBounce(
+                            size: 10,
+                            color: Colors.orange,
                           ),
-                          Center(
-                            child: Text(
-                              name,
-                              style: TextStyle(fontSize: 20.0),
-                            ),
-                          ),
-                        ],
+                        );
+                      },
+                    ),
+                    Center(
+                      child: Text(
+                        activity.name.toString(),
+                        style: TextStyle(fontSize: 20.0),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              );
-            }));
-  }
-
-
-}
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }}

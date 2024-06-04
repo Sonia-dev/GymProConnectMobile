@@ -115,26 +115,7 @@ class Profil extends GetView<ProfilController> {
                   );
                 },
               ),
-              ListTile(
-                leading: Image.asset('assets/MyMembership.png',
-                    width: 35, height: 35),
-                title: Text(
-                  'My Membership',
-                  style: GoogleFonts.poppins(
-                    color: Colors.black,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                trailing: Icon(Icons.arrow_forward_ios_rounded,
-                    color: Color(0xFFABABAB), size: 15),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyMembership()),
-                  );
-                },
-              ),
+
               SizedBox(
                 height: 10,
               ),

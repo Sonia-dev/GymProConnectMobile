@@ -1,10 +1,11 @@
 
 
 class Uris{
-  static const String baseUrl = "http://192.168.1.107:8000/api/v1/auth/";
+  static const String baseUrl = "http://192.168.1.104:8000/api/v1/auth/";
   static const String registerUrl = "registerMobile";
   static const String loginUrl = "login";
   static const String listingPacksUrl = "packs";
+  static const String reviewUrl = "reviews/activities";
 
   static const String getActivityById = "activities/";
   static const String cancelBooking = "cancel/";
@@ -23,12 +24,11 @@ class Uris{
   static const String myBookingUrl = "bookings/my";
   static const String BookUrl = "book";
   static const String listiongSessionsUrl = "sessions";
-  static const String ActivityCoachUrl = "activity/filter";
   static const String proposerSeanceUrl = "session/propose";
   static const String infoFilterUrl = "info";
   static const String ListingAdherentUrl = "user/adherents";
   static const String ScannerUrl = "attendance";
-  static const String BookingsListUrl = "bookings/status?status=";
+  static const String BookingsListbystatusUrl = "bookings/status?status=";
 
 
 

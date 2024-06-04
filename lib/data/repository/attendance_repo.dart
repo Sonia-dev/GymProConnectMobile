@@ -7,7 +7,7 @@ class AttendanceRepo {
 
   AttendanceRepo({required this.apiClient});
 
-  Future<Response> scan(Map<String, dynamic> body) async {
+  Future<Response> scan(Map body) async {
     return await apiClient.postData(Uris.ScannerUrl, body);
   }
 }

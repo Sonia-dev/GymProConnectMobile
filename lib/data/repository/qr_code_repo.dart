@@ -12,4 +12,8 @@ class QrCodeRepo {
   Future<Response> getQrCode() async {
     return await apiClient.getData(Uris.qrCodeUrl);
   }
+
+  Future<Response> scan(Map body) async {
+    return await apiClient.postData(Uris.ScannerUrl, body);
+  }
 }

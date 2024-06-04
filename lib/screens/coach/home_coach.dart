@@ -62,36 +62,12 @@ class HomeCoach extends GetView<ActivitiesCoachController> {
             ),
           ),
           SizedBox(height: 10),
-          TextFormField(
-              onChanged: (value) {
 
-                  searchText = value;
-
-              },
-              decoration: InputDecoration(
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
-                floatingLabelStyle: const TextStyle(color: Colors.black),
-                labelText: 'Search',
-                suffixIcon: Icon(Icons.search),
-                filled: true,
-                fillColor: Color(0xffF7F9FD),
-                labelStyle: TextStyle(color: Colors.black),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide:
-                        const BorderSide(width: 1, color: Colors.white)),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide:
-                        const BorderSide(width: 1, color: Colors.white)),
-              )),
-          SizedBox(height: 10,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Mes Activities',
+                'My Activities',
                 style: TextStyle(fontSize:18.0,fontWeight:FontWeight.bold),
               ),
               TextButton(

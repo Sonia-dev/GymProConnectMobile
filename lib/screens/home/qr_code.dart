@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:gymproconnect_flutter/data/controllers/qr_code_controller.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -52,12 +53,15 @@ class QrCode extends GetView<QrCodeController> {
                         // Coins arrondis de rayon 10.0
                       ),),
 
-                    QrImageView(
-                    data: controller.qrCode.toString(),
+              Obx(() =>  controller.isLoading.value?SpinKitDoubleBounce(
+
+                      color:Colors.yellow
+                    ):QrImageView(
+                    data: controller.qrCode.toStr(),
 
                       version: QrVersions.auto,
                     size: 200.0,
-                  ),
+                  )),
                   ],),
                   SizedBox(height: 30.h),
 

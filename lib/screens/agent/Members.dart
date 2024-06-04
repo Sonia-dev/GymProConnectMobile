@@ -15,7 +15,7 @@ class Adherents extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Center(child: const Text("Ahdérents")),
+          title: Center(child: const Text("Members")),
           bottom: const TabBar(
             indicatorColor: Color(0xFFF34E3A),
             labelColor: Color(0xFFF8A69C),

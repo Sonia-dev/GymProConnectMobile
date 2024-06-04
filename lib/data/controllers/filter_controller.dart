@@ -1,12 +1,23 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:gymproconnect_flutter/data/repository/filter_repo.dart';
+
 import '../../models/filter_model.dart';
+import '../../models/profil_model.dart';
+import '../../models/update_user_model.dart';
+import '../../snack_bar.dart';
+import '../repository/profil_repo.dart';
+
 class FilterController extends GetxController {
   final FilterRepo filterRepo;
   RxBool isLoading =false.obs;
   filterModel filter = filterModel();
+
+
 
   FilterController({required this.filterRepo});
 

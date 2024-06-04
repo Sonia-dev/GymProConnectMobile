@@ -64,7 +64,7 @@ class MainHome extends StatelessWidget{
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Catégorie',
+                      'Categories',
                       style: GoogleFonts.poppins(
                         color: Colors.black,
                         fontSize: 16.spMin,

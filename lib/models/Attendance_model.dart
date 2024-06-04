@@ -1,9 +1,17 @@
-class ScanRequest {
+
+class ScanRequest{
+
   String token;
 
-  ScanRequest({required this.token});
+  ScanRequest({
 
-  Map<String, dynamic> toJson() {
-    return {'token': token};
-  }
+    required this.token,
+
+
+
+
+  });
+
+
+
 }

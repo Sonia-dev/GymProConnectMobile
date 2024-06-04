@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:intl/intl.dart';
-import 'package:table_calendar/table_calendar.dart';
 
+import '../../data/repository/planning_repo.dart';
 import '../../models/my_booking_model.dart';
 import '../../snack_bar.dart';
-import '../repository/planning_repo.dart';
 
 class PlanningController extends GetxController {
   final PlanningRepo planningRepo;
@@ -15,15 +13,15 @@ class PlanningController extends GetxController {
 
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
+  RxBool isLoading = false.obs;
 
-  var loading = false.obs;
   var sessionsList = <Sessions>[].obs;
   var bookingList = <MyBookingModel>[].obs;
+  var activitiesList = <Activity>[].obs;
+  var events = <DateTime, List<Sessions>>{}.obs;
   var activeList = <MyBookingModel>[].obs;
   var completedList = <MyBookingModel>[].obs;
   var canceledList = <MyBookingModel>[].obs;
-  var activitiesList = <Activity>[].obs;
-
   DateTime get selectedDay => _selectedDay;
 
   set selectedDay(value) => _selectedDay = value;
@@ -32,121 +30,199 @@ class PlanningController extends GetxController {
 
   set focusedDay(value) => _focusedDay = value;
 
-
   @override
   void onReady() {
-    getBookings(DateTime.now());
+    getBookings();
     super.onReady();
   }
 
   @override
   void onInit() {
-    getBookings(DateTime.now());
+    getBookings();
     super.onInit();
   }
 
-  Future<void> getBookings(DateTime date) async {
-    loading.value = true;
-    Response response = await planningRepo.getPlanning();
+  Future<void> getBookings() async {
+    isLoading.value = true;
+    DateFormat format = DateFormat("yyyy-MM-dd");
+
+    Response response = await planningRepo.getBookingsList();
+    print("response.body: ${response.body}");
+    print("statuscode: ${response.statusCode}");
+
     if (response.statusCode == 200) {
-      loading.value = false;
-      var list = (response.body as List).map((item) =>
-          MyBookingModel.fromJson(item)).toList();
-      DateFormat format = DateFormat("yyyy-MM-dd");
+      isLoading.value = false;
 
-      sessionsList.value =
-          list.where((booking) => booking.pack?.activity?.sessions != null)
-              .expand((booking) => booking.pack!.activity!.sessions!)
-              .where((session) {
-            DateTime sessionDate = format.parse(session.date!);
-            return isSameDay(sessionDate, date);
-          }).toList();
+      List<dynamic> responseData = response.body;
+      print("Response Data: $responseData");
 
-      if (sessionsList.isNotEmpty) {
-        bookingList.value = list.where((booking) {
-          return booking.pack?.activity?.sessions?.any((session) {
-            DateTime sessionDate = format.parse(session.date!);
-            return isSameDay(sessionDate, date) && session.status == 1;
-          }) ?? false;
-        }).toList();
-      } else {
-        bookingList.clear();
-      }
+      bookingList.clear();
 
-      activitiesList.value = list.map((booking) => booking.pack?.activity)
-          .where((activity) => activity != null)
-          .cast<Activity>()
-          .toSet()
+      responseData.forEach((data) {
+        MyBookingModel booking = MyBookingModel.fromJson(data);
+        print("Parsed Booking: $booking");
+        print("Booking sessions: ${booking.pack?.activity?.sessions}");
+
+        bookingList.add(booking);
+        var activity = booking.pack?.activity;
+        if (activity != null && !activitiesList.any((a) => a.id == activity.id)) {
+          activitiesList.add(activity);
+        }
+      });
+      activeList.value = bookingList.where((booking) => booking.status == 1).toList();
+      completedList.value = bookingList.where((booking) => booking.status == 2).toList();
+      canceledList.value = bookingList.where((booking) => booking.status == 3).toList();
+      sessionsList.value = bookingList
+          .where((booking) => booking.pack?.activity?.sessions != null)
+          .expand((booking) => booking.pack!.activity!.sessions!)
           .toList();
-      update();
 
+      print("sessionsList: $sessionsList");
 
-      activeList.value =
-          bookingList.where((booking) => booking.status == 1).toList();
-      completedList.value =
-          bookingList.where((booking) => booking.status == 2).toList();
-      canceledList.value =
-          bookingList.where((booking) => booking.status == 3).toList();
-
-      update();
+      updateEventsMap();
     } else {
-      loading.value = false;
-      print("La requête n'a pas réussi");
+      isLoading.value = false;
+      print("not okkk");
+    }
+  }
+  void updateSelectedDay(DateTime newSelectedDay) {
+    selectedDay = newSelectedDay;
+    update();  // This will trigger GetBuilder to rebuild the UI
+  }
+  void updateEventsMap() {
+    events.clear();
+    sessionsList.forEach((session) {
+      DateTime sessionDate = DateTime.parse(session.date!);
+      if (events.containsKey(sessionDate)) {
+        events[sessionDate]!.add(session);
+      } else {
+        events[sessionDate] = [session];
+      }
+    });
+
+    print("events: $events");
+  }
+
+  void onPageChanged(DateTime focusedDay) {
+    _focusedDay = focusedDay;
+    updateEventsMap();
+  }
+
+  void onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    _selectedDay = selectedDay;
+    _focusedDay = focusedDay;
+    updateEventsMap();
+    update();
+  }
+  List<Sessions> loadEventsForDay(DateTime day) {
+
+    return events[day] ?? [];
+  }
+
+  // List<Sessions> loadEventsForDay(DateTime day) {
+  //   return sessionsList.where((session) {
+  //     DateTime sessionDate = DateTime.parse(session.date!);
+  //     return sessionDate.year == day.year &&
+  //         sessionDate.month == day.month &&
+  //         sessionDate.day == day.day;
+  //   }).toList();
+  // }
+
+  StatusData getModelStatus(int status) {
+    switch (status) {
+      case 2:
+        return StatusData(
+          text: "complété",
+          color: Colors.blueGrey,
+        );
+      case 1:
+        return StatusData(
+          text: "en cours",
+          color: Colors.lightGreen,
+        );
+      case 3:
+        return StatusData(
+          text: "Annulé",
+          color: Colors.redAccent,
+        );
+      default:
+        return StatusData(
+          text: "",
+          color: Colors.black12,
+        );
     }
   }
 
-   rebookBooking(BuildContext context, int id) async {
+  String formatHour(String hour) {
+    final parsedTime = DateFormat('HH:mm:ss').parse(hour);
+    return DateFormat('HH:mm').format(parsedTime);
+  }
+
+  bool isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
+  }
+  rebookBooking(BuildContext context, int id) async {
     Response response = await planningRepo.rebookBooking({}, id);
     if (response.statusCode == 200) {
       Get.back();
       SnackBarMessage().showSuccessSnackBar(
-          message: "Votre reréservation a été effectuée avec succès.",
-          context: context);
-      await getBookings(DateTime.now());
+        message: "Votre reréservation a été effectuée avec succès.",
+        context: context,
+      );
+      await getBookings();
     } else {
       SnackBarMessage().showErrorSnackBar(
-          message: "Une erreur est survenue", context: context);
+        message: "Une erreur est survenue",
+        context: context,
+      );
     }
   }
-
   cancelBooking(String description, BuildContext context, int id) async {
     Response response = await planningRepo.cancelBooking(
-        {"description": description}, id);
+      {"description": description},
+      id,
+    );
     if (response.statusCode == 200) {
       Get.back();
       SnackBarMessage().showSuccessSnackBar(
-          message: "L'abonnement a été annulé", context: context);
-      await getBookings(DateTime.now());
+        message: "L'abonnement a été annulé",
+        context: context,
+      );
+      await getBookings();
     } else {
       SnackBarMessage().showErrorSnackBar(
-          message: "Une erreur est survenue", context: context);
+        message: "Une erreur est survenue",
+        context: context,
+      );
     }
   }
 
-  void onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-    _focusedDay = focusedDay;
-    _selectedDay = selectedDay;
-    getBookings(selectedDay);
-    update();
-  }
-  List<dynamic> loadEventsForDay(DateTime day) {
-    List<dynamic> events = [];
-    DateFormat format = DateFormat("yyyy-MM-dd");
-
-    for (var session in sessionsList) {
-      DateTime sessionDate = format.parse(session.date!);
-      DateTime formattedSessionDate = DateTime(sessionDate.year, sessionDate.month, sessionDate.day);
-
-      if (isSameDay(formattedSessionDate, day)) {
-        events.add(session);
+  String? findParentActivity(Sessions session, List<Activity> activitiesList) {
+    for (var activity in activitiesList) {
+      if (activity.sessions != null) {
+        for (var actSession in activity.sessions!) {
+          if (actSession.id == session.id) {
+            return activity.name; // Retourne le nom de l'activité
+          }
+        }
       }
     }
-
-    return events;
+    return null; // Retourne null si aucune activité n'est trouvée
   }
-
-
-
+  String? findParentCoach(Sessions session, List<Activity> activitiesList) {
+    for (var activity in activitiesList) {
+      if (activity.sessions != null && activity.coach != null) {
+        for (var actSession in activity.sessions!) {
+          if (actSession.id == session.id) {
+            return activity.coach?.name; // Retourne le nom du coach de l'activité
+          }
+        }
+      }
+    }
+    return null; // Retourne null si aucune activité avec la session correspondante n'est trouvée
+  }
 }
 
 class StatusData {
@@ -158,32 +234,3 @@ class StatusData {
     required this.color,
   });
 }
-
-StatusData getModelStatus(int status) {
-  switch (status) {
-    case 2:
-      return StatusData(
-        text: "complété",
-        color: Colors.blueGrey,
-      );
-    case 1:
-      return StatusData(
-        text: "en cours",
-        color: Colors.lightGreen,
-      );
-    case 3:
-      return StatusData(
-        text: "Annulé",
-        color: Colors.redAccent,
-      );
-    default:
-      return StatusData(
-        text: "",
-        color: Colors.black12,
-      );
-  }
-}
-
-const int completed = 2;
-const int Active = 1;
-const int canceled = 3;
