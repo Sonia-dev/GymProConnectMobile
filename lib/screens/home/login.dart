@@ -39,7 +39,7 @@ class _LoginState extends State<Login> {
                 height: 60,
               ),
               Text(
-                "Welcome back",
+                "Bienvenue",
                 style: TextStyle(
                   fontSize: 24.0,
                   fontFamily: 'Poppins.ExtraBold',
@@ -48,7 +48,7 @@ class _LoginState extends State<Login> {
                 ),
               ),
               Text(
-                "sign in to access your account",
+                "connectez-vous pour accéder à votre compte",
                 style: TextStyle(
                   fontSize: 14.0,
                   fontFamily: 'Poppins.light',
@@ -72,13 +72,13 @@ class _LoginState extends State<Login> {
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(width: 1, color: Colors.white),
                   ),
-                  labelText: 'Enter your Email',
-                  hintText: 'Email',
+                  labelText: 'Saisissez votre adresse e-mail',
+                  hintText: 'E-mail',
                   suffixIcon: Icon(Icons.email_outlined),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter an email';
+                    return 'Veuillez entrer une adresse e-mail';
                   }
                   return null;
                 },
@@ -100,8 +100,8 @@ class _LoginState extends State<Login> {
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(width: 1, color: Colors.white),
                   ),
-                  labelText: 'Password',
-                  hintText: 'Password',
+                  labelText: 'Mot de passe',
+                  hintText: 'Mot de passe',
                   suffixIcon: IconButton(
                     icon: Icon(
                       _passwordVisible ? Icons.visibility : Icons.visibility_off,
@@ -117,7 +117,7 @@ class _LoginState extends State<Login> {
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a password';
+                    return 'Veuillez entrer un mot de passe';
                   }
                   return null;
                 },
@@ -136,7 +136,7 @@ class _LoginState extends State<Login> {
                   ),
 
                   Text(
-                    "Remember me",
+                    "Mémorisez",
                     style: TextStyle(
                       fontSize: 9.0,
                       fontFamily: 'Poppins',
@@ -151,7 +151,7 @@ class _LoginState extends State<Login> {
                         // Navigate to forget password screen
                       },
                       child: Text(
-                        'Forget password?',
+                        'Mot de passe oublié ?',
                         style: TextStyle(fontSize: 9.0, color: Color(0xFFff3951)),
                       ),
                     ),
@@ -177,7 +177,7 @@ class _LoginState extends State<Login> {
                 //  }
                 },
                 child: Text(
-                  'Sign In',
+                  'Connexion',
                   style: TextStyle(fontSize: 18.0, color: Colors.white),
                 ),
               ),
@@ -189,7 +189,7 @@ class _LoginState extends State<Login> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                   ),
                   Text(
-                    "New Member?",
+                    "Nouveau membre ?",
                     style: TextStyle(
                       fontSize: 13.0,
                       fontFamily: 'Poppins',
@@ -205,7 +205,7 @@ class _LoginState extends State<Login> {
                       );
                     },
                     child: Text(
-                      "Register now",
+                      "Inscrivez-vous",
                       style: TextStyle(
                         fontSize: 13.0,
                         fontFamily: 'Poppins',

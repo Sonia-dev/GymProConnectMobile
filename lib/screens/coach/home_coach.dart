@@ -24,10 +24,7 @@ class HomeCoach extends GetView<ActivitiesCoachController> {
   Widget build(BuildContext context) {
 
 
-    String dayOfWeek = weekdays[now.weekday - 1];
-    String dayOfMonth = now.day.toString();
-    String month = months[now.month - 1];
-    String year = now.year.toString();
+
 
     return Scaffold(
       body:GetBuilder<ProfilController>(builder: (controller) {
@@ -43,7 +40,7 @@ class HomeCoach extends GetView<ActivitiesCoachController> {
             children: [
           SizedBox(height: 10),
           Text(
-            "welcome ${controller.user.user?.name.toString()??""} !",
+            "Bienvenue ${controller.user.user?.name.toString()??""} !",
             style: TextStyle(
               fontSize: 20.0,
               fontFamily: 'Poppins',
@@ -63,26 +60,9 @@ class HomeCoach extends GetView<ActivitiesCoachController> {
           ),
           SizedBox(height: 10),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'My Activities',
-                style: TextStyle(fontSize:18.0,fontWeight:FontWeight.bold),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MesSeances()),
-                  );                  },
-                child: Text(
-                  'See All',
-                  style: TextStyle(fontSize: 18.0, color: Color(0xFFf34e3a)),
-                ),
-              ),
-
-            ],
+          Text(
+            'Mes activités',
+            style: TextStyle(fontSize:18.0,fontWeight:FontWeight.bold),
           ),
           Expanded(
             child: Obx(()=>ListView.builder(
@@ -96,7 +76,7 @@ class HomeCoach extends GetView<ActivitiesCoachController> {
                     child: GestureDetector(
                       onTap: () {
                         Get.toNamed(
-                          RouteHelper.activitieById,
+                          RouteHelper.activitieCoachById,
                         );
                         Get.find<ActivitiesController>()
                             .getActivityByID(activity.id!);

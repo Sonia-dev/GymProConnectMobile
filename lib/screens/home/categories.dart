@@ -26,7 +26,7 @@ class CategoriesList extends GetView<CategoriesController> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          'Categories',
+          'Catégories',
           style: GoogleFonts.poppins(
             color: Colors.black,
             fontSize: 14,

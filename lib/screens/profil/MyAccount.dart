@@ -15,7 +15,7 @@ class MyAccount extends GetView<ProfilController> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'My Account',
+            'Mon compte',
             style: GoogleFonts.poppins(
               color: Colors.black,
               fontSize: 14,

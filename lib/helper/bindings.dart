@@ -14,6 +14,7 @@ import 'package:gymproconnect_flutter/data/controllers/packs_controller.dart';
 import 'package:gymproconnect_flutter/data/controllers/profil_controller.dart';
 import 'package:gymproconnect_flutter/data/controllers/proposer_seance_controller.dart';
 import 'package:gymproconnect_flutter/data/controllers/qr_code_controller.dart';
+import 'package:gymproconnect_flutter/data/controllers/sessions_controller.dart';
 import 'package:gymproconnect_flutter/data/repository/adherent_repo.dart';
 import 'package:gymproconnect_flutter/data/repository/categories_repo.dart';
 import 'package:gymproconnect_flutter/data/repository/filter_repo.dart';
@@ -84,8 +85,9 @@ class HomeAgentBindings implements Bindings {
     Get.put(AuthController(authRepo: Get.find()));
     Get.put(ActivitiesRepo( apiClient: Get.find(),));
     Get.put(ActivitiesController(activitiesRepo: Get.find()));
-    Get.put(ActivitiesRepo( apiClient: Get.find(),));
-    Get.put(ActivitiesController(activitiesRepo: Get.find()));
+    Get.put(CategoriesRepo( apiClient: Get.find(),));
+    Get.put(CategoriesController(categoriesRepo: Get.find()));
+    Get.put(TrainersRepo( apiClient: Get.find(),));
     Get.put(TrainersController(trainersRepo: Get.find()));
     Get.put(PacksRepo(apiClient: Get.find(),));
     Get.put(PacksController(packsRepo: Get.find()));
@@ -112,6 +114,13 @@ class PlanningBindings implements Bindings {
   void dependencies() {
     Get.put(PlanningRepo(apiClient: Get.find()));
     Get.put(PlanningController(planningRepo: Get.find(),),permanent: true);
+  }
+}
+class PlanningCoachBindings implements Bindings {
+  @override
+  void dependencies() {
+    Get.put(SessionsRepo(apiClient: Get.find()));
+    Get.put(SessionCoachController(sessionsRepo: Get.find(),),permanent: true);
   }
 }
 

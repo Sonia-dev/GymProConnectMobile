@@ -34,7 +34,7 @@ class Register extends GetView<AuthController> {
               ),
               const SizedBox(height: 10),
               const Text(
-                "Get Started",
+                "Commencer",
 
 
                 style: TextStyle(
@@ -50,7 +50,7 @@ class Register extends GetView<AuthController> {
               ),
 
               const Text(
-                "by creating a free account ",
+                "en envoyant une demande d'inscription ",
                 style: TextStyle(
                   fontSize: 14.0,
                   fontFamily: 'Poppins.light',
@@ -80,13 +80,13 @@ class Register extends GetView<AuthController> {
                             const BorderSide(width: 1, color: Colors.white)),
 
                         border: OutlineInputBorder(),
-                        labelText: 'name',
-                        hintText: 'Name',
+                        labelText: 'prénom',
+                        hintText: 'Prénom',
                         suffixIcon: Icon(Icons.person),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your name';
+                          return 'Veuillez entrer votre prénom';
                         }
                         return null;
                       },
@@ -108,13 +108,13 @@ class Register extends GetView<AuthController> {
                             const BorderSide(width: 1, color: Colors.white)),
 
                         border: OutlineInputBorder(),
-                        labelText: 'Surname',
-                        hintText: 'Surname',
+                        labelText: 'Nom',
+                        hintText: 'Nom',
                         suffixIcon: Icon(Icons.person),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your surname';
+                          return 'Veuillez entrer votre nom';
                         }
                         return null;
                       },
@@ -143,13 +143,13 @@ class Register extends GetView<AuthController> {
                             const BorderSide(width: 1, color: Colors.white)),
 
                         border: OutlineInputBorder(),
-                        labelText: 'Phone Number',
-                        hintText: 'Phone Number',
+                        labelText: 'Numéro de téléphone',
+                        hintText: 'Numéro de téléphone',
                         suffixIcon: Icon(Icons.phone_android),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your phone number';
+                          return 'Veuillez saisir votre numéro de téléphone';
                         }
                         return null;
                       },
@@ -172,8 +172,8 @@ class Register extends GetView<AuthController> {
                             borderRadius: BorderRadius.circular(10),
                             borderSide:
                             const BorderSide(width: 1, color: Colors.white)),
-                        labelText: 'Valid email',
-                        hintText: 'Email',
+                        labelText: 'E-mail',
+                        hintText: 'E-mail',
                         suffixIcon: Icon(Icons.email_outlined),
                         border: OutlineInputBorder(),
                       ),
@@ -181,7 +181,7 @@ class Register extends GetView<AuthController> {
                         if (value == null ||
                             value.isEmpty ||
                             !value.contains('@')) {
-                          return 'Please enter a valid email address';
+                          return 'Veuillez entrer une adresse e-mail valide';
                         }
                         return null;
                       },
@@ -203,13 +203,13 @@ class Register extends GetView<AuthController> {
                             borderSide:
                             const BorderSide(width: 1, color: Colors.white)),
                         border: OutlineInputBorder(),
-                        labelText: 'Address',
-                        hintText: 'Address',
+                        labelText: 'Adresse',
+                        hintText: 'Adresse',
                         suffixIcon: Icon(Icons.location_on),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your date of birth';
+                          return 'Veuillez entrer votre adresse';
                         }
                         return null;
                       },
@@ -231,8 +231,8 @@ class Register extends GetView<AuthController> {
                           borderSide: const BorderSide(width: 1, color: Colors.white),
                         ),
                         border: OutlineInputBorder(),
-                        labelText: 'Date of Birth',
-                        hintText: 'Date of Birth',
+                        labelText: 'Date de naissance',
+                        hintText: 'Date de naissance',
                         suffixIcon: IconButton(
                           icon: Icon(Icons.date_range),
                           onPressed: () async {
@@ -255,7 +255,7 @@ class Register extends GetView<AuthController> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your date of birth';
+                          return 'Veuillez entrer votre date de naissance';
                         }
                         return null;
                       },
@@ -279,13 +279,13 @@ class Register extends GetView<AuthController> {
                             borderSide:
                             const BorderSide(width: 1, color: Colors.white)),
                         border: OutlineInputBorder(),
-                        labelText: 'Strong Password',
-                        hintText: 'Password',
+                        labelText: 'Mot de passe sécurisé',
+                        hintText: 'Mot de passe',
                         suffixIcon: Icon(Icons.lock_outline),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter a password';
+                          return 'Veuillez entrer un mot de passe';
                         }
                         return null;
                       },
@@ -299,7 +299,7 @@ class Register extends GetView<AuthController> {
 
                         ),
                         Text(
-                          "By checking the box you agree to our ",
+                          "n cochant la case, vous acceptez nos",
                           style: TextStyle(
                             fontSize: 9.0,
                             fontFamily: 'Poppins',
@@ -308,7 +308,7 @@ class Register extends GetView<AuthController> {
                           ),
                         ),
                         Text(
-                          "Terms ",
+                          "termes ",
                           style: TextStyle(
                             fontSize: 9.0,
                             fontFamily: 'Poppins',
@@ -317,7 +317,7 @@ class Register extends GetView<AuthController> {
                           ),
                         ),
                         Text(
-                          "and ",
+                          "et ",
                           style: TextStyle(
                             fontSize: 9.0,
                             fontFamily: 'Poppins',
@@ -366,7 +366,7 @@ class Register extends GetView<AuthController> {
                      //   }
                       },
                       child: Text(
-                        'Sign Up',
+                       ' Inscription',
                         style: TextStyle(fontSize: 18.0, color: Colors.white),
                       ),
                     ),
@@ -378,7 +378,7 @@ class Register extends GetView<AuthController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Already a member? ",
+                     "Déjà membre ? ",
                     style: TextStyle(
                       fontSize: 13.0,
                       fontFamily: 'Poppins',
@@ -394,7 +394,7 @@ class Register extends GetView<AuthController> {
                       );
                     },
                     child: Text(
-                      "Log In",
+                      "Connexion",
                       style: TextStyle(
                         fontSize: 13.0,
                         fontFamily: 'Poppins',

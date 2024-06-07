@@ -144,7 +144,7 @@ class detailCategory extends GetView<CategoriesController> {
                                 fontWeight: FontWeight.w400,
                               )),
                           SizedBox(height: 10.h),
-                          Text("For Who ?",
+                          Text("Pour qui ?",
                               style: GoogleFonts.poppins(
                                 color: Color(0xFFABABAB),
                                 fontSize: 16.spMin,
@@ -159,7 +159,7 @@ class detailCategory extends GetView<CategoriesController> {
                                 fontWeight: FontWeight.w400,
                               )),
                           SizedBox(height: 10.h),
-                          Text('Gender',
+                          Text('Sexe',
                               style: GoogleFonts.poppins(
                                 color: Color(0xFFABABAB),
                                 fontSize: 16.spMin,
@@ -176,7 +176,7 @@ class detailCategory extends GetView<CategoriesController> {
                             ),
                           ),
                           SizedBox(height: 10.h),
-                          Text("Activities",
+                          Text("Activités",
                               style: GoogleFonts.poppins(
                                 color: Color(0xFF0C1A30),
                                 fontSize: 20.spMin,

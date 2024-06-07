@@ -38,37 +38,25 @@ class _ScannerState extends State<Scanner> {
   Widget build(BuildContext context) {
 
 
-print("qrCodeModel${qrCodeModel}")    ;
 
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Expanded(flex: 4, child: _buildQrView(context)),
+          Expanded(flex: 6, child: _buildQrView(context)),
           Expanded(
-            flex: 1,
             child: FittedBox(
+
               fit: BoxFit.contain,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  if (qrCodeModel != null)
-                    Column(
-                      children: [
-
-                        Text('User ID: ${qrCodeModel!.userId}'),
-                        Text('Name: ${qrCodeModel!.name}'),
-                        Text('Token Code: ${qrCodeModel!.tokencode}'),
-                      ],
-                    )
-                  else
-                    const Text('Scan a code',  style: TextStyle(fontSize: 16.0, color: Colors.deepOrange, fontWeight: FontWeight.bold),),
-
-
-                ],
+              child: Center(
+                child: Container(
+                  margin: EdgeInsets.all(100.0),
+                  child: Text('Enregistrer la présence',  style: TextStyle(fontSize: 50.0, color: Colors.deepOrange,),
+                              ),
+                ),
               ),
-            ),
-          )
+          ))
         ],
+
       ),
     );
   }
@@ -76,7 +64,7 @@ print("qrCodeModel${qrCodeModel}")    ;
   Widget _buildQrView(BuildContext context) {
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
         MediaQuery.of(context).size.height < 400)
-        ? 300.0
+        ? 250.0
         : 200.0;
     return QRView(
       key: qrKey,
@@ -101,7 +89,6 @@ print("qrCodeModel${qrCodeModel}")    ;
         if (result != null && result!.code != null) {
           try {
 
-            // Affichez le contenu brut et le type des données reçues
             log('QR Code raw data type: ${result!.code.runtimeType}');
 
             // Tentez de décoder le JSON
@@ -110,7 +97,14 @@ print("qrCodeModel${qrCodeModel}")    ;
               qrCodeModel = QrCodeModel.fromJson(jsonData);
               log('Decoded QR Code: ${qrCodeModel!.toJson()}');
 
-                attendanceContr.scan(ScanRequest(token: qrCodeModel!.tokencode!));
+
+              attendanceContr.scan(ScanRequest(token: qrCodeModel!.tokencode!),context);
+              controller.pauseCamera();
+              Future.delayed(Duration(seconds: 5), () {
+                Get.back();
+              });
+
+
 
             } else {
               throw FormatException("The decoded data is not a Map");

@@ -10,8 +10,10 @@ import 'package:gymproconnect_flutter/screens/home/packs.dart';
 import 'package:gymproconnect_flutter/screens/home/qr_code.dart';
 import 'package:gymproconnect_flutter/screens/profil/MyAccount.dart';
 import '../helper/bindings.dart';
+import '../screens/agent/detailed_activity_agent.dart';
 import '../screens/coach/detailed_activity_coach.dart';
 import '../screens/coach/home_coach.dart';
+import '../screens/coach/planningcoach.dart';
 import '../screens/coach/proposer_séance.dart';
 import '../screens/gym_pro_layout.dart';
 import '../screens/home/Profil.dart';
@@ -44,11 +46,13 @@ class RouteHelper {
   static const String CoachActivities = "/coachActivities";
   static const String activitieById = "/activitieById";
   static const String activitieCoachById = "/activitieCoachById";
+  static const String activitieAgentById = "/activitieAgentById";
 
   static const String packs = "/packs";
   static const String packById = "/packbyid";
   static const String packByIdAgent = "/packbyidagent";
   static const String abonement = "/abonnement";
+  static const String PlanningCoach = "/PlanningCoach";
 
   static const String categorieById = "/categorieById";
   static const String categories = "/categories";
@@ -83,6 +87,7 @@ class RouteHelper {
   static String getCoachActivities() => CoachActivities;
   static String getActivitieById() => activitieById;
   static String getActivitieCoachById() => activitieCoachById;
+  static String getPlanningCoach() => PlanningCoach;
 
 
   static String getAbonnement() => abonement;
@@ -181,10 +186,16 @@ class RouteHelper {
       page: () =>  abonnement(),
     ),
     GetPage(
+      binding: PlanningCoachBindings(),
+      name: PlanningCoach,
+      page: () =>  Planning(),
+    ),
+    GetPage(
       binding: ActivityBindings(),
       name: activities,
       page: () =>  ActivityList(),
     ),
+
     GetPage(
       binding: ActivityBindings(),
       name: activitieById,
@@ -194,6 +205,11 @@ class RouteHelper {
       binding: ActivityBindings(),
       name: activitieCoachById,
       page: () =>  ActivityDetailCoach(),
+    ),
+    GetPage(
+      binding: ActivityBindings(),
+      name: activitieAgentById,
+      page: () =>  ActivityDetailAgent(),
     ),
 
     // GetPage(

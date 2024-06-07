@@ -20,7 +20,8 @@ class PacksData {
   int? id;
   String? name;
   String? price;
-  String? sessionCount;
+  int? nbrOfSession;
+  int? duration;
   String? image;
   Activity? activity;
 
@@ -28,7 +29,8 @@ class PacksData {
       {this.id,
         this.name,
         this.price,
-        this.sessionCount,
+        this.nbrOfSession,
+        this.duration,
         this.image,
         this.activity});
 
@@ -36,7 +38,8 @@ class PacksData {
     id = json['id'];
     name = json['name'];
     price = json['price'];
-    sessionCount = json['session_count'];
+    nbrOfSession = json['nbr_of_session'];
+    duration = json['duration'];
     image = json['image'];
     activity = json['activity'] != null
         ? new Activity.fromJson(json['activity'])
@@ -48,7 +51,8 @@ class PacksData {
     data['id'] = this.id;
     data['name'] = this.name;
     data['price'] = this.price;
-    data['session_count'] = this.sessionCount;
+    data['nbr_of_session'] = this.nbrOfSession;
+    data['duration'] = this.duration;
     data['image'] = this.image;
     if (this.activity != null) {
       data['activity'] = this.activity!.toJson();
@@ -128,7 +132,7 @@ class Category {
 class Coach {
   int? id;
   String? name;
-  String? description;
+  Null? description;
   String? image;
 
   Coach({this.id, this.name, this.description, this.image});

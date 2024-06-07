@@ -93,8 +93,8 @@ Widget buildCircleAvatarhor({required String imagePath, required String name, re
             backgroundColor: Colors.white,
             foregroundColor: Colors.transparent,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(70.w), // Match the CircleAvatar's radius
-                child: imagePath.startsWith('http')
+              borderRadius: BorderRadius.circular(70.w),
+                child:  imagePath.startsWith('http')
                     ? Image.network(
                   imagePath,
                   fit: BoxFit.cover, // Use BoxFit.cover to fill the circle

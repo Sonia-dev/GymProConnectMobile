@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gymproconnect_flutter/screens/coach/home_coach.dart';
+import 'coach/planningcoach.dart';
 import 'coach/proposer_séance.dart';
 import 'home/Profil.dart';
 import 'home/main_home.dart';
@@ -25,7 +26,7 @@ class TabNavigatorCoach extends StatelessWidget {
         child =  HomeCoach();
         break;
       case 1:
-        child =  Planning();
+        child =  PlanningCoach();
 
         break;
       case 2:

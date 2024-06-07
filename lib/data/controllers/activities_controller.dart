@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import '../../models/activities_model.dart';
 import '../../models/categories_model.dart';
+import '../../models/filter_model.dart';
+import '../../models/review_model.dart';
 import '../../models/reviews_model.dart';
 import '../../snack_bar.dart';
 import '../repository/activities_repo.dart';
@@ -19,11 +21,10 @@ class ActivitiesController extends GetxController {
   RxList<ActivityData> activitiesList = <ActivityData>[].obs;
   RxList<ActivityData> coachActivitiesList = <ActivityData>[].obs;
   RxList<ActivityData> filterList = <ActivityData>[].obs;
+  RxList<Reviews> reviewsList = <Reviews>[].obs;
+
   final TextEditingController commentController = TextEditingController();
   double ratingController = 0.0 ;
-
-
-  // Ensemble pour stocker les ID des activités déjà ajoutées
   Set<int> addedActivityIds = Set<int>();
 
   @override
@@ -37,6 +38,33 @@ class ActivitiesController extends GetxController {
     getActivities();
     super.onInit();
   }
+  Future<void> getfilterActivities(FilterModel filterModel, BuildContext context) async {
+    try {
+      print('tryyy');
+
+      Response response = await activitiesRepo.getActivityList();
+      if (response.statusCode == 200) {
+        // Traitement de la réponse ici, par exemple :
+        // List<Activity> activities = response.data;
+        // Faites quelque chose avec les activités récupérées
+        print('okkkk');
+        update();
+      } else {
+        SnackBarMessage().showErrorSnackBar(
+          message: "Désolé, la demande n'a pas pu être envoyée. Veuillez réessayer plus tard.",
+          context: context,
+        );
+        print("${response.statusCode}");
+        print('not okkkk');
+        update();
+      }
+    } catch (e, s) {
+      // Gestion des erreurs ici
+      print("Error: $e");
+      print("Stacktrace: $s");
+      update();
+    }
+  }
 
   Future getActivities() async {
     isLoading.value = true;
@@ -49,18 +77,13 @@ class ActivitiesController extends GetxController {
 
       List<dynamic> responseData = response.body["activities"];
 
-      // Effacer la liste actuelle des activités
       activitiesList.clear();
-      // Réinitialiser l'ensemble des ID des activités ajoutées
       addedActivityIds.clear();
 
-      // Parcourir les données de réponse et ajouter les activités à la liste
       responseData.forEach((data) {
         ActivityData activity = ActivityData.fromJson(data);
-        // Vérifier si l'ID de l'activité n'est pas déjà dans la liste
         if (!addedActivityIds.contains(activity.id)) {
           activitiesList.add(activity);
-          // Ajouter l'ID de l'activité à l'ensemble
           addedActivityIds.add(activity.id!);
         }
       });
@@ -73,7 +96,6 @@ class ActivitiesController extends GetxController {
     }
   }
 
-  // Méthode pour filtrer les activités en fonction de la catégorie
   Future<void> filterActivitiesByCategory(CategoryData category) async {
     isLoading.value = true;
     if (category.activities != null) {
@@ -96,7 +118,10 @@ class ActivitiesController extends GetxController {
       print("Erreur lors de la récupération des données d'activitie.");
     }
   }
-
+  void resetFields() {
+    commentController.clear();
+    ratingController = 0.0;
+  }
   Future getfilterList(Data) async {
     isLoading.value=true;
     Response response = await activitiesRepo.getActivityList();
@@ -126,6 +151,8 @@ class ActivitiesController extends GetxController {
       print("not okkk");
     }
   }
+
+
   Future<void> reviews(ReviewRequest reviewRequest, BuildContext context,int ActivityId) async {
     Map<String, dynamic> data = {
       "rating": reviewRequest.rating,
@@ -154,4 +181,33 @@ class ActivitiesController extends GetxController {
       // print("$test");
     }
   }
+
+
+  Future getReviews(int activityId) async {
+
+    print("tesst");
+
+    isLoading.value = true;
+    Response response = await activitiesRepo.reviews(activityId);
+    print("response.body: $response.body");
+    print("statuscode: $response.statusCode");
+
+    if (response.statusCode == 200) {
+      isLoading.value = false;
+
+      List<dynamic> responseData = response.body["reviews"];
+
+      reviewsList.value = responseData.map((data) => Reviews.fromJson(data)).cast<Reviews>().toList();
+
+
+
+      update();
+    } else {
+      isLoading.value = false;
+      print("not okkk");
+    }
+  }
+
+
+
 }

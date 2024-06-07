@@ -14,6 +14,7 @@ import 'package:gymproconnect_flutter/screens/home/planning.dart';
 import '../../data/api/api_client.dart';
 import '../../data/controllers/trainers_controller.dart';
 import '../../routes/routes_helper.dart';
+import '../../widgets/circle_avatar_widget.dart';
 import 'Profil.dart';
 import 'abonnement.dart';
 import 'main_home.dart';
@@ -25,14 +26,11 @@ class TrainersList extends GetView<TrainersController> {
   Widget build(BuildContext context) {
 
 
-    Get.put(TrainersRepo(
-      apiClient: Get.find(),
-    ));
-    Get.put(TrainersController(trainersRepo: Get.find()));
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Trainers',
+          'Coaches',
           style: GoogleFonts.poppins(
             color: Colors.black,
             fontSize: 14,
@@ -48,93 +46,48 @@ class TrainersList extends GetView<TrainersController> {
             Navigator.pop(context);
           },
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              // Ajoutez ici la logique pour la recherche
-            },
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child:
-            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          SizedBox(height: 10.0),
-          Expanded(
-             child:
-             Container(
-             height: 200.0,
-            child: Obx(()=>ListView.builder(
-                itemCount: controller.trainersList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final coach = controller.trainersList[index];
-                  return
-                    //Padding(
-                    // scrollDirection: Axis.vertical,
-                    // children: [
 
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Column(
-                        children: [
-                          Row(children: [
-                            CircleAvatar(
-                              radius: 32,
-                              child: Image.network(
-                                coach.image !,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return SizedBox(
-                                      child: Image.asset(
-                                          "assets/images/no_image.jpg"));
-                                },
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                  if (loadingProgress?.expectedTotalBytes ==
-                                      loadingProgress?.cumulativeBytesLoaded) {
-                                    return child;
-                                  }
-                                  return const CircularProgressIndicator();
-                                },
-                              ),
-                            ),
-                            SizedBox(width: 20),
-                            Column(children: [
-                              Text(
-                                coach.name.toString(),
-                                style: TextStyle(
-                                  color: Color(0xFF170F49),
-                                  fontSize: 18,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              SizedBox(height: 5),
-                              Text(
-                                coach.title.toString(),
-                                style: TextStyle(
-                                  color: Color(0xFF6E6B8F),
-                                  fontSize: 15,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ]),
-                          ]),
-                          SizedBox(
-                            height: 10,
-                          )
-                        ],
-                      ),
-                    );
-                }),)
-          ),
-          ),
-        ]),
-      ),
 
-    );
+      ),
+      body:
+                    SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        child:Obx(
+                              () => ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: controller.trainersList.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final coach = controller.trainersList[index];
+                              return Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10.0),
+                                child: GestureDetector(
+                                  onTap: () {},
+                                  child: Stack(
+                                    children: <Widget>[
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: Container(
+                                          height: 100,
+                                          child: buildCircleAvatarhor(
+                                            imagePath: coach.image != null? coach.image.toString()??"":"assets/no_image.jpg",
+                                            name: coach.name.toString(),
+                                            title: coach.surname.toString(),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      
+                      
+                      
+                          ),
+                    ));
   }
 }

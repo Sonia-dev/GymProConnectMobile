@@ -123,7 +123,7 @@ class PackDetail extends GetView<PacksController> {
                                       fontWeight: FontWeight.w600,
                                     )),
                                 10.h.verticalSpace,
-                                Text(controller.packsData.sessionCount.toString(),
+                                Text(controller.packsData.nbrOfSession.toString(),
                                     style: GoogleFonts.poppins(
                                       color: Color(0xFF0C1A30),
                                       fontSize: 14.spMin,
@@ -169,7 +169,7 @@ class PackDetail extends GetView<PacksController> {
                                       controller.packsData.activity?.category?.name ?? "".toString(),
                                       title: controller.packsData.activity?.category?.description ?? "".toString()),
                                 ),),
-                                Text('Activitie',
+                                Text('Activité',
                                     style: GoogleFonts.poppins(
                                       color: Color(0xFF0C1A30),
                                       fontSize: 20.spMin,

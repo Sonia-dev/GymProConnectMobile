@@ -49,7 +49,7 @@ class AuthController extends GetxController {
       "phone": userRequest.number,
       "email": userRequest.email,
       "adress": userRequest.adress,
-      "birth_date": "2000-01-01",
+      "birth_date": userRequest.dateOfBirth,
       "password": userRequest.password,
       "status": 1,
     };
@@ -141,7 +141,7 @@ class AuthController extends GetxController {
           context: context,
           builder: (_) => AlertDialog(
             content: InfoPopupWidget(
-              contentTitle: "Erreur lors de la connexion : ${response.statusCode}",
+              contentTitle: "Erreur de saisie des données",
               child: Icon(
                 Icons.error,
                 color: Colors.red,

@@ -14,16 +14,15 @@ class abonnement extends GetView<PlanningController> {
   @override
   Widget build(BuildContext context) {
     Get.put(PlanningRepo(apiClient: Get.find()));
-    Get.put(PlanningController(
-      planningRepo: Get.find(),
-    ));
+    Get.put(PlanningController(planningRepo: Get.find(),));
+
     return GetBuilder<PlanningController>(builder: (controller) {
       return DefaultTabController(
         length: 3,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
-            title: Center(child: const Text("My membership")),
+            title: Center(child: const Text("Mes abonnements")),
             bottom: const TabBar(
               indicatorColor: Color(0xFFF34E3A),
               labelColor: Color(0xFFF8A69C),
@@ -32,10 +31,10 @@ class abonnement extends GetView<PlanningController> {
                   text: "Active",
                 ),
                 Tab(
-                  text: "Completed",
+                  text: "Terminé",
                 ),
                 Tab(
-                  text: "Cancelled",
+                  text: "Annulé",
                 )
               ],
             ),
@@ -239,7 +238,7 @@ class abonnement extends GetView<PlanningController> {
                                       Color(0xFFE5E7EB),
                                       minimumSize: Size(350, 50),
                                     ),
-                                    child: Text('Cancel',
+                                    child: Text('Annuler',
                                         style: TextStyle(
                                             fontSize: 18.0,
                                             color: Color(0xFF1C2A3A))),
@@ -524,7 +523,7 @@ class abonnement extends GetView<PlanningController> {
                                         backgroundColor: Color(0xFFE5E7EB),
                                         minimumSize: Size(350, 50),
                                       ),
-                                      child: Text('Re-Book',
+                                      child: Text('Re-réserver',
                                           style: TextStyle(
                                               fontSize: 18.0,
                                               color: Color(0xFF1C2A3A))),

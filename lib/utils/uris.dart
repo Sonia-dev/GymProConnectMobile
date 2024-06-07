@@ -14,6 +14,9 @@ class Uris{
   static const String listingActivityUrl = "activity/filter";
   static const String listingCategoryUrl = "categorie";
   static const String listingTrainersUrl = "user/coach";
+  static const String listingTrainerforAgentsUrl = "user/coaches";
+  static const String listingsessionsUrl = "coach/sessions";
+
   static const String findByNameActivityUrl = "activity/find-by-name/?name=";
   static const String upDateUserUrl = "profile/update";
   static const String plannigUrl = "session/planning";
@@ -29,6 +32,9 @@ class Uris{
   static const String ListingAdherentUrl = "user/adherents";
   static const String ScannerUrl = "attendance";
   static const String BookingsListbystatusUrl = "bookings/status?status=";
+  static const String MembersUrl = "attendance/members";
+  static const String CoachsUrl = "attendance/coaches";
+
 
 
 

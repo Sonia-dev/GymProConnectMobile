@@ -10,7 +10,11 @@ class TrainersRepo{
   Future<Response> getTrainersList() async{
     return await apiClient.getData(Uris.listingTrainersUrl );
 
+  }Future<Response> getTrainersforagentList() async{
+    return await apiClient.getData(Uris.listingTrainerforAgentsUrl );
+
   }
+
   Future<Response> getTrainerById(int trainerId) async
   {
     return await apiClient.getData("${Uris.listingTrainersUrl}/$trainerId");

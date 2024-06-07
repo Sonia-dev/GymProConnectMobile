@@ -13,6 +13,7 @@ import '../../constants/constants.dart';
 import '../../data/controllers/activities_controller.dart';
 import '../../data/controllers/categories_controller.dart';
 import '../../data/controllers/profil_controller.dart';
+import '../../data/controllers/reviews_controller.dart';
 import '../../routes/routes_helper.dart';
 import '../../widgets/circle_avatar_widget.dart';
 
@@ -41,7 +42,7 @@ class MainHome extends StatelessWidget{
                 Row(
                   children: [
                     Text(
-                      "welcome ${controller.user.user?.name.toString()??""} !",
+                      "Bienvenue ${controller.user.user?.name.toString()??""} !",
                       style: GoogleFonts.poppins(
                         color: Colors.black,
                         fontSize: 20.spMin,
@@ -64,7 +65,7 @@ class MainHome extends StatelessWidget{
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Categories',
+                      'Catégories',
                       style: GoogleFonts.poppins(
                         color: Colors.black,
                         fontSize: 16.spMin,
@@ -77,7 +78,7 @@ class MainHome extends StatelessWidget{
                         await Get.find<CategoriesController>().getCategories();
                       },
                       child: Text(
-                        'SEE ALL',
+                        'VOIR TOUT',
                         style: GoogleFonts.poppins(
                           color: Color(0xFFf34e3a),
                           fontSize: 10.spMax,
@@ -119,7 +120,7 @@ class MainHome extends StatelessWidget{
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Activities',
+                      'Activités',
                       style: GoogleFonts.poppins(
                         color: Colors.black,
                         fontSize: 16.spMin,
@@ -131,7 +132,7 @@ class MainHome extends StatelessWidget{
                         Get.toNamed(RouteHelper.getActivities());
                       },
                       child: Text(
-                        'SEE ALL',
+                        'VOIR TOUT',
                         style: GoogleFonts.poppins(
                           color: Color(0xFFf34e3a),
                           fontSize: 10.spMax,
@@ -163,6 +164,7 @@ class MainHome extends StatelessWidget{
 
                               Get.find<ActivitiesController>()
                                   .getActivityByID(activity.id!);
+                              Get.find<ActivitiesController>().getReviews(activity.id!);
                             },
                             child: buildCircleAvatar(
                                 imagePath: activity.image != null ? activity.image.toString() : "assets/no_image.jpg",
@@ -184,11 +186,11 @@ class MainHome extends StatelessWidget{
                     ),
                     TextButton(
                       onPressed: () {
-                        print("tessst ");
+
                         Get.toNamed(RouteHelper.getPacks());
                       },
                       child: Text(
-                        'SEE ALL',
+                        'VOIT TOUT',
                         style: GoogleFonts.poppins(
                           color: Color(0xFFf34e3a),
                           fontSize: 10.spMax,
@@ -298,7 +300,7 @@ class MainHome extends StatelessWidget{
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Trainers",
+                      "Coaches",
                       style: GoogleFonts.poppins(
                         color: Colors.black,
                         fontSize: 16.spMin,
@@ -310,7 +312,7 @@ class MainHome extends StatelessWidget{
                         Get.toNamed(RouteHelper.getTrainers());
                       },
                       child: Text(
-                        'SEE ALL',
+                        'VOIR TOUT',
                         style: GoogleFonts.poppins(
                           color: Color(0xFFf34e3a),
                           fontSize: 10.spMax,

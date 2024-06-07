@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:gymproconnect_flutter/data/repository/activities_repo.dart';
 import 'package:gymproconnect_flutter/screens/profil/edit.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
@@ -19,11 +20,15 @@ final _proposerKey = GlobalKey<FormState>();
 class ProposerSeance extends GetView<ProposerSeanceController> {
   @override
   Widget build(BuildContext context) {
+
+    Get.put(ActivitiesRepo(apiClient: Get.find()));
+    Get.put(ActivitiesController(activitiesRepo: Get.find(),));
+
     return Scaffold(
       appBar: AppBar(
 
         backgroundColor: Colors.white,
-        title: Center(child: const Text("Propose a session")),
+        title: Center(child: const Text("Proposer une séance")),
 
 
       ),
@@ -53,8 +58,8 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                             borderSide: const BorderSide(
                                 width: 1, color: Colors.white)),
                         border: OutlineInputBorder(),
-                        labelText: 'Activity ',
-                        hintText: 'Select Activity ',
+                        labelText: 'Activité ',
+                        hintText: 'Sélectionnez une activité ',
                       ),
                       items: Get.find<ActivitiesController>()
                           .activitiesList
@@ -70,7 +75,7 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                       },
                       validator: (value) {
                         if (value == null) {
-                          return 'Please select an activity ID';
+                          return 'Veuillez sélectionner une activité';
                         }
                         return null;
                       },
@@ -94,7 +99,7 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                                 width: 1, color: Colors.white)),
                         border: OutlineInputBorder(),
                         labelText: 'Studio ',
-                        hintText: 'Select Studio ',
+                        hintText: 'Sélectionnez un studio ',
                       ),
                       items: [
                         DropdownMenuItem<Object>(
@@ -108,7 +113,7 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                       ],
                       validator: (value) {
                         if (value == null) {
-                          return 'Please select a studio ID';
+                          return 'Veuillez sélectionner un studio';
                         }
                         return null;
                       },
@@ -143,7 +148,7 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                       },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter a date';
+                          return 'Veuillez sélectionner un date';
                         }
                         return null;
                       },
@@ -166,13 +171,13 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                             borderSide: const BorderSide(
                                 width: 1, color: Colors.white)),
                         border: OutlineInputBorder(),
-                        labelText: "Maximum number of members",
-                        hintText: "Maximum number of members",
+                        labelText: "Nombre maximum des adhérents",
+                        hintText: "Nombre maximum des adhérents",
                         suffixIcon: Icon(Icons.people),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter capacity';
+                          return 'Veuillez sélectionner un nombre maximum des adhérents';
                         }
                         return null;
                       },
@@ -193,7 +198,7 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                             borderSide: const BorderSide(
                                 width: 1, color: Colors.white)),
                         border: OutlineInputBorder(),
-                        labelText: 'Hour Start',
+                        labelText: 'heure de la séance',
                         hintText: 'HH:mm',
                         suffixIcon: IconButton(
                           icon: Icon(Icons.access_time),
@@ -213,7 +218,7 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter hour start';
+                          return 'Veuillez choisir une heure pour la séance';
                         }
                         return null;
                       },
@@ -249,7 +254,7 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                     update();
                   },
                   child: Text(
-                    'Propose',
+                    'Proposer',
                     style: TextStyle(fontSize: 18.0, color: Colors.white),
                   ),
                 ),

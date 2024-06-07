@@ -99,7 +99,7 @@ class Profil extends GetView<ProfilController> {
                 leading:
                     Image.asset('assets/MyAccount.png', width: 38, height: 38),
                 title: Text(
-                  'My Account',
+                  'Mon compte',
                   style: GoogleFonts.poppins(
                     color: Colors.black,
                     fontSize: 13,
@@ -123,7 +123,7 @@ class Profil extends GetView<ProfilController> {
                 leading:
                     Image.asset('assets/Setting.png', width: 35, height: 35),
                 title: Text(
-                  'Settings',
+                  'Paramètres',
                   style: GoogleFonts.poppins(
                     color: Colors.black,
                     fontSize: 13,
@@ -146,7 +146,7 @@ class Profil extends GetView<ProfilController> {
                 leading:
                     Image.asset('assets/helpcenter.png', width: 35, height: 35),
                 title: Text(
-                  'Help Center',
+                  'Centre d\'aide',
                   style: GoogleFonts.poppins(
                     color: Colors.black,
                     fontSize: 13,
@@ -169,7 +169,7 @@ class Profil extends GetView<ProfilController> {
                 leading:
                     Image.asset('assets/logout.png', width: 35, height: 35),
                 title: Text(
-                  'Logout',
+                  'Se déconnecter',
                   style: GoogleFonts.poppins(
                     color: Colors.black,
                     fontSize: 13,
@@ -183,17 +183,17 @@ class Profil extends GetView<ProfilController> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text('Logout'),
-                        content: Text('Are you sure you want to log out?'),
+                        title: Text('Se déconnecter'),
+                        content: Text('Êtes-vous sûr de vouloir vous déconnecter?'),
                         actions: [
                           TextButton(
-                            child: Text('Cancel'),
+                            child: Text('Annuler'),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
                           ),
                           TextButton(
-                            child: Text('Yes, Logout'),
+                            child: Text('Oui, déconnexion'),
                             onPressed: () {
 
                               final box = GetStorage();

@@ -16,11 +16,13 @@ import 'package:gymproconnect_flutter/data/repository/categories_repo.dart';
 import 'package:gymproconnect_flutter/data/repository/planning_repo.dart';
 import 'package:gymproconnect_flutter/data/repository/proposer_seance_repo.dart';
 import 'package:gymproconnect_flutter/data/repository/qr_code_repo.dart';
+import 'package:gymproconnect_flutter/data/repository/sessions_repo.dart';
 import 'package:gymproconnect_flutter/data/repository/trainers_repo.dart';
 import '../data/controllers/activities_controller.dart';
 import '../data/controllers/auth_controller.dart';
 import '../data/controllers/filter_controller.dart';
 import '../data/controllers/packs_controller.dart';
+import '../data/controllers/sessions_controller.dart';
 import '../data/controllers/trainers_controller.dart';
 import '../data/repository/activities_repo.dart';
 import '../data/repository/attendance_repo.dart';
@@ -58,6 +60,8 @@ Future<void> init()async {
   Get.lazyPut(() => TrainersController(trainersRepo:Get.find()), fenix: true);
 
 
+
+
   Get.lazyPut(() => AdherentRepo(apiClient: Get.find()), fenix: true);
   Get.lazyPut(() => AdherentsController(adherentRepo:Get.find()), fenix: true);
 
@@ -89,6 +93,10 @@ Future<void> init()async {
 
   Get.lazyPut(() => AttendanceRepo(apiClient: Get.find()), fenix: true);
   Get.lazyPut(() => AttendanceController(attendanceRepo:Get.find()), fenix: true);
+
+
+  Get.lazyPut(() => SessionsRepo(apiClient: Get.find()), fenix: true);
+  Get.lazyPut(() => SessionCoachController(sessionsRepo:Get.find()), fenix: true);
 
 
 }

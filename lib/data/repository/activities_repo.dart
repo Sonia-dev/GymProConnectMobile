@@ -9,7 +9,7 @@ class ActivitiesRepo{
 
 
   Future<Response> getActivityList() async{
-    return await apiClient.getData(Uris.listingActivityUrl );
+    return await apiClient.getDataWithParms(Uris.listingActivityUrl, query: {} );
   }
   Future<Response> getActivityById(int activityId) async{
     return await apiClient.getData("${Uris.getActivityById}$activityId" );
@@ -24,5 +24,9 @@ class ActivitiesRepo{
   Future<Response> getCoachActivity() async{
     return await apiClient.getData("${Uris.listingActivityUrl}" );
 
+  }
+
+  Future<Response> reviews(int Activityid) async {
+    return await apiClient.getData("${Uris.getActivityById}$Activityid/reviews");
   }
 }

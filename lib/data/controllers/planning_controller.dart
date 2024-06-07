@@ -13,6 +13,11 @@ class PlanningController extends GetxController {
 
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
+  set selectedDay(value) => _selectedDay = value;
+  DateTime get selectedDay => _selectedDay;
+  DateTime get focusedDay => _focusedDay;
+  set focusedDay(value) => _focusedDay = value;
+
   RxBool isLoading = false.obs;
 
   var sessionsList = <Sessions>[].obs;
@@ -22,13 +27,7 @@ class PlanningController extends GetxController {
   var activeList = <MyBookingModel>[].obs;
   var completedList = <MyBookingModel>[].obs;
   var canceledList = <MyBookingModel>[].obs;
-  DateTime get selectedDay => _selectedDay;
 
-  set selectedDay(value) => _selectedDay = value;
-
-  DateTime get focusedDay => _focusedDay;
-
-  set focusedDay(value) => _focusedDay = value;
 
   @override
   void onReady() {
@@ -114,6 +113,8 @@ class PlanningController extends GetxController {
     updateEventsMap();
     update();
   }
+
+
   List<Sessions> loadEventsForDay(DateTime day) {
 
     return events[day] ?? [];

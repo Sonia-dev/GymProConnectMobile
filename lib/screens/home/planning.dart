@@ -34,10 +34,6 @@ class Planning extends GetView<PlanningController> {
         ),
         body: GetBuilder<PlanningController>(builder: (controller) {
           DateTime normalizedSelectedDay = normalizeDate(controller.selectedDay);
-
-          print('events ${controller.events}');
-          print('normalizedSelectedDay ${normalizedSelectedDay}');
-
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -129,15 +125,15 @@ class Planning extends GetView<PlanningController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Session Status: ${statusData.text}',
+                      'Statut de la séance: ${statusData.text}',
                       style: TextStyle(fontSize: 16.0, color: statusData.color, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      'Activity: ${parentActivity}',
+                      'Activité: ${parentActivity}',
                       style: TextStyle(fontSize: 14.0),
                     ),
                     Text(
-                      'Time: ${controller.formatHour(session.hourStart!)}',
+                      'Heure: ${controller.formatHour(session.hourStart!)}',
                       style: TextStyle(fontSize: 14.0),
                     ),
                     Text(

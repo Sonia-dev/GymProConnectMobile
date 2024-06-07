@@ -15,7 +15,7 @@ class update extends GetView<ProfilController> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Edit Profile',
+          'Editer le profil',
           style: GoogleFonts.poppins(
             color: Colors.black,
             fontSize: 14,
@@ -34,10 +34,7 @@ class update extends GetView<ProfilController> {
       ),
       body: Center(
         child:
-            //   itemCount: updatecontroller.activities.length,
-            //    itemBuilder: (BuildContext context, int index) {
-            //    final activity = updatecontroller.activities[index];
-            //    return
+
             Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child:
@@ -277,7 +274,7 @@ class update extends GetView<ProfilController> {
                 }
               },
               child: Text(
-                'update profile',
+                'Mettre à jour',
                 style: TextStyle(fontSize: 18.0, color: Colors.white),
               ),
             ),

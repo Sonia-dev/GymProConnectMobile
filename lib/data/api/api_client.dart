@@ -49,9 +49,7 @@ class ApiClient extends GetConnect implements GetxService {
       return Response(statusCode: 1, statusText: e.toString());
     }
   }
-  Future<Response> getDataWithParms(String uri,
-      {Map<String, String>? headers,
-        required Map<String, String> query}) async {
+  Future<Response> getDataWithParms(String uri, {Map<String, String>? headers,required Map<String, String> query}) async {
     print("$_mainHeaders -------------------------");
 
     try {

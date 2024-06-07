@@ -25,6 +25,7 @@ import '../../widgets/circle_avatar_widget.dart';
 class HomeAgent extends StatelessWidget{
   String searchText = '';
 
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -45,7 +46,7 @@ class HomeAgent extends StatelessWidget{
                 Row(
                   children: [
                     Text(
-                      "welcome ${controller.user.user?.name.toString()??""} !",
+                      "Bienvenue ${controller.user.user?.name.toString()??""} !",
                       style: GoogleFonts.poppins(
                         color: Colors.black,
                         fontSize: 20.spMin,
@@ -68,7 +69,7 @@ class HomeAgent extends StatelessWidget{
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Catégorie',
+                      'Catégories',
                       style: GoogleFonts.poppins(
                         color: Colors.black,
                         fontSize: 16.spMin,
@@ -81,7 +82,7 @@ class HomeAgent extends StatelessWidget{
                         await Get.find<CategoriesController>().getCategories();
                       },
                       child: Text(
-                        'SEE ALL',
+                        'VOIR TOUT',
                         style: GoogleFonts.poppins(
                           color: Color(0xFFf34e3a),
                           fontSize: 10.spMax,
@@ -123,7 +124,7 @@ class HomeAgent extends StatelessWidget{
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Activities',
+                      'Activités',
                       style: GoogleFonts.poppins(
                         color: Colors.black,
                         fontSize: 16.spMin,
@@ -135,7 +136,7 @@ class HomeAgent extends StatelessWidget{
                         Get.toNamed(RouteHelper.getActivities());
                       },
                       child: Text(
-                        'SEE ALL',
+                        'VOIR TOUT',
                         style: GoogleFonts.poppins(
                           color: Color(0xFFf34e3a),
                           fontSize: 10.spMax,
@@ -162,7 +163,7 @@ class HomeAgent extends StatelessWidget{
                           child: GestureDetector(
                             onTap: () {
                               Get.toNamed(
-                                RouteHelper.activitieById,
+                                RouteHelper.activitieAgentById,
                               );
 
                               Get.find<ActivitiesController>()
@@ -195,7 +196,7 @@ class HomeAgent extends StatelessWidget{
                         Get.toNamed(RouteHelper.getPacks());
                       },
                       child: Text(
-                        'SEE ALL',
+                        'VOIR TOUT',
                         style: GoogleFonts.poppins(
                           color: Color(0xFFf34e3a),
                           fontSize: 10.spMax,
@@ -298,7 +299,7 @@ class HomeAgent extends StatelessWidget{
 
                 10.h.verticalSpace,
                 Text(
-                  "Coachs",
+                  "Coaches",
                   style: GoogleFonts.poppins(
                     color: Colors.black,
                     fontSize: 16.spMin,
@@ -311,10 +312,10 @@ class HomeAgent extends StatelessWidget{
                   child: Obx(() => ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount:
-                      Get.find<TrainersController>().trainersList.length,
+                      Get.find<TrainersController>().trainersAgentList.length,
                       itemBuilder: (BuildContext context, int index) {
                         final trainer = Get.find<TrainersController>()
-                            .trainersList
+                            .trainersAgentList
                             .value[index];
                         return GestureDetector(
                           onTap: () {

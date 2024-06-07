@@ -123,12 +123,13 @@ class PackDetailAgent extends GetView<PacksController> {
                                     fontWeight: FontWeight.w600,
                                   )),
                               10.h.verticalSpace,
-                              Text(controller.packsData.sessionCount.toString(),
+                              Text(controller.packsData.nbrOfSession.toString(),
                                   style: GoogleFonts.poppins(
                                     color: Color(0xFF0C1A30),
                                     fontSize: 14.spMin,
                                     fontWeight: FontWeight.w400,
                                   )),
+                              10.h.verticalSpace,
                               Text("Durée ",
                                   style: GoogleFonts.poppins(
                                     color: Color(0xFF0C1A30),
@@ -137,7 +138,22 @@ class PackDetailAgent extends GetView<PacksController> {
                                   )),
                               10.h.verticalSpace,
                               Text(
-                                  "${controller.packsData.id.toString()} jours",
+                                  "${controller.packsData.duration.toString()} jours",
+                                  style: GoogleFonts.poppins(
+                                    color: Color(0xFF0C1A30),
+                                    fontSize: 14.spMin,
+                                    fontWeight: FontWeight.w400,
+                                  )),
+                              10.h.verticalSpace,
+                              Text("Prix ",
+                                  style: GoogleFonts.poppins(
+                                    color: Color(0xFF0C1A30),
+                                    fontSize: 20.spMin,
+                                    fontWeight: FontWeight.w600,
+                                  )),
+                              10.h.verticalSpace,
+                              Text(
+                                  "${controller.packsData.price.toString()} dt",
                                   style: GoogleFonts.poppins(
                                     color: Color(0xFF0C1A30),
                                     fontSize: 14.spMin,
@@ -172,9 +188,7 @@ class PackDetailAgent extends GetView<PacksController> {
                               SizedBox(
                                 height: 100.h,
                                 child: buildCircleAvatarhor(
-                                    imagePath: controller.packsData.activity
-                                        ?.coach?.image ??
-                                        "".toString(),
+                                    imagePath: controller.packsData.activity?.coach?.image!= null?controller.packsData.activity?.coach?.image.toString() ?? "":"assets/no_image.jpg",
                                     name: controller.packsData.activity?.coach
                                         ?.name ??
                                         " ".toString(),
@@ -182,39 +196,7 @@ class PackDetailAgent extends GetView<PacksController> {
                                         ?.coach?.description ??
                                         " ".toString()),
                               ),
-                              Text('Les séances',
-                                  style: GoogleFonts.poppins(
-                                    color: Color(0xFF0C1A30),
-                                    fontSize: 20.spMin,
-                                    fontWeight: FontWeight.w600,
-                                  )),
-                              // SingleChildScrollView(
-                              //   child: ListView.builder(
-                              //     itemCount: controller.sessionsList.length,
-                              //     itemBuilder:
-                              //         (BuildContext context, int index) {
-                              //       final session =
-                              //           controller.sessionsList[index];
-                              //       return Padding(
-                              //         padding: EdgeInsets.symmetric(vertical: 10.0),
-                              //         child: GestureDetector(
-                              //           onTap: () {
-                              //             // Ajouter l'action lors du tap sur un élément ici
-                              //           },
-                              //           child: SizedBox(
-                              //             height: 100.h,
-                              //             child: buildCircleAvatar(
-                              //               imagePath:
-                              //                   session.image?.toString() ??
-                              //                       'assets/no_image.jpg',
-                              //               text: session.date.toString(),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       );
-                              //     },
-                              //   ),
-                              // ),
+
                             ]))
                   ])));
         }),

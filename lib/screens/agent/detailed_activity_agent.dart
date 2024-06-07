@@ -11,8 +11,7 @@ import '../../models/review_model.dart';
 import '../../routes/routes_helper.dart';
 import '../../widgets/circle_avatar_widget.dart';
 
-class ActivityDetailCoach extends GetView<ActivitiesController> {
-  final _reviewKey = GlobalKey<FormState>();
+class ActivityDetailAgent extends GetView<ActivitiesController> {
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +224,31 @@ class ActivityDetailCoach extends GetView<ActivitiesController> {
                             ),
                           ),
                           10.h.verticalSpace,
-
+                          Text('Coaches',
+                              style: GoogleFonts.poppins(
+                                color: Color(0xFF0C1A30),
+                                fontSize: 20.spMin,
+                                fontWeight: FontWeight.w600,
+                              )),
+                          SizedBox(
+                            height: 100.h,
+                            child: buildCircleAvatarhor(
+                              imagePath: controller
+                                  .activityDetails.coach?.image !=
+                                  null
+                                  ? controller
+                                  .activityDetails?.coach?.image
+                                  .toString() ??
+                                  ""
+                                  : "assets/no_image.jpg",
+                              name: controller.activityDetails.coach?.name
+                                  .toString() ??
+                                  "",
+                              title: controller.activityDetails.coach
+                                  ?.title.toString() ??
+                                  "",
+                            ),
+                          ),
                           Text('Catégories',
                               style: GoogleFonts.poppins(
                                 color: Color(0xFF0C1A30),
@@ -267,7 +290,47 @@ class ActivityDetailCoach extends GetView<ActivitiesController> {
                               ),
                             ),
                           ),
-
+                          Text('Packs',
+                              style: GoogleFonts.poppins(
+                                color: Color(0xFF0C1A30),
+                                fontSize: 20.spMin,
+                                fontWeight: FontWeight.w600,
+                              )),
+                          SizedBox(
+                            height: 100.h,
+                            child: controller.activityDetails?.packs !=
+                                null
+                                ? ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: controller
+                                  .activityDetails?.packs?.length,
+                              itemBuilder: (context, index) {
+                                var pack = controller.activityDetails
+                                    ?.packs?[index];
+                                return InkWell(
+                                  onTap: () async {
+                                    await Get.find<PacksController>()
+                                        .getPackByID(pack!.id!);
+                                    Get.toNamed(
+                                      RouteHelper.getPackById(),
+                                    );
+                                  },
+                                  child: buildCircleAvatar(
+                                    imagePath: pack?.image
+                                        .toString() ??
+                                        "",
+                                    text: pack?.name.toString() ??
+                                        "",
+                                  ),
+                                );
+                              },
+                            )
+                                : Center(
+                              child: Text(
+                                "Il n'y a pas de packs disponibles pour cette activité",
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -282,7 +345,7 @@ class ActivityDetailCoach extends GetView<ActivitiesController> {
                               20.h.verticalSpace,
 
 
-                              Text("Reviews",
+                              Text("Les avis",
                                   style: GoogleFonts.poppins(
                                     color: Color(0xFF0C1A30),
                                     fontSize: 20.spMin,
@@ -326,6 +389,8 @@ class ActivityDetailCoach extends GetView<ActivitiesController> {
                                   },
                                 ),
                               ),
+                              10.h.verticalSpace,
+
 
 
 

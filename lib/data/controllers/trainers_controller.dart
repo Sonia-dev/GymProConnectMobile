@@ -19,12 +19,14 @@ class TrainersController extends GetxController {
 
   RxBool isLoading =false.obs;
   RxList<TrainerDetail> trainersList = <TrainerDetail>[].obs;
+  RxList<TrainerDetail> trainersAgentList = <TrainerDetail>[].obs;
   TrainerDetail trainerDetail = TrainerDetail();
 
 
   @override
   void onReady() {
     getTrainers();
+    getTrainersforAgent();
     super.onReady();
   }
 
@@ -34,6 +36,7 @@ class TrainersController extends GetxController {
   @override
   void onInit() {
     getTrainers();
+    getTrainersforAgent();
     super.onInit();
   }
 
@@ -60,6 +63,31 @@ class TrainersController extends GetxController {
 
       print("statuscode: ${response.statusCode}");
       print("Erreur lors de la récupération des données de trainer.");
+    }
+  }
+  Future<void> getTrainersforAgent() async {
+    isLoading.value=true;
+    Response response = await trainersRepo.getTrainersforagentList();
+
+
+    if (response.statusCode == 200) {
+      isLoading.value =false;
+      List<dynamic> responseData = response.body["coaches"];
+      print("responseData :$responseData");
+      trainersAgentList.value = responseData.map((data) => TrainerDetail.fromJson(data)).cast<TrainerDetail>().toList();
+
+
+
+      print("trainers Agent ok");
+      print("body:${trainersAgentList}");
+      update();
+
+
+    } else {
+      isLoading.value =false;
+
+      print("statuscode: ${response.statusCode}");
+      print("Erreur lors de la récupération des données de trainer Agent.");
     }
   }
 
