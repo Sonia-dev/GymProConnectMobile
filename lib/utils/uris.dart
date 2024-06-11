@@ -1,7 +1,7 @@
 
 
 class Uris{
-  static const String baseUrl = "http://192.168.1.104:8000/api/v1/auth/";
+  static const String baseUrl = "http://192.168.1.199:8000/api/v1/auth/";
   static const String registerUrl = "registerMobile";
   static const String loginUrl = "login";
   static const String listingPacksUrl = "packs";
@@ -16,6 +16,7 @@ class Uris{
   static const String listingTrainersUrl = "user/coach";
   static const String listingTrainerforAgentsUrl = "user/coaches";
   static const String listingsessionsUrl = "coach/sessions";
+  static const String DetailsUserUrl = "users";
 
   static const String findByNameActivityUrl = "activity/find-by-name/?name=";
   static const String upDateUserUrl = "profile/update";

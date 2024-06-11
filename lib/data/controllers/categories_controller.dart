@@ -1,12 +1,9 @@
-import 'dart:convert';
-
-import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import 'package:gymproconnect_flutter/data/repository/categories_repo.dart';
-import 'package:gymproconnect_flutter/models/activities_model.dart';
-import 'package:gymproconnect_flutter/models/categories_model.dart';
+
+import '../../models/categories_model.dart';
+import '../repository/categories_repo.dart';
 
 class CategoriesController extends GetxController {
   final CategoriesRepo categoriesRepo;
@@ -15,6 +12,8 @@ class CategoriesController extends GetxController {
 
   RxBool isLoading = false.obs;
   RxList<CategoryData> categoriesList = <CategoryData>[].obs;
+  RxList<CategoryData> filteredCategoriesList = <CategoryData>[].obs; // Nouvelle liste filtrée
+
   CategoryData categoryDetail = CategoryData();
 
   @override
@@ -26,6 +25,7 @@ class CategoriesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    filteredCategoriesList.bindStream(categoriesList.stream); // Lier la liste filtrée à la liste complète au début
   }
 
   Future<void> getCategories() async {
@@ -44,6 +44,17 @@ class CategoriesController extends GetxController {
       print(st);
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  // Méthode de filtrage pour mettre à jour la liste des catégories filtrées
+  void filterCategories(String searchText) {
+    if (searchText.isEmpty) {
+      filteredCategoriesList.value = categoriesList; // Si la recherche est vide, afficher la liste complète
+    } else {
+      filteredCategoriesList.value = categoriesList.where((category) {
+        return category.name!.toLowerCase().contains(searchText.toLowerCase());
+      }).toList();
     }
   }
 

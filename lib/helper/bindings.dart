@@ -160,6 +160,8 @@ class PackBindings implements Bindings {
   void dependencies() {
     Get.put(PacksRepo(apiClient: Get.find(),));
     Get.put(PacksController(packsRepo: Get.find()),permanent: true);
+    Get.put(FilterRepo( apiClient: Get.find(),));
+    Get.put(FilterController(filterRepo: Get.find()),permanent: true);
   }
 }
 class TrainersBindings implements Bindings {

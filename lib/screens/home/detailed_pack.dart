@@ -129,6 +129,8 @@ class PackDetail extends GetView<PacksController> {
                                       fontSize: 14.spMin,
                                       fontWeight: FontWeight.w400,
                                     )),
+                                10.h.verticalSpace,
+
                                 Text("Durée ",
                                     style: GoogleFonts.poppins(
                                       color: Color(0xFF0C1A30),

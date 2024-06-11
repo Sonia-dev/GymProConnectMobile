@@ -103,15 +103,16 @@ class TrainersController extends GetxController {
 
     if (response.statusCode == 200) {
       isLoading.value=false;
+print("tesst");
 
-      trainerDetail = TrainerDetail.fromJson(response.body['coaches']);
+      trainerDetail = TrainerDetail.fromJson(response.body["user"]);
 
+      print("trainerDetail:${trainerDetail.surname}");
 
     } else {
       isLoading.value=false;
       print("Erreur lors de la récupération des données de coach.");
     }
   }
-
 
 }

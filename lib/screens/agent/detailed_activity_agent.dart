@@ -27,7 +27,7 @@ class ActivityDetailAgent extends GetView<ActivitiesController> {
             length: 2,
             child: Scaffold(
               appBar: PreferredSize(
-                preferredSize: Size.fromHeight(MediaQuery.of(context).size.height / 3), // Change the height here
+                preferredSize: Size.fromHeight(MediaQuery.of(context).size.height / 2.5), // Change the height here
                 child: AppBar(
                   automaticallyImplyLeading: false,
                   backgroundColor: Colors.transparent,
@@ -38,10 +38,10 @@ class ActivityDetailAgent extends GetView<ActivitiesController> {
                         controller.activityDetails.image.toString(),
                         width: MediaQuery.of(context).size.width,
                         fit: BoxFit.cover,
-                        height: (MediaQuery.of(context).size.height / 3)-50,
+                        height: (MediaQuery.of(context).size.height / 2.5)-50,
                         errorBuilder: (context, error, stackTrace) {
                           return SizedBox(
-                            height:(MediaQuery.of(context).size.height / 3)-50,
+                            height:(MediaQuery.of(context).size.height / 2.5)-50,
                             width: MediaQuery.of(context).size.width,
                             child: Image.asset(
                               "assets/no_image.jpg",
@@ -355,35 +355,33 @@ class ActivityDetailAgent extends GetView<ActivitiesController> {
                               Obx(
                                     () => ListView.builder(
                                   shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: controller.activitiesList.length,
+                                  physics: NeverScrollableScrollPhysics(), // To make ListView work inside SingleChildScrollView
+                                  itemCount: controller.reviewsList.length,
                                   itemBuilder: (BuildContext context, int index) {
-                                    final adherent = controller.activitiesList[index];
-                                    return Padding(
-                                      padding: EdgeInsets.symmetric(vertical: 10.0),
-                                      child: GestureDetector(
-                                        onTap: () {},
-                                        child: Stack(
-                                          children: <Widget>[
-                                            ClipRRect(
-                                              borderRadius: BorderRadius.circular(15),
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    height: 100,
-                                                    child: buildCircleAvatarhor(
-                                                        imagePath: adherent.image.toString(),
-                                                        name: adherent.name.toString(),
-                                                        title:""
-                                                    ),
-
+                                    final review = controller.reviewsList[index];
+                                    return GestureDetector(
+                                      onTap: () {},
+                                      child: Stack(
+                                        children: <Widget>[
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(15),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  height: 100,
+                                                  child: buildCircleAvatarhor(
+                                                    imagePath: review.user?.image.toString() ?? "",
+                                                    name: "${review.user?.name.toString()} ${review.user?.surname.toString()}" ?? "",
+                                                    title:_buildRatingStars(review?.rating??""),
                                                   ),
-                                                  Text("reviews"),
-                                                ],
-                                              ),
+                                                ),
+
+                                                Text("  ${review.comment?.toString() ?? ""}"),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     );
                                   },
@@ -403,6 +401,14 @@ class ActivityDetailAgent extends GetView<ActivitiesController> {
         }),
       ),
     );
+  }
+  String _buildRatingStars(String rating) {
+    double ratingValue = double.tryParse(rating) ?? 0.0;
+    int fullStars = ratingValue.floor();
+    int halfStars = ((ratingValue - fullStars) >= 0.5) ? 1 : 0;
+    int emptyStars = 5 - fullStars - halfStars;
+
+    return '★' * fullStars + '☆' * emptyStars;
   }
 }
 

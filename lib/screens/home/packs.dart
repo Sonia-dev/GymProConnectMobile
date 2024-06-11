@@ -1,5 +1,8 @@
+import 'dart:async';
+import 'dart:ffi';
 import 'dart:ui';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,11 +10,13 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymproconnect_flutter/data/controllers/filter_controller.dart';
 import 'package:gymproconnect_flutter/data/controllers/packs_controller.dart';
 import 'package:gymproconnect_flutter/screens/home/planning.dart';
 
 import '../../routes/routes_helper.dart';
 import 'abonnement.dart';
+import 'filter_pack.dart';
 import 'filtre.dart';
 import 'main_home.dart';
 
@@ -21,6 +26,7 @@ class PackList extends GetView<PacksController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
@@ -82,14 +88,73 @@ class PackList extends GetView<PacksController> {
                   size: 24,
                 ),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Filtre()),
-                  );
+
+                  controller.showPrice.value = !controller.showPrice.value;
+
+                  controller.update();
                 },
               ),
             ],
           ),
+
+        Obx(() => controller.showPrice.value?FadeInUp(
+            child: Column(
+
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Price Range",
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 5),
+                Obx(() => SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    showValueIndicator: ShowValueIndicator.always,
+                  ),
+                  child: RangeSlider(
+                    values: Get.find<FilterController>().selectedPriceRange.value,
+                    min: Get.find<FilterController>().priceMin,
+                    max: Get.find<FilterController>().priceMax,
+                    divisions: 30,
+
+                    labels: RangeLabels(
+                      Get.find<FilterController>().selectedPriceRange.value.start.round().toString(),
+                      Get.find<FilterController>().selectedPriceRange.value.end.round().toString(),
+                    ),
+                    activeColor: Color(0xFFF34E3A),
+                    onChanged: (RangeValues values) {
+                      Get.find<FilterController>().selectedPriceRange.value = values;
+                      print('the selectedPriceRange is ${Get.find<FilterController>().selectedPriceRange.value}');
+                      Get.find<FilterController>().priceMinToSend = Get.find<FilterController>().selectedPriceRange.value.start;
+                      Get.find<FilterController>().priceMaxToSend = Get.find<FilterController>().selectedPriceRange.value.end;
+
+                      // Utilisez Timer pour définir un délai avant d'appeler l'API
+                      Timer(Duration(seconds: 1), () async {
+                        await Get.find<PacksController>().getPacks(
+                          //   filters: RequestFilter(
+                          // minPrice: controller.priceMinToSend,
+                          // maxPrice: controller.priceMaxToSend,
+                          // categoryName: controller.selectedCategory.value,
+                          // gender: controller.selectedGender.value,
+                          // target: controller.selectedTarget.value,
+                          //   )
+                        );
+                        print('priceMinToSend ${Get.find<FilterController>().priceMinToSend}');
+                        print('priceMaxToSend ${Get.find<FilterController>().priceMaxToSend}');
+                      });
+                    },
+                  ),
+                )),
+
+              ],
+            ),
+          ):SizedBox.shrink()),
+
           10.h.verticalSpace,
           Expanded(
             child: ListView.builder(

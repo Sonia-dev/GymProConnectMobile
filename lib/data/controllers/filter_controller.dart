@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +19,21 @@ class FilterController extends GetxController {
   RxBool isLoading =false.obs;
   infoModel info = infoModel();
 
-  RxString selectedCategory = "All".obs;
-  RxString selectedGender = "Mixed".obs;
-  RxString selectedTarget = "All".obs;
+  RxString selectedCategory = "".obs;
+  RxString selectedGender = "".obs;
+  RxString selectedTarget = "".obs;
+  double priceMin= 0.0;
+  double priceMax= 500.0;
 
+  double? priceMinToSend ;
+  double? priceMaxToSend ;
+  RxBool showAllCategories = false.obs;
   final formKey = GlobalKey<FormState>();
-  RangeValues selectedPriceRange = RangeValues(0, 500);
+
+  RxBool showOtherFilters = false.obs;
+
+
+  Rx<RangeValues>selectedPriceRange = RangeValues(0, 500).obs;
   RxList<String> categories  =<String>[].obs;
   RxList<String> genders  =<String>[].obs;
   RxList<String> targets  =<String>[].obs;
@@ -57,14 +67,14 @@ class FilterController extends GetxController {
       categories.value = info.category??[];
       genders.value = info.gender??[];
       targets.value = info.target??[];
-   /*
-      final priceMinStr = Get.find<FilterController>().info.prices?.min ?? "0.0";
-      final priceMaxStr = Get.find<FilterController>().info.prices?.max ?? "500.0";*/
 
-    /*  double priceMin = double.tryParse(priceMinStr) ?? 0.0;
-      double priceMax = double.tryParse(priceMaxStr) ?? 500.0;
-*/
-     // _selectedPriceRange = RangeValues(priceMin, priceMax);
+      final priceMinStr =info.prices?.min ?? "0.0";
+      final priceMaxStr =info.prices?.max ?? "500.0";
+
+       priceMin = double.tryParse(priceMinStr)??0.0 ;
+       priceMax = double.tryParse(priceMaxStr) ?? 500.0;
+
+     selectedPriceRange.value = RangeValues(priceMin, priceMax);
 
 
 

@@ -129,4 +129,5 @@ class Adherents extends StatelessWidget {
       ),
     );
   }
+
 }

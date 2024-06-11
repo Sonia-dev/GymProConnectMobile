@@ -4,14 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymproconnect_flutter/data/controllers/packs_controller.dart';
-import 'package:gymproconnect_flutter/screens/home/reviews.dart';
-
 import '../../models/book_model.dart';
 import '../../widgets/circle_avatar_widget.dart';
-import '../payment/payment_methods.dart';
 
 class PackDetailAgent extends GetView<PacksController> {
   @override

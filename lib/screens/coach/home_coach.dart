@@ -80,6 +80,8 @@ class HomeCoach extends GetView<ActivitiesCoachController> {
                         );
                         Get.find<ActivitiesController>()
                             .getActivityByID(activity.id!);
+                        Get.find<ActivitiesController>().getReviews(activity.id!);
+
                       },
                       child: Container(
                         height: 200,

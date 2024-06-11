@@ -15,6 +15,9 @@ class PacksController extends GetxController {
 
   PacksController({required this.packsRepo});
   RxBool isLoading =false.obs;
+
+  RxBool showPrice =false.obs;
+
   PacksData packsData = PacksData();
   RxList<PacksData> packsList= <PacksData>[].obs;
   RxList<SessionData> sessionsList= <SessionData>[].obs;

@@ -52,6 +52,7 @@ class _MyAState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           title: 'Gym Pro Connect',
           theme: ThemeData(
+
             scaffoldBackgroundColor: Colors.white,
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
             useMaterial3: true,

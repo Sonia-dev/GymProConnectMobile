@@ -31,8 +31,11 @@ class detailTrainer extends GetView<TrainersController> {
                       controller.trainerDetail.image.toString(),
                       width: double.infinity,
                       fit: BoxFit.cover,
+                      height: MediaQuery.of(context).size.height / 3,
                       errorBuilder: (context, error, stackTrace) {
                         return SizedBox(
+                            height: MediaQuery.of(context).size.height / 3,
+                            width: MediaQuery.of(context).size.width,
                             child: Image.asset("assets/no_image.jpg"));
                       },
                       loadingBuilder: (context, child, loadingProgress) {
@@ -122,7 +125,7 @@ class detailTrainer extends GetView<TrainersController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text("Title",
+                          Text("Titre",
                               style: GoogleFonts.poppins(
                                 color: Color(0xFF0C1A30),
                                 fontSize: 20.spMin,
@@ -130,23 +133,22 @@ class detailTrainer extends GetView<TrainersController> {
                               )),
                           10.h.verticalSpace,
                           Text(
-                              controller.trainerDetail.title
-                                  .toString(),
+                              controller.trainerDetail?.title?.toString()??"Membre de la salle",
                               style: GoogleFonts.poppins(
                                 color: Color(0xFF0C1A30),
                                 fontSize: 14.spMin,
                                 fontWeight: FontWeight.w400,
                               )),
                           10.h.verticalSpace,
-                          Text('Phone number',
+                          Text('Numéro de téléphone',
                               style: GoogleFonts.poppins(
                                 color: Color(0xFFABABAB),
                                 fontSize: 16.spMin,
                                 fontWeight: FontWeight.w300,
                               )),
+                          10.h.verticalSpace,
                           Text(
-                              controller.trainerDetail.phone
-                                  .toString(),
+                              controller.trainerDetail?.phone?.toString()??"",
                               style:  GoogleFonts.poppins(
                                 color: Color(0xFF0C1A30),
                                 fontSize: 14.spMin,
@@ -154,7 +156,7 @@ class detailTrainer extends GetView<TrainersController> {
                               )
                           ),
                           10.h.verticalSpace,
-                          Text('Email',
+                          Text('E-mail',
                               style: GoogleFonts.poppins(
                                 color: Color(0xFFABABAB),
                                 fontSize: 16.spMin,
@@ -162,8 +164,24 @@ class detailTrainer extends GetView<TrainersController> {
                               )),
                           10.h.verticalSpace,
                           Text(
-                            controller.trainerDetail.email
-                                .toString(),
+                            controller.trainerDetail?.email?.toString()??"",
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          10.h.verticalSpace,
+                          Text('Adresse',
+                              style: GoogleFonts.poppins(
+                                color: Color(0xFFABABAB),
+                                fontSize: 16.spMin,
+                                fontWeight: FontWeight.w300,
+                              )),
+                          10.h.verticalSpace,
+                          Text(
+                            controller.trainerDetail?.adress?.toString()??"",
                             style: const TextStyle(
                               color: Colors.black,
                               fontSize: 14,

@@ -7,10 +7,11 @@ class ActivitiesRepo{
   final ApiClient apiClient ;
   ActivitiesRepo({required this.apiClient});
 
-
-  Future<Response> getActivityList() async{
-    return await apiClient.getDataWithParms(Uris.listingActivityUrl, query: {} );
+  Future<Response> getActivityList({Map<String, String>? filters}) async {
+    return await apiClient.getDataWithParms(Uris.listingActivityUrl, query: filters ?? {});
   }
+
+
   Future<Response> getActivityById(int activityId) async{
     return await apiClient.getData("${Uris.getActivityById}$activityId" );
 
@@ -28,5 +29,10 @@ class ActivitiesRepo{
 
   Future<Response> reviews(int Activityid) async {
     return await apiClient.getData("${Uris.getActivityById}$Activityid/reviews");
+  }
+
+
+  Future<Response> getinfoFilter() async {
+    return await apiClient.getData(Uris.infoFilterUrl);
   }
 }

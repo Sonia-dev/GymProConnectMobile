@@ -60,25 +60,28 @@ class TrainersList extends GetView<TrainersController> {
                             itemCount: controller.trainersList.length,
                             itemBuilder: (BuildContext context, int index) {
                               final coach = controller.trainersList[index];
-                              return Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10.0),
-                                child: GestureDetector(
-                                  onTap: () {},
-                                  child: Stack(
-                                    children: <Widget>[
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: Container(
-                                          height: 100,
-                                          child: buildCircleAvatarhor(
-                                            imagePath: coach.image != null? coach.image.toString()??"":"assets/no_image.jpg",
-                                            name: coach.name.toString(),
-                                            title: coach.surname.toString(),
-                                          ),
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(
+                                    RouteHelper.trainerById,
+                                  );
+                                  Get.find<TrainersController>()
+                                      .getTrainerByID(coach.id!);
+                                },
+                                child: Stack(
+                                  children: <Widget>[
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Container(
+                                        height: 100,
+                                        child: buildCircleAvatarhor(
+                                          imagePath: coach.image != null? coach.image.toString()??"":"assets/no_image.jpg",
+                                          name: coach.name.toString(),
+                                          title: coach.surname.toString(),
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               );
                             },

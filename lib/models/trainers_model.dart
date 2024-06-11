@@ -1,28 +1,3 @@
-class CoachsModel {
-  bool? success;
-  List<TrainerDetail>? coaches;
-
-  CoachsModel({this.success, this.coaches});
-
-  CoachsModel.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
-    if (json['coaches'] != null) {
-      coaches = <TrainerDetail>[];
-      json['coaches'].forEach((v) {
-        coaches!.add(new TrainerDetail.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    if (this.coaches != null) {
-      data['coaches'] = this.coaches!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
 
 class TrainerDetail {
   int? id;

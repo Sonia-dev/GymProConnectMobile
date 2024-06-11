@@ -162,8 +162,7 @@ class MainHome extends StatelessWidget{
                                 RouteHelper.activitieById,
                               );
 
-                              Get.find<ActivitiesController>()
-                                  .getActivityByID(activity.id!);
+                              Get.find<ActivitiesController>().getActivityByID(activity.id!);
                               Get.find<ActivitiesController>().getReviews(activity.id!);
                             },
                             child: buildCircleAvatar(

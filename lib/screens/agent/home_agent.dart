@@ -168,6 +168,8 @@ class HomeAgent extends StatelessWidget{
 
                               Get.find<ActivitiesController>()
                                   .getActivityByID(activity.id!);
+                              Get.find<ActivitiesController>().getReviews(activity.id!);
+
                             },
                             child: buildCircleAvatar(
                                 imagePath: activity.image != null ? activity.image.toString() : "assets/no_image.jpg",
@@ -356,7 +358,11 @@ class HomeAgent extends StatelessWidget{
                             .value[index];
                         return GestureDetector(
                           onTap: () {
-
+                            Get.toNamed(
+                              RouteHelper.trainerById,
+                            );
+                            Get.find<TrainersController>()
+                                .getTrainerByID(adherent.id!);
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(right: 8.0),
