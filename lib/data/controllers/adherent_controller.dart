@@ -34,9 +34,8 @@ class AdherentsController extends GetxController {
 
   Future getAdherents() async {
     isLoading.value = true;
-
-
     Response response = await adherentRepo.getAdherentList();
+
     print("response.body: $response.body");
     print("statuscode: $response.statusCode");
 

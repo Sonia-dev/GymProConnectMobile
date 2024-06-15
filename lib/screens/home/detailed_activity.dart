@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,7 +14,6 @@ import '../../routes/routes_helper.dart';
 import '../../widgets/circle_avatar_widget.dart';
 
 class ActivityDetail extends GetView<ActivitiesController> {
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -42,12 +42,13 @@ class ActivityDetail extends GetView<ActivitiesController> {
                               width: MediaQuery.of(context).size.width,
                               fit: BoxFit.cover,
                               height:
-                                  (MediaQuery.of(context).size.height / 2.5) - 50,
+                                  (MediaQuery.of(context).size.height / 2.5) -
+                                      50,
                               errorBuilder: (context, error, stackTrace) {
                                 return SizedBox(
-                                  height:
-                                      (MediaQuery.of(context).size.height / 2.5) -
-                                          50,
+                                  height: (MediaQuery.of(context).size.height /
+                                          2.5) -
+                                      50,
                                   width: MediaQuery.of(context).size.width,
                                   child: Image.asset(
                                     "assets/no_image.jpg",
@@ -61,11 +62,13 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                   return child;
                                 }
                                 return Center(
-                                  child: SpinKitDoubleBounce(
-                                    size: 10,
-                                    color: Colors.orange,
+                                    child: Container(
+                                  width: double.infinity,
+                                  height: 200.h,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
                                   ),
-                                );
+                                ));
                               },
                             ),
                             Positioned(
@@ -84,6 +87,7 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                       Icons.arrow_back,
                                     ),
                                     onPressed: () {
+                                      controller.tabController?.index = 0;
                                       Navigator.pop(context);
                                     },
                                   ),
@@ -148,6 +152,7 @@ class ActivityDetail extends GetView<ActivitiesController> {
                         bottom: TabBar(
                           indicatorColor: Color(0xFFF34E3A),
                           labelColor: Color(0xFFF8A69C),
+                          controller: controller.tabController,
                           tabs: const <Widget>[
                             Tab(text: 'À propos'),
                             Tab(text: 'Les avis'),
@@ -156,6 +161,8 @@ class ActivityDetail extends GetView<ActivitiesController> {
                       ),
                     ),
                     body: TabBarView(
+                      physics: NeverScrollableScrollPhysics(),
+                      controller: controller.tabController,
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -251,13 +258,21 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                                 .toString() ??
                                             ""
                                         : "assets/no_image.jpg",
-                                    name: controller.activityDetails.coach?.name
-                                            .toString() ??
-                                        "",
+                                    name: controller
+                                                .activityDetails.coach?.title !=
+                                            null
+                                        ? controller.activityDetails.coach?.name
+                                                .toString() ??
+                                            ""
+                                        : "",
                                     title: controller
-                                            .activityDetails.coach?.title
-                                            .toString() ??
-                                        "",
+                                                .activityDetails.coach?.title !=
+                                            null
+                                        ? controller
+                                                .activityDetails.coach?.title
+                                                .toString() ??
+                                            ""
+                                        : "",
                                   ),
                                 ),
                                 Text('Catégories',
@@ -346,155 +361,212 @@ class ActivityDetail extends GetView<ActivitiesController> {
                             ),
                           ),
                         ),
-            Column(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          20.h.verticalSpace,
-                          Text(
-                            "Les avis",
-                            style: GoogleFonts.poppins(
-                              color: Color(0xFF0C1A30),
-                              fontSize: 20.spMin,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          5.h.verticalSpace,
-                          Obx(
-                                () => ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(), // To make ListView work inside SingleChildScrollView
-                              itemCount: controller.reviewsList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final review = controller.reviewsList[index];
-                                return GestureDetector(
-                                  onTap: () {},
-                                  child: Stack(
-                                    children: <Widget>[
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              height: 100,
-                                              child: buildCircleAvatarhor(
-                                                imagePath: review.user?.image.toString() ?? "",
-                                                name: "${review.user?.name.toString()} ${review.user?.surname.toString()}" ?? "",
-                                                title:_buildRatingStars(review?.rating??""),
+                        Obx(() => (controller.loading.value ||
+                                controller.isLoading.value)
+                            ? const Center(
+                                child: SpinKitDoubleBounce(
+                                color: Colors.orange,
+                              ))
+                            : Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: Stack(
+                                  children: [
+                                    SingleChildScrollView(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          20.h.verticalSpace,
+                                          Text(
+                                            "Les avis",
+                                            style: GoogleFonts.poppins(
+                                              color: Color(0xFF0C1A30),
+                                              fontSize: 20.spMin,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          5.h.verticalSpace,
+                                          Obx(
+                                            () => FadeIn(
+                                              child: ListView.builder(
+                                                shrinkWrap: true,
+                                                physics:
+                                                    NeverScrollableScrollPhysics(),
+                                                itemCount: controller
+                                                    .reviewsList.length,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  final review = controller
+                                                      .reviewsList[index];
+                                                  return GestureDetector(
+                                                    onTap: () {},
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Container(
+                                                            height: 100,
+                                                            child: customWidget(
+                                                              imagePath: review
+                                                                      .user
+                                                                      ?.image
+                                                                      .toString() ??
+                                                                  "",
+                                                              name:
+                                                                  "${review.user?.name ?? ""} ${review.user?.surname ?? ""}",
+                                                              title: review
+                                                                  .comment
+                                                                  .toString(),
+                                                              starRating: double
+                                                                  .parse(review
+                                                                          .rating ??
+                                                                      "0."),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
                                               ),
                                             ),
-
-                                            Text("  ${review.comment?.toString() ?? ""}"),
-                                          ],
-                                        ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              children: [
+                                                TextFormField(
+                                                  keyboardType:
+                                                      TextInputType.text,
+                                                  controller: controller
+                                                      .commentController,
+                                                  decoration: InputDecoration(
+                                                    filled: true,
+                                                    fillColor:
+                                                        Color(0xffF7F9FD),
+                                                    labelStyle: TextStyle(
+                                                        color: Colors.black),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color: Colors
+                                                                  .black12),
+                                                    ),
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color: Colors
+                                                                  .black12),
+                                                    ),
+                                                    labelText:
+                                                        'Ajouter un commentaire',
+                                                    hintText:
+                                                        'Ajouter un commentaire',
+                                                  ),
+                                                ),
+                                                10.h.verticalSpace,
+                                                Center(
+                                                  child: RatingBar.builder(
+                                                    initialRating: 0,
+                                                    minRating: 1,
+                                                    direction: Axis.horizontal,
+                                                    allowHalfRating: true,
+                                                    itemCount: 5,
+                                                    unratedColor: Color(0xffE5E7EB),
+                                                    itemPadding: EdgeInsets.symmetric(horizontal: 3.0),
+                                                    itemBuilder: (context, _) => Icon(
+                                                      Icons.star,
+                                                      color: Color(0xFFf34e3a),
+                                                    ),
+                                                    onRatingUpdate: (rating) {
+                                                      controller.ratingController = rating;
+                                                    },
+                                                  ),
+                                                ),
+                                                5.h.verticalSpace,
+                                                Center(
+                                                  child: ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      backgroundColor:
+                                                          Color(0xFFf34e3a),
+                                                      minimumSize: Size(
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                          49),
+                                                    ),
+                                                    onPressed: () async {
+                                                      await controller
+                                                          .reviews(
+                                                        ReviewRequest(
+                                                          rating: controller
+                                                              .ratingController,
+                                                          comment: controller
+                                                              .commentController
+                                                              .text,
+                                                        ),
+                                                        context,
+                                                        controller
+                                                                .activityDetails
+                                                                .id ??
+                                                            0,
+                                                      )
+                                                          .then((res) async {
+                                                        await controller
+                                                            .getReviews(controller
+                                                                .activityDetails
+                                                                .id!);
+                                                      });
+                                                      FocusScope.of(context)
+                                                          .unfocus();
+                                                      controller.resetFields();
+                                                    },
+                                                    child: Text(
+                                                      'Ajouter avis',
+                                                      style: TextStyle(
+                                                          fontSize: 18.0,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  keyboardType: TextInputType.text,
-                                  controller: controller.commentController,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Color(0xffF7F9FD),
-                                    labelStyle: TextStyle(color: Colors.black),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                      borderSide: const BorderSide(width: 1, color: Colors.black12),
                                     ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                      borderSide: const BorderSide(width: 1, color: Colors.black12),
-                                    ),
-                                    labelText: 'Ajouter un commentaire',
-                                    hintText: 'Ajouter un commentaire',
-                                  ),
+                                  ],
                                 ),
-                                10.h.verticalSpace,
-                                Center(
-                                  child: RatingBar.builder(
-                                    initialRating: 0,
-                                    minRating: 1,
-                                    direction: Axis.horizontal,
-                                    allowHalfRating: true,
-                                    itemCount: 5,
-                                    itemPadding: EdgeInsets.symmetric(horizontal: 3.0),
-                                    itemBuilder: (context, _) => Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                    ),
-                                    onRatingUpdate: (rating) {
-                                      controller.ratingController = rating;
-                                    },
-                                  ),
-                                ),
-                                5.h.verticalSpace,
-                                Center(
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Color(0xFFf34e3a),
-                                      minimumSize: Size(285, 49),
-                                    ),
-                                    onPressed: () async {
-                                      await controller.reviews(
-                                        ReviewRequest(
-                                          rating: controller.ratingController,
-                                          comment: controller.commentController.text,
-                                        ),
-                                        context,
-                                        controller.activityDetails.id ?? 0,
-                                      );
-                                      controller.resetFields();
-                                    },
-                                    child: Text(
-                                      'Ajouter avis',
-                                      style: TextStyle(fontSize: 18.0, color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-
-              ],
-            )
-
-            ],
+                              ))
+                      ],
                     ),
                   ),
                 ));
         }),
       ),
     );
-  }
-  String _buildRatingStars(String rating) {
-    double ratingValue = double.tryParse(rating) ?? 0.0;
-    int fullStars = ratingValue.floor();
-    int halfStars = ((ratingValue - fullStars) >= 0.5) ? 1 : 0;
-    int emptyStars = 5 - fullStars - halfStars;
-
-    return '★' * fullStars + '☆' * emptyStars;
   }
 }

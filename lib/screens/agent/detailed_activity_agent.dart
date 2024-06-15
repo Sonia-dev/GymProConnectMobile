@@ -370,14 +370,24 @@ class ActivityDetailAgent extends GetView<ActivitiesController> {
                                               children: [
                                                 Container(
                                                   height: 100,
-                                                  child: buildCircleAvatarhor(
-                                                    imagePath: review.user?.image.toString() ?? "",
-                                                    name: "${review.user?.name.toString()} ${review.user?.surname.toString()}" ?? "",
-                                                    title:_buildRatingStars(review?.rating??""),
+                                                  child: customWidget(
+                                                    imagePath: review
+                                                        .user
+                                                        ?.image
+                                                        .toString() ??
+                                                        "",
+                                                    name:
+                                                    "${review.user?.name ?? ""} ${review.user?.surname ?? ""}",
+                                                    title: review
+                                                        .comment
+                                                        .toString(),
+                                                    starRating: double.parse(
+                                                        review.rating ??
+                                                            "0."),
                                                   ),
                                                 ),
 
-                                                Text("  ${review.comment?.toString() ?? ""}"),
+
                                               ],
                                             ),
                                           ),

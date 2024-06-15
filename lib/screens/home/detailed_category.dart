@@ -44,16 +44,22 @@ class detailCategory extends GetView<CategoriesController> {
                           fit: BoxFit.fill,
                           errorBuilder: (context, error, stackTrace) {
                             return SizedBox(
-                                child:
-                                Image.asset("assets/no_image.jpg"));
+                              child: Image.asset("assets/no_image.jpg"),
+                            );
                           },
-                          loadingBuilder:
-                              (context, child, loadingProgress) {
+                          loadingBuilder: (context, child, loadingProgress) {
                             if (loadingProgress?.expectedTotalBytes ==
                                 loadingProgress?.cumulativeBytesLoaded) {
                               return child;
                             }
-                            return CircularProgressIndicator();
+                            return Center(
+                                child: Container(
+                                width: double.infinity,
+                                height: 250.h,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                            ));
                           },
                         ),
                         Positioned(
@@ -81,21 +87,15 @@ class detailCategory extends GetView<CategoriesController> {
                         Positioned(
                           bottom: 0,
                           child: Container(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width,
-                            height: MediaQuery
-                                .of(context)
-                                .size
-                                .height / 8,
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height / 8,
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 begin: Alignment(0.00, -1.00),
                                 end: Alignment(0, 1),
                                 colors: [
                                   Colors.black.withOpacity(0),
-                                  Colors.black
+                                  Colors.black,
                                 ],
                               ),
                             ),
@@ -121,6 +121,7 @@ class detailCategory extends GetView<CategoriesController> {
                         ),
                       ],
                     ),
+
                     SizedBox(height: 10.h),
                     Padding(
                       padding: EdgeInsets.all(20.w),

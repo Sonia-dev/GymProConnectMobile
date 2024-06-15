@@ -14,25 +14,29 @@ import '../../models/reviews_model.dart';
 import '../../snack_bar.dart';
 import '../repository/activities_repo.dart';
 
-class ActivitiesController extends GetxController {
+class ActivitiesController extends GetxController with   GetTickerProviderStateMixin {
   final ActivitiesRepo activitiesRepo;
 
   ActivitiesController({required this.activitiesRepo});
 
   RxBool isLoading = false.obs;
+
+  RxBool loading = false.obs;
+
+
   ActivityData activityDetails = ActivityData();
   RxList<ActivityData> activitiesList = <ActivityData>[].obs;
   RxList<ActivityData> coachActivitiesList = <ActivityData>[].obs;
   RxList<ActivityData> filterList = <ActivityData>[].obs;
   RxList<Reviews> reviewsList = <Reviews>[].obs;
-  RxList<ActivityData> filteredActivityList = <ActivityData>[].obs; // Nouvelle liste filtrée
+  RxList<ActivityData> filteredActivityList = <ActivityData>[].obs;
 
 
   final TextEditingController commentController = TextEditingController();
   double ratingController = 0.0 ;
   Set<int> addedActivityIds = Set<int>();
 
-
+  TabController? tabController;
 
 
 
@@ -53,41 +57,60 @@ class ActivitiesController extends GetxController {
   @override
   void onReady() {
     getActivities();
+    tabController = new TabController( length: 2, vsync: this);
     super.onReady();
   }
 
   @override
   void onInit() {
     getActivities();
+    tabController = new TabController( length: 2, vsync: this);
     super.onInit();
   }
 
+
+  @override
+  void onClose() {
+
+    tabController?.dispose();
+
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+   tabController?.dispose();
+  }
+
+
   Future<void> getActivities({RequestFilter? filters}) async {
     isLoading.value = true;
-    Response response = await activitiesRepo.getActivityList(filters: filters?.toJson()??{});
-
-    print("response.body: ${response.body}");
-    print("statuscode: ${response.statusCode}");
+    Response response = await activitiesRepo.getActivityList(filters: filters?.toJson() ?? {});
 
     if (response.statusCode == 200) {
-      isLoading.value = false;
       List<dynamic> responseData = response.body["activities"];
+      isLoading.value = false;
       activitiesList.clear();
-      addedActivityIds.clear();
+      filteredActivityList.clear();
 
       responseData.forEach((data) {
         ActivityData activity = ActivityData.fromJson(data);
-        if (!addedActivityIds.contains(activity.id)) {
-          activitiesList.add(activity);
-          addedActivityIds.add(activity.id!);
-        }
+        activitiesList.add(activity);
       });
 
-      print("activities list: $activitiesList");
-      update();
+      filteredActivityList.value = activitiesList;
     } else {
       isLoading.value = false;
-      print("not okkk");
+    }
+  }
+
+  void filterActivities(String searchText) {
+    if (searchText.isEmpty) {
+      filteredActivityList.value = activitiesList; // Si la recherche est vide, afficher la liste complète
+    } else {
+      filteredActivityList.value = activitiesList.where((activity) {
+        return activity.name!.toLowerCase().contains(searchText.toLowerCase());
+      }).toList();
     }
   }
 
@@ -97,12 +120,16 @@ class ActivitiesController extends GetxController {
     Response response = await activitiesRepo.getActivityById(ActivityId);
 
     if (response.statusCode == 200) {
-      isLoading.value = false;
       activityDetails = ActivityData.fromJson(response.body);
+
+      isLoading.value = false;
+      update();
+
     } else {
       isLoading.value = false;
       print("Erreur lors de la récupération des données d'activitie.");
     }
+    update();
   }
 
 
@@ -131,15 +158,6 @@ class ActivitiesController extends GetxController {
 
     return filters;
   }
-  void filterActivities(String searchText) {
-    if (searchText.isEmpty) {
-      filteredActivityList.value = activitiesList; // Si la recherche est vide, afficher la liste complète
-    } else {
-      filteredActivityList.value = activitiesList.where((activity) {
-        return activity.name!.toLowerCase().contains(searchText.toLowerCase());
-      }).toList();
-    }
-  }
 
 
 
@@ -150,17 +168,23 @@ class ActivitiesController extends GetxController {
     };
     try {
       Response response = await activitiesRepo.review(ActivityId,data);
+    loading.value = true;
 
-      if (response.statusCode == 200) {
-        SnackBarMessage()
-            .showSuccessSnackBar(message: "Your review has been added. Thank you!", context: context);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+      loading.value = false;
 
+       // SnackBarMessage()
+          //  .showSuccessSnackBar(message: "Votre avis a été ajouté. Merci !", context: context);
+        update();
+        tabController?.index = 2;
       }
 
 
       else  {
+       loading.value = false;
+
         SnackBarMessage()
-            .showSuccessSnackBar(message: "We're sorry, an unexpected error has occurred.",context: context);
+            .showErrorSnackBar(message: "Nous sommes désolés, une erreur inattendue s'est produite.",context: context);
         ;
       }
 
@@ -177,11 +201,11 @@ class ActivitiesController extends GetxController {
 
     print("tesssssst");
 
-    isLoading.value = true;
+    loading.value = true;
     Response response = await activitiesRepo.reviews(activityId);
 
     if (response.statusCode == 200) {
-      isLoading.value = false;
+      loading.value = false;
 
       List<dynamic> responseData = response.body["reviews"];
       print("tesssssst");
@@ -191,10 +215,11 @@ class ActivitiesController extends GetxController {
 
       print("reviewsList$reviewsList");
 
-
       update();
+
+
     } else {
-      isLoading.value = false;
+      loading.value = false;
       print("not okkk");
     }
   }

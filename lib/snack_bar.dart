@@ -8,6 +8,7 @@ class SnackBarMessage {
   }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        duration: Duration(seconds: 1),
         behavior: SnackBarBehavior.fixed,
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -72,7 +73,12 @@ class SnackBarMessage {
         backgroundColor: Colors.transparent,
         dismissDirection: DismissDirection.endToStart,
         elevation: 0,
+        duration: Duration(seconds: 1),
         content: Container(
+          margin: EdgeInsets.only(
+            top: MediaQuery.of(context).viewPadding.top+35,
+            bottom: MediaQuery.of(context).size.height - 150,
+          ),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.redAccent.withOpacity(0.8),

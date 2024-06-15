@@ -339,6 +339,8 @@ class MainHome extends StatelessWidget{
                             );
                             Get.find<TrainersController>()
                                 .getTrainerByID(trainer.id!);
+                            Get.find<TrainersController>().getReviews(trainer.id!);
+
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(right: 8.0),

@@ -25,7 +25,7 @@ class CategoriesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    filteredCategoriesList.bindStream(categoriesList.stream); // Lier la liste filtrée à la liste complète au début
+    filteredCategoriesList.bindStream(categoriesList.stream);
   }
 
   Future<void> getCategories() async {
@@ -35,9 +35,8 @@ class CategoriesController extends GetxController {
       if (response.statusCode == 200) {
         List<dynamic> responseData = response.body["data"]["data"];
         categoriesList.value = responseData.map((data) => CategoryData.fromJson(data)).toList();
-        print("categories list : $categoriesList");
+        isLoading.value = false;
       } else {
-        print("Erreur lors de la récupération des données de catégorie.");
       }
     } catch (e, st) {
       print("Exception lors de la récupération des catégories: $e");
@@ -64,9 +63,12 @@ class CategoriesController extends GetxController {
       Response response = await categoriesRepo.getCategoryById(categoryId);
       if (response.statusCode == 200) {
         categoryDetail = CategoryData.fromJson(response.body['data']);
+        isLoading.value = false;
+        update();
       } else {
         print("Erreur lors de la récupération des données de catégorie.");
       }
+      update();
     } catch (e, st) {
       print("Exception lors de la récupération de la catégorie par ID: $e");
       print(st);

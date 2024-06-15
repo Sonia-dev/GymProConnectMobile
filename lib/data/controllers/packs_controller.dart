@@ -14,13 +14,16 @@ class PacksController extends GetxController {
   final PacksRepo packsRepo;
 
   PacksController({required this.packsRepo});
-  RxBool isLoading =false.obs;
 
-  RxBool showPrice =false.obs;
+  RxBool isLoading = false.obs;
+
+  RxBool showPrice = false.obs;
 
   PacksData packsData = PacksData();
-  RxList<PacksData> packsList= <PacksData>[].obs;
-  RxList<SessionData> sessionsList= <SessionData>[].obs;
+  RxList<PacksData> packsList = <PacksData>[].obs;
+  RxList<SessionData> sessionsList = <SessionData>[].obs;
+  RxList<PacksData> filteredPacksList = <PacksData>[].obs;
+
   @override
   void onReady() {
     getPacks();
@@ -28,31 +31,53 @@ class PacksController extends GetxController {
   }
 
 
-
   @override
   void onInit() {
     getPacks();
     super.onInit();
   }
-  Future getPacks() async {
 
+  Future getPacks() async {
     Response response = await packsRepo.getPacksList();
-    print("response.body: $response.body");
-    print("statuscode: $response.statusCode");
+    print("response.body: ${response.body}");
+    print("statuscode: ${response.statusCode}");
 
     if (response.statusCode == 200) {
-
       List<dynamic> responseData = response.body["packs"];
-      print("packs ok");
-      packsList.value = responseData.map((data) => PacksData.fromJson(data)).cast<PacksData>().toList();
+      packsList.value = responseData.map((data) => PacksData.fromJson(data))
+          .cast<PacksData>()
+          .toList();
+      filteredPacksList.value = packsList;
+      isLoading.value = false;
+
 
       update();
-    }
-    else
-    {
+    } else {
+      isLoading.value = false;
       print("not okkk");
     }
   }
+
+
+  void filterByPriceRange(double minPrice, double maxPrice) {
+    filteredPacksList.value = packsList.where((pack) {
+      double packPrice = double.tryParse(pack.price.toString()) ?? 0.0;
+      return packPrice >= minPrice && packPrice <= maxPrice;
+    }).toList();
+  }
+
+
+
+  void filterPacks(String searchText) {
+    if (searchText.isEmpty) {
+      filteredPacksList.value = packsList;
+    } else {
+      filteredPacksList.value = packsList.where((pack) {
+        return pack.name!.toLowerCase().contains(searchText.toLowerCase());
+      }).toList();
+    }
+  }
+
 
   Future<void> getPackByID(int packId) async {
     isLoading.value =true;

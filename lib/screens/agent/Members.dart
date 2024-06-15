@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:gymproconnect_flutter/data/controllers/adherent_controller.dart';
 import 'package:gymproconnect_flutter/data/controllers/attendance_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/circle_avatar_widget.dart';
 
-class Adherents extends StatelessWidget {
-  final AdherentsController controller = Get.find<AdherentsController>();
-  final AttendanceController attendanceController = Get.find<AttendanceController>();
+class Adherents extends GetView<AdherentsController> {
+  final AttendanceController attendanceController =
+      Get.find<AttendanceController>();
 
   @override
   Widget build(BuildContext context) {
@@ -49,20 +49,17 @@ class Adherents extends StatelessWidget {
                             padding: EdgeInsets.symmetric(vertical: 10.0),
                             child: GestureDetector(
                               onTap: () {},
-                              child: Stack(
-                                children: <Widget>[
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: Container(
-                                      height: 100,
-                                      child: buildCircleAvatarhor(
-                                        imagePath: adherent.image.toString(),
-                                        name: adherent.name.toString(),
-                                        title: adherent.surname.toString(),
-                                      ),
-                                    ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: Container(
+                                  height: 90,
+                                  child: buildCircleAvatarPhone(
+                                    imagePath: adherent.image.toString(),
+                                    name: adherent.name.toString(),
+                                    title: adherent.surname.toString(),
+                                    phoneNumber: adherent.phone.toString(),
                                   ),
-                                ],
+                                ),
                               ),
                             ),
                           );
@@ -99,7 +96,7 @@ class Adherents extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(15),
                                         child: Container(
                                           height: 100,
-                                          child: buildCircleAvatarhor(
+                                          child: buildCircleAvatarPhone(
                                             imagePath:
                                                 member.user?.image != null ? member.user?.image.toString() ??
                                                     ""
@@ -110,6 +107,8 @@ class Adherents extends StatelessWidget {
                                             title: member.user?.surname
                                                     .toString() ??
                                                 "",
+                                            phoneNumber: member.user?.phone
+                                                .toString()??"",
                                           ),
                                         ),
                                       ),
@@ -129,5 +128,4 @@ class Adherents extends StatelessWidget {
       ),
     );
   }
-
 }

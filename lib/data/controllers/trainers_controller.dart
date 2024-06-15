@@ -1,15 +1,21 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:gymproconnect_flutter/data/repository/categories_repo.dart';
 import 'package:gymproconnect_flutter/data/repository/trainers_repo.dart';
 import 'package:gymproconnect_flutter/models/activities_model.dart';
 import 'package:gymproconnect_flutter/models/categories_model.dart';
 
+import '../../models/review_model.dart';
+import '../../models/reviews_model.dart';
 import '../../models/trainers_model.dart';
+import '../../snack_bar.dart';
 
 
 class TrainersController extends GetxController {
@@ -21,12 +27,24 @@ class TrainersController extends GetxController {
   RxList<TrainerDetail> trainersList = <TrainerDetail>[].obs;
   RxList<TrainerDetail> trainersAgentList = <TrainerDetail>[].obs;
   TrainerDetail trainerDetail = TrainerDetail();
+  TabController? tabController;
+  final TextEditingController commentController = TextEditingController();
+  var rating = 0.0.obs ;
+  RxList<Reviews> reviewsList = <Reviews>[].obs;
+
+  var userReviewsList = <Reviews>[].obs;
 
 
+  RxBool loading = false.obs;
+
+
+  RxBool loadReview = false.obs;
   @override
   void onReady() {
     getTrainers();
     getTrainersforAgent();
+   // tabController = new TabController( length: 2, vsync: this);
+
     super.onReady();
   }
 
@@ -37,8 +55,26 @@ class TrainersController extends GetxController {
   void onInit() {
     getTrainers();
     getTrainersforAgent();
+    //tabController = new TabController( length: 2, vsync: this);
+
     super.onInit();
   }
+
+
+  @override
+  void onClose() {
+
+    tabController?.dispose();
+
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    tabController?.dispose();
+  }
+
+
 
   Future<void> getTrainers() async {
     isLoading.value=true;
@@ -93,6 +129,86 @@ class TrainersController extends GetxController {
 
 
 
+  Future<void> review(ReviewRequest reviewRequest, BuildContext context,int CoachId) async {
+
+    loadReview.value = true;
+    Map<String, dynamic> data = {
+      "rating": reviewRequest.rating,
+      "comment": reviewRequest.comment,
+    };
+    try {
+      Response response = await trainersRepo.review(CoachId,data);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        loadReview.value = false;
+
+
+        getReviews(CoachId);
+        // SnackBarMessage()
+        //  .showSuccessSnackBar(message: "Votre avis a été ajouté. Merci !", context: context);
+
+        tabController?.index = 2;
+        FocusScope.of(context).unfocus();
+        resetFields();
+        update();
+      }
+
+
+      else  {
+        loadReview.value = false;
+
+        SnackBarMessage()
+            .showErrorSnackBar(message: "Nous sommes désolés, une erreur inattendue s'est produite.",context: context);
+        ;
+      }
+
+    }
+    catch (e, s) {
+      print("Erreur : $e");
+      print("StackTrace : $s");
+      // print("$test");
+    }
+  }
+
+  Future getReviews(int coachId) async {
+
+    print("tesssssst");
+
+    loading.value = true;
+    Response response = await trainersRepo.getreviews(coachId);
+
+   try {
+     if (response.statusCode == 200) {
+       loading.value = false;
+
+       List<dynamic> responseData = response.body["reviews"];
+       print("tesssssst");
+
+
+       reviewsList.value = responseData.map((data) => Reviews.fromJson(data)).cast<Reviews>().toList();
+
+
+       // Lire l'ID de l'utilisateur stocké
+       int userId = GetStorage().read('userId');
+
+       // Filtrer les avis de l'utilisateur connecté
+       userReviewsList.value = reviewsList.where((review) => review.userId == userId).toList();
+
+       print("reviewsList$reviewsList");
+
+       update();
+
+
+     } else {
+       loading.value = false;
+       print("not okkk");
+     }
+   }catch(e,st){
+
+     print(st);
+   }
+
+  }
 
 
 
@@ -114,5 +230,14 @@ print("tesst");
       print("Erreur lors de la récupération des données de coach.");
     }
   }
+
+
+  void resetFields() {
+    commentController.clear();
+
+    rating.value = 0.0;
+  }
+
+
 
 }

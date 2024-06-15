@@ -322,10 +322,11 @@ class HomeAgent extends StatelessWidget{
                         return GestureDetector(
                           onTap: () {
                             Get.toNamed(
-                              RouteHelper.trainerById,
+                              RouteHelper.trainerAgentById,
                             );
                             Get.find<TrainersController>()
                                 .getTrainerByID(trainer.id!);
+                            Get.find<TrainersController>().getReviews(trainer.id!);
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(right: 8.0),
@@ -359,7 +360,7 @@ class HomeAgent extends StatelessWidget{
                         return GestureDetector(
                           onTap: () {
                             Get.toNamed(
-                              RouteHelper.trainerById,
+                              RouteHelper.adherentAgentById,
                             );
                             Get.find<TrainersController>()
                                 .getTrainerByID(adherent.id!);

@@ -94,7 +94,7 @@ class AuthController extends GetxController {
 
         authRepo.saveUserToken(token);
         await GetStorage().write('userId', userId);
-
+        await GetStorage().write('userRole', userRole);
 
         debugPrint('user role is $userRole');
         debugPrint('user id is $userId');
@@ -122,33 +122,13 @@ class AuthController extends GetxController {
 
       else if (response.statusCode == 401) {
 
-        showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-            content: InfoPopupWidget(
-              contentTitle: "Email ou mot de passe incorrects.",
-              child: Icon(
-                Icons.error,
-                color: Colors.red,
-              ),
-            ),
-          ),
-        );
+
+        SnackBarMessage().showErrorSnackBar(message: "Email ou mot de passe incorrects.", context: context);
+
       }
       else {
 
-        showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-            content: InfoPopupWidget(
-              contentTitle: "Erreur de saisie des données",
-              child: Icon(
-                Icons.error,
-                color: Colors.red,
-              ),
-            ),
-          ),
-        );
+        SnackBarMessage().showErrorSnackBar(message: "Erreur de saisie des données", context: context);
       }
     }
     catch (e, s) {
@@ -167,22 +147,25 @@ class AuthController extends GetxController {
 
 
     print("userLoggedIn()${userLoggedIn()}");
+
+
+
+    var role = await GetStorage().read('userRole');
+
+    print("role${role}");
+
     if (userLoggedIn()) {
-      Get.offAllNamed(RouteHelper.getHome());
-      if (userRole == "adherent") {
+      if (role == "adherent") {
 
 
         Get.offAllNamed(RouteHelper.getHome());
 
       }
-      else if (userRole == "coach") {
+      else if (role == "coach") {
 
         Get.offAllNamed(RouteHelper.getHomeCoach());
-
-
-
       }
-      else if (userRole == "agent") {
+      else if (role == "agent") {
         Get.offAllNamed(RouteHelper.getHomeAgent());
 
 
@@ -197,6 +180,7 @@ class AuthController extends GetxController {
 
   clearData(){
     GetStorage().remove("token");
+    GetStorage().remove("userRole");
   }
 
 

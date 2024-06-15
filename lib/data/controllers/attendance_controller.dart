@@ -40,29 +40,29 @@ class AttendanceController extends GetxController {
     try {
       Response response = await attendanceRepo.scan(data);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 ||response.statusCode == 201) {
         showDialog(
           context: context,
           builder: (_) => AlertDialog(
             content: Container(
-              width: 120.w,  // Définir la largeur souhaitée
-              height: 140.h, // Définir la hauteur souhaitée
+              width: 120.w,
+              height: 140.h,
               child: Center(
                 child: Expanded(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SizedBox(
-                        height: 60.h,
-                        width: 60.w,
+                        height: 100.h,
+                        width: 100.w,
                         child: Lottie.asset(
-                          'assets/lotties/successfully.json',
+                          'assets/lotties/success.json',
                         ),
                       ),
-                      SizedBox(height: 20.0), // Espacement entre Lottie animation et le texte
+                      SizedBox(height: 20.0),
                       Text(
-                        'Today\'s attendance has been successfully registered',
-                        textAlign: TextAlign.center,  // Centrer le texte
+                        'La présence d\'aujourd\'hui a été enregistrée avec succès.',
+                        textAlign: TextAlign.center,
                       ),
                     ],
                   ),
@@ -72,13 +72,16 @@ class AttendanceController extends GetxController {
             ),
           ),
         );
+        Future.delayed(Duration(seconds: 4), () {
+          Navigator.of(context).pop();
+        });
       } else  if (response.statusCode == 409) {
         showDialog(
           context: context,
           builder: (_) => AlertDialog(
             content: Container(
-              width: 120.w,  // Définir la largeur souhaitée
-              height: 140.h, // Définir la hauteur souhaitée
+              width: 120.w,
+              height: 140.h,
               child: Center(
                 child: Expanded(
                   child: Column(
@@ -88,13 +91,13 @@ class AttendanceController extends GetxController {
                         height: 60.h,
                         width: 60.w,
                         child: Lottie.asset(
-                          'assets/lotties/already_exist.json',
+                          'assets/lotties/exists.json',
                         ),
                       ),
-                      SizedBox(height: 20.0), // Espacement entre Lottie animation et le texte
+                      SizedBox(height: 20.0),
                       Text(
-                        'Attendance is already marked',
-                        textAlign: TextAlign.center,  // Centrer le texte
+                        'La présence est déjà enregistrée.',
+                        textAlign: TextAlign.center,
                       ),
                     ],
                   ),
@@ -105,11 +108,10 @@ class AttendanceController extends GetxController {
           ),
 
         );
-        Future.delayed(Duration(seconds: 4), () {
+        Future.delayed(Duration(seconds: 1), () {
           Navigator.of(context).pop();
         });
 
-        print("Today's attendance is already marked");
       }
     } catch (e) {
       print("Error recording attendance: $e");

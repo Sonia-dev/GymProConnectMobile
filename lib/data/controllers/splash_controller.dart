@@ -42,6 +42,7 @@ class SplashScreenController extends GetxController   with GetTickerProviderStat
   }
 
   Future goto() async {
+    print('cccccc');
     Get.find<AuthController>().goto();
   }
 }

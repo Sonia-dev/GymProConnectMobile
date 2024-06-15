@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:gymproconnect_flutter/screens/agent/PackDetailAgent.dart';
+import 'package:gymproconnect_flutter/screens/agent/detailed_adh%C3%A9rent.dart';
 import 'package:gymproconnect_flutter/screens/agent/home_agent.dart';
 import 'package:gymproconnect_flutter/screens/agent_layout.dart';
 import 'package:gymproconnect_flutter/screens/coach_layout.dart';
@@ -11,6 +12,7 @@ import 'package:gymproconnect_flutter/screens/home/qr_code.dart';
 import 'package:gymproconnect_flutter/screens/profil/MyAccount.dart';
 import '../helper/bindings.dart';
 import '../screens/agent/detailed_activity_agent.dart';
+import '../screens/agent/detailed_trainer.dart';
 import '../screens/coach/detailed_activity_coach.dart';
 import '../screens/coach/home_coach.dart';
 import '../screens/coach/planningcoach.dart';
@@ -29,6 +31,7 @@ import '../screens/home/planning.dart';
 import '../screens/home/register.dart';
 import '../screens/home/splash.dart';
 import '../screens/home/trainers.dart';
+import '../screens/onboarding_screens/onboarding.dart';
 class RouteHelper {
   static const String initial = "/";
   static const String main = "/main";
@@ -59,11 +62,15 @@ class RouteHelper {
 
   static const String trainers = "/trainers";
   static const String trainerById = "/tarinerById";
+  static const String trainerAgentById = "/tarinerAgentById";
+  static const String adherentAgentById = "/adherentAgentById";
 
   static const String adherents = "/adherents";
 
 
   static const String qrCode = "/qrcode";
+  static const String Onboardinng = "/Onboardinng";
+
 
   static const String profil= "/profil";
 
@@ -88,6 +95,7 @@ class RouteHelper {
   static String getActivitieById() => activitieById;
   static String getActivitieCoachById() => activitieCoachById;
   static String getPlanningCoach() => PlanningCoach;
+  static String Onboardinnng() => Onboardinng;
 
 
   static String getAbonnement() => abonement;
@@ -97,12 +105,15 @@ class RouteHelper {
   static String getPacks() => packs;
   static String getPackById() => packById;
   static String getPackByIdAgent() => packByIdAgent;
+  static String getboarding() => Onboardinng;
 
   static String getCategorieById() => categorieById;
   static String getCategories() => categories;
 
 
   static String getTrainerById() => trainerById;
+  static String getTrainerAgentById() => trainerAgentById;
+  static String getAdherentAgentById() => adherentAgentById;
   static String getTrainers() => trainers;
 
   static String getAdherent() => adherents;
@@ -126,6 +137,10 @@ class RouteHelper {
       binding: SplashBindings(),
       name: splash,
       page: () => Splash(),
+    ),
+   GetPage(
+      name: Onboardinng,
+      page: () => Onboarding(),
     ),
 
 
@@ -257,6 +272,16 @@ class RouteHelper {
       binding: TrainersBindings(),
       name: trainerById,
       page: () =>  detailTrainer(),
+    ),
+ GetPage(
+      binding: TrainersBindings(),
+      name: trainerAgentById,
+      page: () =>  DetailTrainer(),
+    ),
+GetPage(
+      binding: TrainersBindings(),
+      name: adherentAgentById,
+      page: () =>  DetailedAdherent()
     ),
 
 

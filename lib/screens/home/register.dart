@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:gymproconnect_flutter/data/controllers/auth_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,15 +8,9 @@ import 'package:gymproconnect_flutter/models/register_model.dart';
 
 import 'login.dart';
 
-
-
 final _registerKey = GlobalKey<FormState>();
 
-
-
-
 class Register extends GetView<AuthController> {
-
   bool _check = false;
   @override
   Widget build(BuildContext context) {
@@ -33,29 +28,21 @@ class Register extends GetView<AuthController> {
                 height: 60,
               ),
               const SizedBox(height: 10),
-              const Text(
+              Text(
                 "Commencer",
-
-
-                style: TextStyle(
-                  fontFamily: 'Poppins.light',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24.0,
+                style: GoogleFonts.poppins(
                   color: Color(0xFF252525),
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.bold,
                 ),
-
-
-
-
               ),
-
-              const Text(
-                "en envoyant une demande d'inscription ",
-                style: TextStyle(
-                  fontSize: 14.0,
-                  fontFamily: 'Poppins.light',
-                  fontWeight: FontWeight.bold,
+               Text(
+                "En envoyant une demande d'inscription ",
+                style: GoogleFonts.poppins(
                   color: Color(0xFF252525),
+                  fontSize: 14.sp,
+
+                  fontWeight: FontWeight.normal,
                 ),
               ),
               const SizedBox(height: 30),
@@ -65,24 +52,33 @@ class Register extends GetView<AuthController> {
                   children: [
                     TextFormField(
                       controller: controller.NameController,
-
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
-                        labelStyle: TextStyle( color: Colors.black),
+                        labelStyle: GoogleFonts.poppins(
+                          color: Colors.grey,
+                          fontSize: 14.sp,
+
+                          fontWeight: FontWeight.normal,
+                        ),
+                        hintStyle:GoogleFonts.poppins(
+                          color: Colors.grey,
+                          fontSize: 14.sp,
+
+                          fontWeight: FontWeight.normal,
+                        ),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                            const BorderSide(width: 1, color: Colors.white)),
+                            borderSide: const BorderSide(
+                                width: 1, color: Colors.white)),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                            const BorderSide(width: 1, color: Colors.white)),
-
+                            borderSide: const BorderSide(
+                                width: 1, color: Colors.white)),
                         border: OutlineInputBorder(),
                         labelText: 'prénom',
                         hintText: 'Prénom',
-                        suffixIcon: Icon(Icons.person),
+                        suffixIcon: Icon(Icons.person, color:   Colors.grey,),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -97,20 +93,30 @@ class Register extends GetView<AuthController> {
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
-                        labelStyle: TextStyle( color: Colors.black),
+                        labelStyle: GoogleFonts.poppins(
+                          color: Colors.grey,
+                          fontSize: 14.sp,
+
+                          fontWeight: FontWeight.normal,
+                        ),
+                        hintStyle:GoogleFonts.poppins(
+                          color: Colors.grey,
+                          fontSize: 14.sp,
+
+                          fontWeight: FontWeight.normal,
+                        ),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                            const BorderSide(width: 1, color: Colors.white)),
+                            borderSide: const BorderSide(
+                                width: 1, color: Colors.white)),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                            const BorderSide(width: 1, color: Colors.white)),
-
+                            borderSide: const BorderSide(
+                                width: 1, color: Colors.white)),
                         border: OutlineInputBorder(),
                         labelText: 'Nom',
                         hintText: 'Nom',
-                        suffixIcon: Icon(Icons.person),
+                        suffixIcon: Icon(Icons.person, color:   Colors.grey,),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -122,9 +128,7 @@ class Register extends GetView<AuthController> {
                     const SizedBox(height: 20),
                     TextFormField(
                       controller: controller.phoneNumberController,
-                      onChanged: (value) {
-
-                      },
+                      onChanged: (value) {},
                       keyboardType: TextInputType.number,
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.digitsOnly
@@ -132,20 +136,30 @@ class Register extends GetView<AuthController> {
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
-                        labelStyle: TextStyle( color: Colors.black),
+                        labelStyle: GoogleFonts.poppins(
+                          color: Colors.grey,
+                          fontSize: 14.sp,
+
+                          fontWeight: FontWeight.normal,
+                        ),
+                        hintStyle:GoogleFonts.poppins(
+                          color: Colors.grey,
+                          fontSize: 14.sp,
+
+                          fontWeight: FontWeight.normal,
+                        ),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                            const BorderSide(width: 1, color: Colors.white)),
+                            borderSide: const BorderSide(
+                                width: 1, color: Colors.white)),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                            const BorderSide(width: 1, color: Colors.white)),
-
+                            borderSide: const BorderSide(
+                                width: 1, color: Colors.white)),
                         border: OutlineInputBorder(),
                         labelText: 'Numéro de téléphone',
                         hintText: 'Numéro de téléphone',
-                        suffixIcon: Icon(Icons.phone_android),
+                        suffixIcon: Icon(Icons.phone_android, color:   Colors.grey,),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -157,24 +171,33 @@ class Register extends GetView<AuthController> {
                     const SizedBox(height: 20),
                     TextFormField(
                       controller: controller.emailController,
-                      onChanged: (value) {
-
-                      },
+                      onChanged: (value) {},
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
-                        labelStyle: TextStyle( color: Colors.black),
+                        labelStyle: GoogleFonts.poppins(
+                          color: Colors.grey,
+                          fontSize: 14.sp,
+
+                          fontWeight: FontWeight.normal,
+                        ),
+                        hintStyle:GoogleFonts.poppins(
+                          color: Colors.grey,
+                          fontSize: 14.sp,
+
+                          fontWeight: FontWeight.normal,
+                        ),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                            const BorderSide(width: 1, color: Colors.white)),
+                            borderSide: const BorderSide(
+                                width: 1, color: Colors.white)),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                            const BorderSide(width: 1, color: Colors.white)),
+                            borderSide: const BorderSide(
+                                width: 1, color: Colors.white)),
                         labelText: 'E-mail',
                         hintText: 'E-mail',
-                        suffixIcon: Icon(Icons.email_outlined),
+                        suffixIcon: Icon(Icons.email_outlined, color:   Colors.grey,),
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
@@ -189,23 +212,33 @@ class Register extends GetView<AuthController> {
                     const SizedBox(height: 20),
                     TextFormField(
                       controller: controller.adressController,
-
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
-                        labelStyle: TextStyle( color: Colors.black),
+                        labelStyle: GoogleFonts.poppins(
+                          color: Colors.grey,
+                          fontSize: 14.sp,
+
+                          fontWeight: FontWeight.normal,
+                        ),
+                        hintStyle:GoogleFonts.poppins(
+                          color: Colors.grey,
+                          fontSize: 14.sp,
+
+                          fontWeight: FontWeight.normal,
+                        ),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                            const BorderSide(width: 1, color: Colors.white)),
+                            borderSide: const BorderSide(
+                                width: 1, color: Colors.white)),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                            const BorderSide(width: 1, color: Colors.white)),
+                            borderSide: const BorderSide(
+                                width: 1, color: Colors.white)),
                         border: OutlineInputBorder(),
                         labelText: 'Adresse',
                         hintText: 'Adresse',
-                        suffixIcon: Icon(Icons.location_on),
+                        suffixIcon: Icon(Icons.location_on, color:   Colors.grey,),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -215,26 +248,38 @@ class Register extends GetView<AuthController> {
                       },
                     ),
                     const SizedBox(height: 20),
-
                     TextFormField(
                       controller: controller.dateOfBirthController,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle: GoogleFonts.poppins(
+                          color: Colors.grey,
+                          fontSize: 14.sp,
+
+                          fontWeight: FontWeight.normal,
+                        ),
+                        hintStyle:GoogleFonts.poppins(
+                          color: Colors.grey,
+                          fontSize: 14.sp,
+
+                          fontWeight: FontWeight.normal,
+                        ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(width: 1, color: Colors.white),
+                          borderSide:
+                              const BorderSide(width: 1, color: Colors.white),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(width: 1, color: Colors.white),
+                          borderSide:
+                              const BorderSide(width: 1, color: Colors.white),
                         ),
                         border: OutlineInputBorder(),
                         labelText: 'Date de naissance',
                         hintText: 'Date de naissance',
                         suffixIcon: IconButton(
-                          icon: Icon(Icons.date_range),
+                          icon: Icon(Icons.date_range, color:   Colors.grey,),
                           onPressed: () async {
                             final selectedDate = await showDatePicker(
                               context: context,
@@ -245,10 +290,12 @@ class Register extends GetView<AuthController> {
 
                             if (selectedDate != null) {
                               // Formater la date au format "aaaa-mm-jj"
-                              final formattedDate = "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}";
+                              final formattedDate =
+                                  "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}";
 
                               // Mettre à jour le contrôleur de texte avec la date sélectionnée formatée
-                              controller.dateOfBirthController.text = formattedDate;
+                              controller.dateOfBirthController.text =
+                                  formattedDate;
                             }
                           },
                         ),
@@ -261,27 +308,36 @@ class Register extends GetView<AuthController> {
                       },
                     ),
                     const SizedBox(height: 20),
-
                     TextFormField(
                       controller: controller.passwordController,
-
                       obscureText: true,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
-                        labelStyle: TextStyle( color: Colors.black),
+                        labelStyle: GoogleFonts.poppins(
+                          color: Colors.grey,
+                          fontSize: 14.sp,
+
+                          fontWeight: FontWeight.normal,
+                        ),
+                        hintStyle:GoogleFonts.poppins(
+                          color: Colors.grey,
+                          fontSize: 14.sp,
+
+                          fontWeight: FontWeight.normal,
+                        ),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                            const BorderSide(width: 1, color: Colors.white)),
+                            borderSide: const BorderSide(
+                                width: 1, color: Colors.white)),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                            const BorderSide(width: 1, color: Colors.white)),
+                            borderSide: const BorderSide(
+                                width: 1, color: Colors.white)),
                         border: OutlineInputBorder(),
                         labelText: 'Mot de passe sécurisé',
                         hintText: 'Mot de passe',
-                        suffixIcon: Icon(Icons.lock_outline),
+                        suffixIcon: Icon(Icons.lock_outline, color:   Colors.grey,),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -291,82 +347,37 @@ class Register extends GetView<AuthController> {
                       },
                     ),
                     const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Checkbox(
-                          value: _check, onChanged: (bool? value) {  },
 
-                        ),
-                        Text(
-                          "n cochant la case, vous acceptez nos",
-                          style: TextStyle(
-                            fontSize: 9.0,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF252525),
-                          ),
-                        ),
-                        Text(
-                          "termes ",
-                          style: TextStyle(
-                            fontSize: 9.0,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFFf34e3a),
-                          ),
-                        ),
-                        Text(
-                          "et ",
-                          style: TextStyle(
-                            fontSize: 9.0,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF252525),
-                          ),
-                        ),
-                        Text(
-                          "Conditions ",
-                          style: TextStyle(
-                            fontSize: 9.0,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFFf34e3a),
-                          ),
-                        ),
-                      ],
-                    ),
                     SizedBox(height: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFf34e3a),
-                        minimumSize: Size(285, 49),
+                        minimumSize: Size(MediaQuery.of(context).size.width, 49),
+
                       ),
                       onPressed: () async {
-                      if (_registerKey.currentState!.validate()) {
-                        _registerKey.currentState!.save();
-                      }
+                        if (_registerKey.currentState!.validate()) {
+                          _registerKey.currentState!.save();
+                        }
 
-
-
-                          await controller.register(UserRequest(
+                        await controller.register(
+                            UserRequest(
                               name: controller.NameController.text,
                               surName: controller.surNameController.text,
                               number: controller.phoneNumberController.text,
                               email: controller.emailController.text,
                               adress: controller.adressController.text,
-                              dateOfBirth: controller.dateOfBirthController.text,
+                              dateOfBirth:
+                                  controller.dateOfBirthController.text,
                               password: controller.passwordController.text,
-                          status: 1,),context);
+                              status: 1,
+                            ),
+                            context);
 
-
-
-
-
-                     //   }
+                        //   }
                       },
                       child: Text(
-                       ' Inscription',
+                        ' Inscription',
                         style: TextStyle(fontSize: 18.0, color: Colors.white),
                       ),
                     ),
@@ -378,12 +389,11 @@ class Register extends GetView<AuthController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                     "Déjà membre ? ",
-                    style: TextStyle(
-                      fontSize: 13.0,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.bold,
+                    "Déjà membre ? ",
+                    style: GoogleFonts.poppins(
                       color: Color(0xFF252525),
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   GestureDetector(
@@ -395,11 +405,11 @@ class Register extends GetView<AuthController> {
                     },
                     child: Text(
                       "Connexion",
-                      style: TextStyle(
-                        fontSize: 13.0,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
+
+                      style: GoogleFonts.poppins(
                         color: Color(0xFFff3951),
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),

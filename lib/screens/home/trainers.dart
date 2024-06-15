@@ -7,17 +7,10 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gymproconnect_flutter/data/repository/trainers_repo.dart';
-import 'package:gymproconnect_flutter/models/trainers_model.dart';
-import 'package:gymproconnect_flutter/screens/home/planning.dart';
 
-import '../../data/api/api_client.dart';
 import '../../data/controllers/trainers_controller.dart';
 import '../../routes/routes_helper.dart';
 import '../../widgets/circle_avatar_widget.dart';
-import 'Profil.dart';
-import 'abonnement.dart';
-import 'main_home.dart';
 
 class TrainersList extends GetView<TrainersController> {
   @override
@@ -29,6 +22,7 @@ class TrainersList extends GetView<TrainersController> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor : Colors.white,
         title: Text(
           'Coaches',
           style: GoogleFonts.poppins(

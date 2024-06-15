@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../routes/routes_helper.dart';
 import 'onboarding_1.dart';
 import 'onboarding_2.dart';
 import 'onboarding_3.dart';
@@ -30,7 +33,7 @@ class _IntroductionState extends State<Onboarding> {
                 Page3 = (index == 2);
                 if (onLastPage) {
                   Future.delayed(Duration(seconds: 2), () {
-                    Navigator.pushReplacementNamed(context, '/login');
+                    Get.offAllNamed(RouteHelper.getSignUpPage());
                   });
                 }
               });

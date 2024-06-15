@@ -7,8 +7,7 @@ import 'package:gymproconnect_flutter/data/controllers/trainers_controller.dart'
 import '../../data/controllers/attendance_controller.dart';
 import '../../widgets/circle_avatar_widget.dart';
 
-class TrainersAgent extends StatelessWidget {
-  final TrainersController controller = Get.find<TrainersController>();
+class TrainersAgent extends GetView<TrainersController> {
   final AttendanceController coachcontroller = Get.find<AttendanceController>();
 
   @override
@@ -54,12 +53,12 @@ class TrainersAgent extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15),
                                 child: Container(
                                   height: 100,
-                                  child: buildCircleAvatarhor(
-                                  //  imagePath: controller.packsData.activity?.coach?.image!= null?controller.packsData.activity?.coach?.image.toString() ?? "":"assets/no_image.jpg",
+                                  child: buildCircleAvatarPhone(
 
                                     imagePath: coach.image != null? coach.image.toString()??"":"assets/no_image.jpg",
                                     name: coach.name.toString(),
                                     title: coach.surname.toString(),
+                                    phoneNumber:coach.phone.toString(),
                                   ),
                                 ),
                               ),
@@ -75,7 +74,9 @@ class TrainersAgent extends StatelessWidget {
             SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                child: Obx(
+                child:GetBuilder<AttendanceController>(
+    builder: (controller) {
+    return Obx(
                       () => ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -101,9 +102,9 @@ class TrainersAgent extends StatelessWidget {
                       );
                     },
                   ),
+    );})
                 ),
               ),
-            ),
           ],
         ),
       ),
