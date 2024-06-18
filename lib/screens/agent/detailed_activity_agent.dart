@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import '../../data/controllers/activities_controller.dart';
 import '../../data/controllers/categories_controller.dart';
 import '../../data/controllers/packs_controller.dart';
@@ -132,6 +133,22 @@ class ActivityDetailAgent extends GetView<ActivitiesController> {
                           ),
                         ),
                       ),
+                      if (controller.activityDetails.packs?.isEmpty ?? true)
+                        Positioned(
+                          right: 20,
+
+                          bottom: 20,
+                          child:Column(
+                            children: [
+                              Lottie.asset('assets/lotties/NoPack.json',width: 50,height: 50),
+                              Text('Aucun pack', style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w300,
+                              ),),
+                            ],
+                          ),
+                        ),
                     ],
                   ),
                   bottom: TabBar(
@@ -298,8 +315,7 @@ class ActivityDetailAgent extends GetView<ActivitiesController> {
                               )),
                           SizedBox(
                             height: 100.h,
-                            child: controller.activityDetails?.packs !=
-                                null
+                            child: controller.activityDetails?.packs != null
                                 ? ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: controller
@@ -316,11 +332,8 @@ class ActivityDetailAgent extends GetView<ActivitiesController> {
                                     );
                                   },
                                   child: buildCircleAvatar(
-                                    imagePath: pack?.image
-                                        .toString() ??
-                                        "",
-                                    text: pack?.name.toString() ??
-                                        "",
+                                    imagePath: pack?.image.toString() ?? "",
+                                    text: pack?.name.toString() ?? "",
                                   ),
                                 );
                               },

@@ -217,6 +217,7 @@ class MainHome extends StatelessWidget{
                               Get.toNamed(
                                 RouteHelper.getPackById(),
                               );
+                              Get.find<PacksController>().getReviews(pack.id!);
 
                             },
                             child: Stack(

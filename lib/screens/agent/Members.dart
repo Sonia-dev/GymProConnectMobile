@@ -33,95 +33,87 @@ class Adherents extends GetView<AdherentsController> {
         ),
         body: TabBarView(
           children: [
-            Column(children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                    child: Obx(
-                      () => ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: controller.adherentsList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final adherent = controller.adherentsList[index];
-                          return Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10.0),
-                            child: GestureDetector(
-                              onTap: () {},
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: Container(
-                                  height: 90,
-                                  child: buildCircleAvatarPhone(
-                                    imagePath: adherent.image.toString(),
-                                    name: adherent.name.toString(),
-                                    title: adherent.surname.toString(),
-                                    phoneNumber: adherent.phone.toString(),
-                                  ),
-                                ),
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: Obx(
+                  () => ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: controller.adherentsList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final adherent = controller.adherentsList[index];
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.0),
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Container(
+                              height: 90,
+                              child: buildCircleAvatarPhone(
+                                imagePath: adherent.image.toString(),
+                                name: adherent.name.toString(),
+                                title: adherent.surname.toString(),
+                                phoneNumber: adherent.phone.toString(),
                               ),
                             ),
-                          );
-                        },
-                      ),
-                    ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
-              )
-            ]),
-            Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: Obx(() => ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                            itemCount: attendanceController
-                                .memberslist
-                                .length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final member = attendanceController
-                                  .memberslist
-                                  .value[index];
-                              return Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10.0),
-                                child: GestureDetector(
-                                  onTap: () {},
-                                  child: Stack(
-                                    children: <Widget>[
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: Container(
-                                          height: 100,
-                                          child: buildCircleAvatarPhone(
-                                            imagePath:
-                                                member.user?.image != null ? member.user?.image.toString() ??
-                                                    ""
-                                                    : "assets/no_image.jpg",
-                                            name:
-                                                member.user?.name.toString() ??
-                                                    "",
-                                            title: member.user?.surname
-                                                    .toString() ??
-                                                "",
-                                            phoneNumber: member.user?.phone
-                                                .toString()??"",
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+              ),
+            ),
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child:GetBuilder<AttendanceController>(
+    builder: (controller) {
+    return  Obx(() => ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                      itemCount: attendanceController
+                          .memberslist
+                          .length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final member = attendanceController
+                            .memberslist
+                            .value[index];
+                        return Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.0),
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Stack(
+                              children: <Widget>[
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: Container(
+                                    height: 100,
+                                    child: buildCircleAvatarPhone(
+                                      imagePath:
+                                          member.user?.image != null ? member.user?.image.toString() ??
+    ""
+                                              : "assets/no_image.jpg",
+                                      name:
+                                          member.user?.name.toString() ??
+                                              "",
+                                      title: member.user?.surname
+                                              .toString() ??
+                                          "",
+                                      phoneNumber: member.user?.phone
+                                          .toString()??"",
+                                    ),
                                   ),
                                 ),
-                              );
-                            },
-                          )),
-                    ),
-                  ),
-                ),
-              ],
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ));}),
+              ),
             ),
           ],
         ),

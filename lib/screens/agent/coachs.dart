@@ -76,7 +76,7 @@ class TrainersAgent extends GetView<TrainersController> {
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child:GetBuilder<AttendanceController>(
     builder: (controller) {
-    return Obx(
+                  return Obx(
                       () => ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -91,10 +91,13 @@ class TrainersAgent extends GetView<TrainersController> {
                             borderRadius: BorderRadius.circular(15),
                             child: Container(
                               height: 100,
-                              child: buildCircleAvatarhor(
+                              child:buildCircleAvatarPhone(
+
                                 imagePath: coach.user?.image !=null ? coach.user?.image.toString()??"":"assets/no_image.jpg",
                                 name: coach.user?.name.toString()??"",
                                 title: coach.user?.surname.toString()??"",
+                      phoneNumber: coach.user?.phone
+                          .toString()??"",
                               ),
                             ),
                           ),

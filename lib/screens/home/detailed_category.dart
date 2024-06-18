@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -229,10 +231,10 @@ class detailCategory extends GetView<CategoriesController> {
         shrinkWrap: true,
         itemCount: activitiesList.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          mainAxisSpacing: 10.0, // Espacement vertical entre les éléments
-          crossAxisSpacing: 10.0, // Espacement horizontal entre les éléments
-          childAspectRatio: 1.0, // Rapport hauteur/largeur des éléments
+          crossAxisCount: 3,
+          mainAxisSpacing: 10.0,
+          crossAxisSpacing: 10.0,
+          childAspectRatio: 1.0,
         ),
         itemBuilder: (BuildContext context, int index) {
           var activity = activitiesList[index];
@@ -245,28 +247,67 @@ class detailCategory extends GetView<CategoriesController> {
               child: Container(
                 color: Colors.blue[100],
                 child: Stack(
-                  children: [
-                    Image.network(
-                      activity.image.toString(),
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: double.infinity,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        }
-                        return Center(
-                          child: SpinKitDoubleBounce(
-                            size: 10,
-                            color: Colors.orange,
-                          ),
-                        );
-                      },
+                  alignment: Alignment.bottomLeft,
+                  children: <Widget>[
+                    ClipRRect(
+                      child: activity.image != null
+                          ? Image.network(
+                        activity.image.toString(),
+                        width: MediaQuery.of(context).size.width  ,
+                        height: MediaQuery.of(context).size.height,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          }
+                          return Center(
+                            child: SpinKitDoubleBounce(
+                              size: 10,
+                              color: Colors.orange,
+                            ),
+                          );
+                        },
+                      )
+                          : Image.asset(
+                        "assets/no_image.jpg",
+                        width: MediaQuery.of(context).size.width   ,
+                        height: MediaQuery.of(context).size.height,
+
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                    Center(
-                      child: Text(
-                        activity.name.toString(),
-                        style: TextStyle(fontSize: 20.0),
+                    ClipRRect(
+
+                      child: BackdropFilter(
+                        filter:
+                        ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                        child: Container(
+                          width:
+                          MediaQuery.of(context).size.width ,
+                          padding: EdgeInsets.all(8.0),
+                          // Adjust padding as needed
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  height: 20.h,
+                                  child: Text(
+
+                                    activity.name! ,
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.black,
+                                      fontSize: 16.spMin,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ],

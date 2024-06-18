@@ -134,9 +134,9 @@ class abonnement extends GetView<PlanningController> {
                                           ),
                                           5.h.verticalSpace,
                                           Text(
-                                            booking.paymentStatus ?? "",
+                                            booking.paymentStatus == "not_payed" ? "non payée" : "payée",
                                             style: GoogleFonts.rubik(
-                                              color: Color(0xFFF34E3A),
+                                              color: booking.paymentStatus == "not_payed" ? Colors.red : Colors.green,
                                               fontSize: 13,
                                               fontWeight: FontWeight.w400,
                                               height: 0,

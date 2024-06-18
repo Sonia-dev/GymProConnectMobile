@@ -5,10 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import '../../data/controllers/activities_controller.dart';
 import '../../data/controllers/categories_controller.dart';
 import '../../data/controllers/packs_controller.dart';
 import '../../data/controllers/reviews_controller.dart';
+import '../../data/controllers/trainers_controller.dart';
 import '../../models/review_model.dart';
 import '../../routes/routes_helper.dart';
 import '../../widgets/circle_avatar_widget.dart';
@@ -147,6 +149,22 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                 ),
                               ),
                             ),
+                            if (controller.activityDetails.packs?.isEmpty ?? true)
+                              Positioned(
+                                right: 20,
+
+                                bottom: 20,
+                                child:Column(
+                                  children: [
+                                    Lottie.asset('assets/lotties/NoPack.json',width: 50,height: 50),
+                                    Text('Aucun pack', style: GoogleFonts.poppins(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w300,
+                                    ),),
+                                  ],
+                                ),
+                              ),
                           ],
                         ),
                         bottom: TabBar(
@@ -241,7 +259,7 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                   ),
                                 ),
                                 10.h.verticalSpace,
-                                Text('Coaches',
+                                Text('Coach',
                                     style: GoogleFonts.poppins(
                                       color: Color(0xFF0C1A30),
                                       fontSize: 20.spMin,
@@ -249,33 +267,46 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                     )),
                                 SizedBox(
                                   height: 100.h,
-                                  child: buildCircleAvatarhor(
-                                    imagePath: controller
-                                                .activityDetails.coach?.image !=
-                                            null
-                                        ? controller
-                                                .activityDetails?.coach?.image
-                                                .toString() ??
-                                            ""
-                                        : "assets/no_image.jpg",
-                                    name: controller
-                                                .activityDetails.coach?.title !=
-                                            null
-                                        ? controller.activityDetails.coach?.name
-                                                .toString() ??
-                                            ""
-                                        : "",
-                                    title: controller
-                                                .activityDetails.coach?.title !=
-                                            null
-                                        ? controller
-                                                .activityDetails.coach?.title
-                                                .toString() ??
-                                            ""
-                                        : "",
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      await Get.find<
+                                          TrainersController>()
+                                          .getTrainerByID(controller
+                                          .activityDetails.coach
+                                          ?.id ??
+                                          1);
+                                      Get.toNamed(
+                                        RouteHelper.getTrainerById(),
+                                      );
+                                    },
+                                    child: buildCircleAvatarhor(
+                                      imagePath: controller
+                                                  .activityDetails.coach?.image !=
+                                              null
+                                          ? controller
+                                                  .activityDetails?.coach?.image
+                                                  .toString() ??
+                                              ""
+                                          : "assets/no_image.jpg",
+                                      name: controller
+                                                  .activityDetails.coach?.title !=
+                                              null
+                                          ? controller.activityDetails.coach?.name
+                                                  .toString() ??
+                                              ""
+                                          : "",
+                                      title: controller
+                                                  .activityDetails.coach?.title !=
+                                              null
+                                          ? controller
+                                                  .activityDetails.coach?.title
+                                                  .toString() ??
+                                              ""
+                                          : "",
+                                    ),
                                   ),
                                 ),
-                                Text('Catégories',
+                                Text('Catégorie',
                                     style: GoogleFonts.poppins(
                                       color: Color(0xFF0C1A30),
                                       fontSize: 20.spMin,

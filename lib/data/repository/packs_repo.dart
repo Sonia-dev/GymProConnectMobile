@@ -23,4 +23,13 @@ class PacksRepo{
   {
     return await apiClient.getData("${Uris.listingPacksUrl}/$packId/sessions");
   }
+
+  Future<Response> getreviews(int PackId) async {
+    return await apiClient.getData("${Uris.reviewsPackUrl}$PackId/");
+  }
+
+  Future<Response> postreview(int packId, Map body) async {
+    return await apiClient.postData("${Uris.postreviewPackUrl}$packId", body);
+  }
+
 }

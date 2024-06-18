@@ -221,34 +221,40 @@ Widget customWidget({required String imagePath, required String name, required S
       ),
       SizedBox(width: 10),
       Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              name,
-              style: TextStyle(
-                color: Color(0xFF170F49),
-                fontSize: 18,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w700,
+        child: Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                name,
+                style: TextStyle(
+                  color: Color(0xFF170F49),
+                  fontSize: 18,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
-            SizedBox(height: 5),
-            Text(
-              title,
-              style: TextStyle(
-                color: Color(0xFF6E6B8F),
-                fontSize: 15,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w400,
+              SizedBox(height: 5),
+              Flexible(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: Color(0xFF6E6B8F),
+                    fontSize: 15,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w400,
+                  ),
+               //   overflow: TextOverflow.ellipsis,
+
+                ),
               ),
-            ),
-            SizedBox(height: 5),
-            Row(
-              children: starIcons, // Utiliser la liste des icônes d'étoiles
-            ),
-          ],
+              SizedBox(height: 5),
+              Row(
+                children: starIcons, // Utiliser la liste des icônes d'étoiles
+              ),
+            ],
+          ),
         ),
       ),
     ],

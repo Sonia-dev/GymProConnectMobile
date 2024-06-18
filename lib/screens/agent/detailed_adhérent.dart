@@ -30,7 +30,7 @@ class DetailedAdherent extends GetView<TrainersController> {
                   : Scaffold(
                 appBar: PreferredSize(
                   preferredSize: Size.fromHeight(
-                    MediaQuery.of(context).size.height / 2.5,
+                    MediaQuery.of(context).size.height / 2.5-50,
                   ),
                   child: AppBar(
                     automaticallyImplyLeading: false,
@@ -43,12 +43,12 @@ class DetailedAdherent extends GetView<TrainersController> {
                           width: MediaQuery.of(context).size.width,
                           fit: BoxFit.cover,
                           height:
-                          (MediaQuery.of(context).size.height / 2.5) ,
+                          (MediaQuery.of(context).size.height / 2.5-50) ,
                           errorBuilder: (context, error, stackTrace) {
                             return SizedBox(
                               height:
                               (MediaQuery.of(context).size.height /
-                                  2.5),
+                                  2.5-50),
                               width: MediaQuery.of(context).size.width,
                               child: Image.asset(
                                 "assets/no_image.jpg",
@@ -116,29 +116,30 @@ class DetailedAdherent extends GetView<TrainersController> {
                           bottom: 0,
                           child: Padding(
                             padding: const EdgeInsets.all(30.0),
-                            child: Column(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment:
                               CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   controller.trainerDetail.surname
-                                      .toString(),
+                                      .toString().toUpperCase() ,
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.poppins(
                                     color: Color(0xFFf34e3a),
-                                    fontSize: 16.spMin,
-                                    fontWeight: FontWeight.w700,
+                                    fontSize: 20.spMin,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
+                                5.w.horizontalSpace,
                                 Text(
                                   controller.trainerDetail.name
-                                      .toString(),
+                                      .toString().toUpperCase(),
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.poppins(
                                     color: Colors.white,
-                                    fontSize: 16.spMin,
-                                    fontWeight: FontWeight.w700,
+                                    fontSize: 20.spMin,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ],

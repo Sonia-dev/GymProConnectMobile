@@ -74,6 +74,9 @@ class HomeBindings implements Bindings {
    // Get.put(PlanningController(planningRepo: Get.find(),));
     Get.put(ProfilRepo( apiClient: Get.find(),));
     Get.put(ProfilController(profilRepo: Get.find()));
+    Get.put(QrCodeRepo( apiClient: Get.find(),));
+    Get.put(QrCodeController(qrCodeRepo: Get.find()),permanent: true);
+
 
   }
 }
@@ -106,6 +109,9 @@ class HomeCoachBindings implements Bindings {
     Get.put(ProfilController(profilRepo: Get.find()));
     Get.put(ActivitiesRepo( apiClient: Get.find(),));
     Get.put(ActivitiesCoachController(activitiesRepo: Get.find()));
+    Get.put(QrCodeRepo( apiClient: Get.find(),));
+    Get.put(QrCodeController(qrCodeRepo: Get.find()),permanent: true);
+
 
   }
 }
@@ -206,6 +212,15 @@ class FilterBindings implements Bindings {
   void dependencies() {
     Get.put(FilterRepo( apiClient: Get.find(),));
     Get.put(FilterController(filterRepo: Get.find()),permanent: true);
+  }
+
+}
+
+class QRCodeBindings implements Bindings {
+  @override
+  void dependencies() {
+    Get.put(QrCodeRepo( apiClient: Get.find(),));
+    Get.put(QrCodeController(qrCodeRepo: Get.find()),permanent: true);
   }
 
 }

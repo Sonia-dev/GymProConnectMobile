@@ -173,9 +173,9 @@ class ActivitiesController extends GetxController with   GetTickerProviderStateM
       if (response.statusCode == 200 || response.statusCode == 201) {
       loading.value = false;
 
-       // SnackBarMessage()
-          //  .showSuccessSnackBar(message: "Votre avis a été ajouté. Merci !", context: context);
-        update();
+        SnackBarMessage()
+         .showSuccessSnackBar(message: "Votre avis a été ajouté. Merci !", context: context);
+         update();
         tabController?.index = 2;
       }
 
@@ -216,8 +216,6 @@ class ActivitiesController extends GetxController with   GetTickerProviderStateM
       print("reviewsList$reviewsList");
 
       update();
-
-
     } else {
       loading.value = false;
       print("not okkk");

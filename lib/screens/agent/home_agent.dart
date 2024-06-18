@@ -226,6 +226,8 @@ class HomeAgent extends StatelessWidget{
                               Get.toNamed(
                                 RouteHelper.getPackByIdAgent(),
                               );
+                              Get.find<PacksController>().getReviews(pack.id!);
+
 
                             },
                             child: Stack(
@@ -364,6 +366,7 @@ class HomeAgent extends StatelessWidget{
                             );
                             Get.find<TrainersController>()
                                 .getTrainerByID(adherent.id!);
+
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(right: 8.0),

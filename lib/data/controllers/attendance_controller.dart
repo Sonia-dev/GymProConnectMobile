@@ -60,9 +60,11 @@ class AttendanceController extends GetxController {
                         ),
                       ),
                       SizedBox(height: 20.0),
-                      Text(
-                        'La présence d\'aujourd\'hui a été enregistrée avec succès.',
-                        textAlign: TextAlign.center,
+                      Flexible(
+                        child: Text(
+                          'La présence d\'aujourd\'hui a été enregistrée avec succès.',
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ],
                   ),
@@ -108,7 +110,7 @@ class AttendanceController extends GetxController {
           ),
 
         );
-        Future.delayed(Duration(seconds: 1), () {
+        Future.delayed(Duration(seconds: 4), () {
           Navigator.of(context).pop();
         });
 

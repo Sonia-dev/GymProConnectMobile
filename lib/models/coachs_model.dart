@@ -50,8 +50,8 @@ class User {
   String? createdAt;
   String? updatedAt;
   String? image;
-  Null? title;
-  Null? siteId;
+  String? title;
+  int? siteId;
   String? token;
 
   User(
