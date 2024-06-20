@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gymproconnect_flutter/screens/payment/payment_methods.dart';
 import 'package:intl/intl.dart';
 
@@ -21,10 +22,9 @@ class _PaymentDetailsState extends State<PaymentDetails> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Payment Details',
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             color: Color(0xFF181D27),
             fontSize: 14,
-            fontFamily: 'DM Sans',
             fontWeight: FontWeight.w500,
             height: 0.10,
           ),),

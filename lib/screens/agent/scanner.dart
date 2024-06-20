@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../data/controllers/attendance_controller.dart';
@@ -50,7 +51,7 @@ class _ScannerState extends State<Scanner> {
               child: Center(
                 child: Container(
                   margin: EdgeInsets.all(100.0),
-                  child: Text('Enregistrer la présence',  style: TextStyle(fontSize: 50.0, color: Colors.deepOrange,),
+                  child: Text('Enregistrer la présence',  style: GoogleFonts.poppins(fontSize: 50.0, color: Colors.deepOrange,),
                               ),
                 ),
               ),

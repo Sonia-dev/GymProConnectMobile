@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Onboarding2 extends StatefulWidget {
   const Onboarding2({super.key});
@@ -30,10 +31,9 @@ class _Intro1State extends State<Onboarding2> {
               child: Text(
                 'Build Your Mind and Body',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   color: Colors.white,
                   fontSize: 32,
-                  fontFamily: 'Poppins',
                   decoration: TextDecoration.none,
                   fontWeight: FontWeight.w700,
                   height: 0,
@@ -44,11 +44,10 @@ class _Intro1State extends State<Onboarding2> {
             Text(
               'Be an Inspiration',
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Colors.white,
                 fontSize: 16,
                 fontStyle: FontStyle.italic,
-                fontFamily: 'Poppins',
                 fontWeight: FontWeight.w400,
                 decoration: TextDecoration.none,
                 height: 0,

@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymproconnect_flutter/data/controllers/adherent_controller.dart';
 import 'package:gymproconnect_flutter/data/controllers/trainers_controller.dart';
+import 'package:intl/date_symbol_data_file.dart';
+import 'package:intl/intl.dart';
 import '../../data/controllers/attendance_controller.dart';
 import '../../widgets/circle_avatar_widget.dart';
 
@@ -17,7 +19,16 @@ class TrainersAgent extends GetView<TrainersController> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Center(child: const Text("Les coaches")),
+          centerTitle: true,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text("Les coaches"),
+              _buildPresenceIndicator()
+            ],
+          ),
+
           bottom: const TabBar(
             indicatorColor: Color(0xFFF34E3A),
             labelColor: Color(0xFFF8A69C),
@@ -114,3 +125,24 @@ class TrainersAgent extends GetView<TrainersController> {
     );
   }
 }
+
+Widget _buildPresenceIndicator( ) {
+
+  final DateTime today = DateTime.now();
+  String formattedDate = DateFormat('dd/MM/yyyy').format(today); // Format date as dd/mm/yyyy
+  return Container(
+    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+    decoration: BoxDecoration(
+      color:Colors.deepOrange, // Green for today, grey for others
+      borderRadius: BorderRadius.circular(10),
+    ),
+    child: Text(
+      'le $formattedDate', // Display formatted date for today, otherwise "Autre jour"
+      style: GoogleFonts.poppins(
+        color: Colors.white,
+        fontSize: 10,
+
+      ),
+
+    ),
+  );}

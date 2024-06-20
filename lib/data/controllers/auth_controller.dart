@@ -88,34 +88,64 @@ class AuthController extends GetxController {
       Response response = await authRepo.login(data);
 
       if (response.statusCode == 200) {
-        String token = response.body["success"]["token"];
-        userRole = response.body["success"]["role"][0];
-        userId =response.body["success"]["userId"];
-
-        authRepo.saveUserToken(token);
-        await GetStorage().write('userId', userId);
-        await GetStorage().write('userRole', userRole);
-
-        debugPrint('user role is $userRole');
-        debugPrint('user id is $userId');
-        print('token: $token');
 
 
 
-        if (userRole == "adherent") {
+        var status = response.body["success"]["status"] ;
 
-          Get.offAllNamed(RouteHelper.getHome());
+
+       if(status == 1) {
+
+         SnackBarMessage()
+             .showSuccessSnackBar(message: "Votre demande est en cours de traitement",
+             context: context);
+
+
+
+       }
+      else if(status == 2) {
+
+
+          String token = response.body["success"]["token"];
+          userRole = response.body["success"]["role"];
+          userId =response.body["success"]["userId"];
+          GetStorage().write('firstTime', false);
+
+          authRepo.saveUserToken(token);
+          await GetStorage().write('userId', userId);
+          await GetStorage().write('userRole', userRole);
+
+          debugPrint('user role is $userRole');
+          debugPrint('user id is $userId');
+          print('token: $token');
+
+
+
+          if (userRole == "adherent") {
+
+            Get.offAllNamed(RouteHelper.getHome());
+          }
+          else if (userRole == "coach") {
+
+            Get.offAllNamed(RouteHelper.getHomeCoach());
+
+          }
+          else if (userRole == "agent") {
+            Get.offAllNamed(RouteHelper.getHomeAgent());
+
+
+          }
+
+
         }
-        else if (userRole == "coach") {
 
-          Get.offAllNamed(RouteHelper.getHomeCoach());
+       else if(status == 3) {
+         SnackBarMessage()
+             .showSuccessSnackBar(message: "Votre demande est rejeté", context: context);
 
-        }
-        else if (userRole == "agent") {
-          Get.offAllNamed(RouteHelper.getHomeAgent());
+       }
 
 
-        }
       }
 
 
@@ -181,6 +211,11 @@ class AuthController extends GetxController {
   clearData(){
     GetStorage().remove("token");
     GetStorage().remove("userRole");
+    GetStorage().remove("userId");
+    GetStorage().remove("userRole");
+
+
+
   }
 
 

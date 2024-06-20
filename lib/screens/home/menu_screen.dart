@@ -142,7 +142,9 @@ class MenuContent extends StatelessWidget {
 
                           Text(
                             'Roberto Mamun',
+
                             style: TextStyle(
+
                               color: Colors.white,
                               fontSize: 16,
                               fontFamily: 'Rubik',

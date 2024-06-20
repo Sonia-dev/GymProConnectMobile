@@ -100,7 +100,7 @@ class Filtre extends GetView<FilterController> {
 
                                         label: Text(
                                           category,
-                                          style: TextStyle(
+                                          style: GoogleFonts.poppins(
                                             color: controller.selectedCategory.value == category ? Colors.white : Colors.black,
                                           ),
                                         ),
@@ -134,7 +134,7 @@ class Filtre extends GetView<FilterController> {
                                     },
                                     child: Text(
                                       controller.showAllCategories.value ? 'Voir moins' : 'Voir plus',
-                                      style: TextStyle(
+                                      style: GoogleFonts.poppins(
                                         decoration: TextDecoration.underline,
                                         decorationColor: Colors.orange,
                                         color: Colors.orange,
@@ -177,7 +177,7 @@ class Filtre extends GetView<FilterController> {
                                     backgroundColor:  Colors.white,
                                     label: Text(
                                       gender,
-                                      style: TextStyle(
+                                      style: GoogleFonts.poppins(
                                           color: controller.selectedGender.value == gender ? Colors.white : Colors.black
                                       ),
                                     ),
@@ -218,7 +218,7 @@ class Filtre extends GetView<FilterController> {
                                     backgroundColor:  Colors.white,
                                     label: Text(
                                       target,
-                                      style: TextStyle(
+                                      style: GoogleFonts.poppins(
                                           color: controller.selectedTarget.value == target ? Colors.white : Colors.black
                                       ),
                                     ),
@@ -343,7 +343,7 @@ class Filtre extends GetView<FilterController> {
                         },
                         child: Text(
                           'Appliquer',
-                          style: TextStyle(fontSize: 18.0, color: Colors.white),
+                          style: GoogleFonts.poppins(fontSize: 18.0, color: Colors.white),
                         ),
                       ),
                     ],

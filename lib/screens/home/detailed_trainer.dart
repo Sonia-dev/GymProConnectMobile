@@ -134,7 +134,10 @@ class detailTrainer extends GetView<TrainersController> {
                                             } else if (controller.userReviewsList.isEmpty) {
                                               return Text(
                                                 'Aucun avis disponible',
-                                                style: TextStyle(fontSize: 16.sp, color: Colors.grey),
+                                                style: GoogleFonts.poppins(
+                                                  color: Colors.grey,
+                                                  fontSize: 16.sp,
+                                                ),
                                               );
                                             } else {
                                               return ListView.builder(
@@ -216,7 +219,10 @@ class detailTrainer extends GetView<TrainersController> {
                                           },
                                         child: Text(
                                           'Ajouter avis',
-                                          style: TextStyle(fontSize: 18.0, color: Colors.white),
+                                          style: GoogleFonts.poppins(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                          ),
                                         ),
                                       ),
                                                                   ),

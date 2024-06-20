@@ -36,7 +36,9 @@ class ActivityDetailCoach extends GetView<ActivitiesController> {
                   flexibleSpace: Stack(
                     children: [
                       Image.network(
-                        controller.activityDetails.image.toString(),
+                  "http://192.168.1.199:8000/${ controller.activityDetails.image.toString()}",
+
+
                         width: MediaQuery.of(context).size.width,
                         fit: BoxFit.cover,
                         height: (MediaQuery.of(context).size.height / 2.5)-50,
@@ -199,10 +201,9 @@ class ActivityDetailCoach extends GetView<ActivitiesController> {
                           Text(
                             controller.activityDetails.recommendedOutfit
                                 .toString(),
-                            style: const TextStyle(
+                            style:  GoogleFonts.poppins(
                               color: Colors.black,
                               fontSize: 14,
-                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -217,16 +218,15 @@ class ActivityDetailCoach extends GetView<ActivitiesController> {
                           Text(
                             controller.activityDetails.recommendations
                                 .toString(),
-                            style: const TextStyle(
+                            style:  GoogleFonts.poppins(
                               color: Colors.black,
                               fontSize: 14,
-                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w400,
                             ),
                           ),
                           10.h.verticalSpace,
 
-                          Text('Catégories',
+                          Text('Catégorie',
                               style: GoogleFonts.poppins(
                                 color: Color(0xFF0C1A30),
                                 fontSize: 20.spMin,
@@ -234,17 +234,8 @@ class ActivityDetailCoach extends GetView<ActivitiesController> {
                               )),
                           SizedBox(
                             height: 100.h,
-                            child: GestureDetector(
-                              onTap: () async {
-                                await Get.find<CategoriesController>()
-                                    .getCategorieByID(controller
-                                    .activityDetails?.category
-                                    ?.id ??
-                                    1);
-                                Get.toNamed(
-                                  RouteHelper.getActivitieById(),
-                                );
-                              },
+
+
                               child: buildCircleAvatarhor(
                                 imagePath: controller
                                     .activityDetails
@@ -264,7 +255,7 @@ class ActivityDetailCoach extends GetView<ActivitiesController> {
                                     ?.description
                                     .toString() ??
                                     "",
-                              ),
+
                             ),
                           ),
 
@@ -282,7 +273,7 @@ class ActivityDetailCoach extends GetView<ActivitiesController> {
                               20.h.verticalSpace,
 
 
-                              Text("Reviews",
+                              Text("Les avis",
                                   style: GoogleFonts.poppins(
                                     color: Color(0xFF0C1A30),
                                     fontSize: 20.spMin,
@@ -307,14 +298,24 @@ class ActivityDetailCoach extends GetView<ActivitiesController> {
                                               children: [
                                                 Container(
                                                   height: 100,
-                                                  child: buildCircleAvatarhor(
-                                                    imagePath: review.user?.image.toString() ?? "",
-                                                    name: "${review.user?.name.toString()} ${review.user?.surname.toString()}" ?? "",
-                                                    title:_buildRatingStars(review?.rating??""),
+                                                  child: customWidget(
+                                                    imagePath: review
+                                                        .user
+                                                        ?.image
+                                                        .toString() ??
+                                                        "",
+                                                    name:
+                                                    "${review.user?.name ?? ""} ${review.user?.surname ?? ""}",
+                                                    title: review
+                                                        .comment
+                                                        .toString(),
+                                                    starRating: double.parse(
+                                                        review.rating ??
+                                                            "0."),
                                                   ),
                                                 ),
 
-                                                Text("  ${review.comment?.toString() ?? ""}"),
+
                                               ],
                                             ),
                                           ),
@@ -324,6 +325,8 @@ class ActivityDetailCoach extends GetView<ActivitiesController> {
                                   },
                                 ),
                               ),
+                              10.h.verticalSpace,
+
 
 
 
@@ -336,14 +339,6 @@ class ActivityDetailCoach extends GetView<ActivitiesController> {
         }),
       ),
     );
-  }
-  String _buildRatingStars(String rating) {
-    double ratingValue = double.tryParse(rating) ?? 0.0;
-    int fullStars = ratingValue.floor();
-    int halfStars = ((ratingValue - fullStars) >= 0.5) ? 1 : 0;
-    int emptyStars = 5 - fullStars - halfStars;
-
-    return '★' * fullStars + '☆' * emptyStars;
   }
 }
 

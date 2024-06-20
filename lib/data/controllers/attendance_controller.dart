@@ -74,6 +74,9 @@ class AttendanceController extends GetxController {
             ),
           ),
         );
+        await getMembers();
+        await getCoachs();
+
         Future.delayed(Duration(seconds: 4), () {
           Navigator.of(context).pop();
         });

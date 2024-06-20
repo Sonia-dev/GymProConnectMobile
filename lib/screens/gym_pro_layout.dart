@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gymproconnect_flutter/screens/tab_navigator_widget.dart';
 
 import '../routes/routes_helper.dart';
@@ -89,7 +90,7 @@ class _GymProLayoutState extends State<GymProLayout> {
                             Text(
                               'Home',
                               style:
-                              TextStyle(color: _currentPage ==0?Color(0xFFF34E3A):Color(0xFFA2A2A2), fontSize: 12),
+                              GoogleFonts.poppins(color: _currentPage ==0?Color(0xFFF34E3A):Color(0xFFA2A2A2), fontSize: 12),
                             ),
                           ],
                         ),
@@ -113,7 +114,7 @@ class _GymProLayoutState extends State<GymProLayout> {
                             Text(
                               'Planning',
                               style:
-                              TextStyle(fontSize: 12, color: _currentPage ==1?Color(0xFFF34E3A):Color(0xFFA5A5A7)),
+                              GoogleFonts.poppins(fontSize: 12, color: _currentPage ==1?Color(0xFFF34E3A):Color(0xFFA5A5A7)),
                             ),
                           ],
                         ),
@@ -137,7 +138,7 @@ class _GymProLayoutState extends State<GymProLayout> {
                             Text(
                               'Abonnements',
                               style:
-                              TextStyle(fontSize: 12, color: _currentPage ==2?Color(0xFFF34E3A):Color(0xFFA5A5A7)),
+                              GoogleFonts.poppins(fontSize: 12, color: _currentPage ==2?Color(0xFFF34E3A):Color(0xFFA5A5A7)),
                             ),
                           ],
                         ),
@@ -163,7 +164,7 @@ class _GymProLayoutState extends State<GymProLayout> {
                             Text(
                               'Profil',
                               style:
-                              TextStyle(fontSize: 12, color: _currentPage ==3?Color(0xFFF34E3A):Color(0xFFA5A5A7),),
+                              GoogleFonts.poppins(fontSize: 12, color: _currentPage ==3?Color(0xFFF34E3A):Color(0xFFA5A5A7),),
                             ),
                           ],
                         ),
@@ -236,7 +237,7 @@ Future<bool?> showDialogPopUp(BuildContext context) async {
           SizedBox(width: 10),
           Text(
             'Etes vous sures?',
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -246,7 +247,7 @@ Future<bool?> showDialogPopUp(BuildContext context) async {
       ),
       content: Text(
         'Vous voulez vraiment quitter l application?',
-        style: TextStyle(fontSize: 14, color: Colors.black87),
+        style: GoogleFonts.poppins(fontSize: 14, color: Colors.black87),
         textAlign: TextAlign.right,
       ),
       actions: [
@@ -254,7 +255,7 @@ Future<bool?> showDialogPopUp(BuildContext context) async {
           onPressed: () => Navigator.of(context).pop(false),
           child: Text(
             'Non',
-            style: TextStyle(fontSize: 14, color: Colors.orange),
+            style: GoogleFonts.poppins(fontSize: 14, color: Colors.orange),
           ),
         ),
         TextButton(
@@ -263,7 +264,7 @@ Future<bool?> showDialogPopUp(BuildContext context) async {
           },
           child: Text(
             'Oui',
-            style: TextStyle(fontSize: 14, color: Colors.black),
+            style: GoogleFonts.poppins(fontSize: 14, color: Colors.black),
           ),
         ),
       ],

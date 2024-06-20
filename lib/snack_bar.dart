@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SnackBarMessage {
   void showSuccessSnackBar({
@@ -8,7 +9,7 @@ class SnackBarMessage {
   }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        duration: Duration(seconds: 1),
+        duration: Duration(seconds: 3),
         behavior: SnackBarBehavior.fixed,
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -38,7 +39,7 @@ class SnackBarMessage {
                   children: [
                     Text(
                       'success',
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -47,7 +48,7 @@ class SnackBarMessage {
                     const SizedBox(height: 4),
                     Text(
                       message,
-                      style: const TextStyle(
+                      style:  GoogleFonts.poppins(
                         color: Colors.white,
                         fontSize: 14,
                       ),
@@ -73,7 +74,7 @@ class SnackBarMessage {
         backgroundColor: Colors.transparent,
         dismissDirection: DismissDirection.endToStart,
         elevation: 0,
-        duration: Duration(seconds: 1),
+        duration: Duration(seconds: 3),
         content: Container(
           margin: EdgeInsets.only(
             top: MediaQuery.of(context).viewPadding.top+35,
@@ -98,7 +99,7 @@ class SnackBarMessage {
                   children: [
                     Text(
                       'Error',
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -107,7 +108,69 @@ class SnackBarMessage {
                     const SizedBox(height: 4),
                     Text(
                       message,
-                      style: const TextStyle(
+                      style:  GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  void showInfoSnackBar({
+    required String message,
+    required BuildContext context,
+  }) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.fixed,
+        backgroundColor: Colors.transparent,
+        dismissDirection: DismissDirection.endToStart,
+        elevation: 0,
+        duration: Duration(seconds: 2),
+        content: Container(
+          margin: EdgeInsets.only(
+            top: MediaQuery.of(context).viewPadding.top + 35,
+            bottom: MediaQuery.of(context).size.height - 150,
+          ),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.deepOrange.withOpacity(0.8),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.info_outline,
+                color: Colors.white,
+                size: 30,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Info',
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      message,
+                      style:  GoogleFonts.poppins(
                         color: Colors.white,
                         fontSize: 14,
                       ),
@@ -124,3 +187,9 @@ class SnackBarMessage {
     );
   }
 }
+
+
+
+
+
+

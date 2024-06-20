@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../data/controllers/planning_controller.dart';
@@ -21,9 +23,8 @@ class PlanningCoach extends GetView<SessionCoachController> {
         backgroundColor: Colors.white,
         title: Text(
           'Planning',
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             fontSize: 24.0,
-            fontFamily: 'Poppins',
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
@@ -45,7 +46,7 @@ class PlanningCoach extends GetView<SessionCoachController> {
                   focusedDay: controller.selectedDay,
                   calendarFormat: _calendarFormat,
                   headerStyle: HeaderStyle(
-                    titleTextStyle: TextStyle(
+                    titleTextStyle: GoogleFonts.poppins(
                       color: Colors.black,
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -78,7 +79,19 @@ class PlanningCoach extends GetView<SessionCoachController> {
                 ),
                 SizedBox(height: 16.0),
                 if (controller.events.containsKey(normalizedSelectedDay))
-                  _buildSession(controller.events[normalizedSelectedDay]!),
+                  _buildSession(controller.events[normalizedSelectedDay]!)
+                 else
+        Column(
+        children: [
+        Lottie.asset(
+        'assets/lotties/no_sessions.json',
+        width: 180,
+        height: 180,
+        fit: BoxFit.cover,
+        ),
+        Text('Aucune session pour cette date ... ')
+        ],
+        ),
               ],
             ),
           ),
@@ -119,18 +132,18 @@ class PlanningCoach extends GetView<SessionCoachController> {
                 children: [
                   Text(
                     'Activité: ${session.activityName ?? 'Inconnu'}',
-                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                    style:  GoogleFonts.poppins(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
                   5.h.verticalSpace,
                   Text(
                     'Studio: ${session.studioName ?? 'Inconnue'}',
-                    style: TextStyle(fontSize: 14.0),
+                    style:  GoogleFonts.poppins(fontSize: 14.0),
                   ),
                   5.h.verticalSpace,
 
                   Text(
                     'Heure: ${controller.formatHour("${session.startTime}")}' ,
-                    style: TextStyle(fontSize: 14.0),
+                    style:  GoogleFonts.poppins(fontSize: 14.0),
                   ),
                 ],
               ),

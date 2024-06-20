@@ -131,21 +131,25 @@ Widget buildCircleAvatarhor({required String imagePath, required String name, re
           children: [
             Text(
               name,
-              style: const TextStyle(
+              style: GoogleFonts.poppins(
                 color: Color(0xFF170F49),
                 fontSize: 18,
-                fontFamily: 'Poppins',
                 fontWeight: FontWeight.w700,
+                height: 0,
+                letterSpacing: -0.30,
               ),
+
             ),
             5.h.verticalSpace,
             Text(
               title,
-              style: const TextStyle(
+
+              style:  GoogleFonts.poppins(
                 color: Color(0xFF6E6B8F),
                 fontSize: 15,
-                fontFamily: 'Poppins',
                 fontWeight: FontWeight.w400,
+                height: 0,
+                letterSpacing: -0.30,
               ),
             ),
           ],
@@ -228,24 +232,24 @@ Widget customWidget({required String imagePath, required String name, required S
             children: [
               Text(
                 name,
-                style: TextStyle(
+                style:  GoogleFonts.poppins(
                   color: Color(0xFF170F49),
                   fontSize: 18,
-                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.w700,
+
                 ),
               ),
               SizedBox(height: 5),
               Flexible(
                 child: Text(
                   title,
-                  style: TextStyle(
+                  style:  GoogleFonts.poppins(
                     color: Color(0xFF6E6B8F),
                     fontSize: 15,
-                    fontFamily: 'Poppins',
                     fontWeight: FontWeight.w400,
+
                   ),
-               //   overflow: TextOverflow.ellipsis,
+
 
                 ),
               ),
@@ -322,22 +326,24 @@ required String phoneNumber}) {
           children: [
             Text(
               name,
-              style: const TextStyle(
+              style:  GoogleFonts.poppins(
                 color: Color(0xFF170F49),
                 fontSize: 18,
-                fontFamily: 'Poppins',
                 fontWeight: FontWeight.w700,
+
               ),
+
             ),
             5.h.verticalSpace,
             Text(
               title,
-              style: const TextStyle(
+              style:  GoogleFonts.poppins(
                 color: Color(0xFF6E6B8F),
                 fontSize: 15,
-                fontFamily: 'Poppins',
                 fontWeight: FontWeight.w400,
+
               ),
+
             ),
           ],
         ),

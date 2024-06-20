@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gymproconnect_flutter/data/repository/activities_repo.dart';
 import 'package:gymproconnect_flutter/screens/profil/edit.dart';
 import 'package:intl/intl.dart';
@@ -21,8 +22,10 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
   @override
   Widget build(BuildContext context) {
 
+
     Get.put(ActivitiesRepo(apiClient: Get.find()));
     Get.put(ActivitiesController(activitiesRepo: Get.find(),));
+
 
     return Scaffold(
       appBar: AppBar(
@@ -48,7 +51,7 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle: GoogleFonts.poppins(color: Colors.black),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: const BorderSide(
@@ -88,7 +91,7 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle:  GoogleFonts.poppins(color: Colors.black),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: const BorderSide(
@@ -104,11 +107,11 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                       items: [
                         DropdownMenuItem<Object>(
                           value: '1',
-                          child: Text('Studio 1'),
+                          child: Text('Studio A'),
                         ),
                         DropdownMenuItem<Object>(
                           value: '2',
-                          child: Text('Studio 2'),
+                          child: Text('Studio B'),
                         ),
                       ],
                       validator: (value) {
@@ -120,35 +123,43 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                      controller: controller.date,
-                      onTap: () {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                        _selectDate(context);
-                      },
+                      controller: controller.hourStart,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle: GoogleFonts.poppins(color: Colors.black),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(width: 1, color: Colors.white),
+                          borderSide: const BorderSide(width: 1, color: Colors.white),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(width: 1, color: Colors.white),
+                          borderSide: const BorderSide(width: 1, color: Colors.white),
                         ),
-                        labelText: 'Date',
-                        hintText: 'yyyy-mm-dd',
-                        suffixIcon: Icon(Icons.calendar_today),
                         border: OutlineInputBorder(),
+                        labelText: 'heure de la séance',
+                        hintText: 'HH:mm',
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.access_time),
+                          onPressed: () async {
+                            TimeOfDay? selectedTime = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.now(),
+                            );
+
+                            if (selectedTime != null) {
+                              // Formater l'heure en HH:mm
+                              String formattedTime = '${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}';
+
+                              // Mettre à jour le contrôleur avec l'heure formatée
+                              controller.hourStart.text = formattedTime;
+                            }
+                          },
+                        ),
                       ),
-                      onChanged: (date) {
-                        controller.date =
-                        date.toString() as TextEditingController;
-                      },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Veuillez sélectionner un date';
+                          return 'Veuillez choisir une heure pour la séance';
                         }
                         return null;
                       },
@@ -161,7 +172,7 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle:  GoogleFonts.poppins(color: Colors.black),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             borderSide: const BorderSide(
@@ -188,15 +199,15 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xffF7F9FD),
-                        labelStyle: TextStyle(color: Colors.black),
+                        labelStyle: GoogleFonts.poppins(color: Colors.black),
                         focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(
-                                width: 1, color: Colors.white)),
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(width: 1, color: Colors.white),
+                        ),
                         enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(
-                                width: 1, color: Colors.white)),
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(width: 1, color: Colors.white),
+                        ),
                         border: OutlineInputBorder(),
                         labelText: 'heure de la séance',
                         hintText: 'HH:mm',
@@ -209,8 +220,10 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                             );
 
                             if (selectedTime != null) {
-                              String formattedTime =
-                                  "${selectedTime.hour}:${selectedTime.minute}";
+                              // Formater l'heure en HH:mm
+                              String formattedTime = selectedTime.format(context);
+
+                              // Mettre à jour le contrôleur avec l'heure formatée
                               controller.hourStart.text = formattedTime;
                             }
                           },
@@ -222,8 +235,7 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                         }
                         return null;
                       },
-                    ),
-                    const SizedBox(height: 20),
+                    ),                    const SizedBox(height: 20),
                   ],
                 ),
               ),
@@ -251,11 +263,13 @@ class ProposerSeance extends GetView<ProposerSeanceController> {
                           hourStart: controller.hourStart.text,
                         ),
                         context);
+                    FocusScope.of(context)
+                        .unfocus();
                     update();
                   },
                   child: Text(
                     'Proposer',
-                    style: TextStyle(fontSize: 18.0, color: Colors.white),
+                    style:  GoogleFonts.poppins(fontSize: 18.0, color: Colors.white),
                   ),
                 ),
               ),

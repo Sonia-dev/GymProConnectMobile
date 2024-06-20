@@ -25,10 +25,14 @@ void main() async {
 
   final GetStorage storage = GetStorage();
   bool isFirstTime = storage.read('firstTime') ?? true;
+  print("firsttime: $isFirstTime");
 
   runApp(MyApp(isFirstTime: isFirstTime));
 
-  if (isFirstTime) {
+
+  if (isFirstTime ) {
+
+
     storage.write('firstTime', false);
   }
 }

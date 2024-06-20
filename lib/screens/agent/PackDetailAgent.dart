@@ -6,7 +6,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymproconnect_flutter/data/controllers/packs_controller.dart';
+import '../../data/controllers/activities_controller.dart';
+import '../../data/controllers/trainers_controller.dart';
 import '../../models/book_model.dart';
+import '../../routes/routes_helper.dart';
 import '../../widgets/circle_avatar_widget.dart';
 
 class PackDetailAgent extends GetView<PacksController> {
@@ -32,8 +35,8 @@ class PackDetailAgent extends GetView<PacksController> {
           flexibleSpace:
                     Stack(
                       children: [
-                        Image.network(
-                          controller.packsData.image.toString(),
+                        Image.network("http://192.168.1.199:8000/${controller.packsData.image.toString()}",
+
                           width: MediaQuery.of(context).size.width,
                           fit: BoxFit.cover,
                           height: MediaQuery.of(context).size.height / 3,
@@ -183,6 +186,17 @@ class PackDetailAgent extends GetView<PacksController> {
                                     )),
                                 SizedBox(
                                   height: 100.h,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(
+                                          RouteHelper.activitieAgentById,
+                                        );
+
+                                        Get.find<ActivitiesController>()
+                                            .getActivityByID(controller.packsData.activity?.id??0);
+                                        Get.find<ActivitiesController>().getReviews(controller.packsData.activity?.id??0);
+
+                                      },
                                   child: buildCircleAvatarhor(
                                       imagePath: controller
                                           .packsData.activity?.image ??
@@ -193,7 +207,7 @@ class PackDetailAgent extends GetView<PacksController> {
                                       title: controller.packsData.activity
                                           ?.category?.name ??
                                           "nn".toString()),
-                                ),
+                                ),),
                                 Text('Coach',
                                     style: GoogleFonts.poppins(
                                       color: Color(0xFF0C1A30),
@@ -202,6 +216,15 @@ class PackDetailAgent extends GetView<PacksController> {
                                     )),
                                 SizedBox(
                                   height: 100.h,
+                                  child:  GestureDetector(
+                                    onTap: () {
+                                      Get.toNamed(
+                                        RouteHelper.trainerAgentById,
+                                      );
+                                      Get.find<TrainersController>()
+                                          .getTrainerByID(controller.packsData.activity?.coach?.id??0);
+                                      Get.find<TrainersController>().getReviews(controller.packsData.activity?.coach?.id??0);
+                                    },
                                   child: buildCircleAvatarhor(
                                       imagePath: controller.packsData.activity?.coach?.image!= null?controller.packsData.activity?.coach?.image.toString() ?? "":"assets/no_image.jpg",
                                       name: controller.packsData.activity?.coach
@@ -210,7 +233,7 @@ class PackDetailAgent extends GetView<PacksController> {
                                       title: controller.packsData.activity
                                           ?.coach?.description ??
                                           " ".toString()),
-                                ),
+                                ),),
                       
                               ])),
                     ),

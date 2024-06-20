@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart'; // Si vous utilisez flutter_screenutil pour la gestion des tailles d'écran
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart'; // Si vous utilisez flutter_screenutil pour la gestion des tailles d'écran
 
 class ReviewCard extends StatelessWidget {
   final String? comment;
@@ -20,7 +21,7 @@ class ReviewCard extends StatelessWidget {
           children: [
             Text(
               comment ?? "__",
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontWeight: FontWeight.bold,
               ),
             ),

@@ -346,6 +346,8 @@ class Register extends GetView<AuthController> {
                         return null;
                       },
                     ),
+
+
                     const SizedBox(height: 10),
 
                     SizedBox(height: 20),
@@ -378,7 +380,7 @@ class Register extends GetView<AuthController> {
                       },
                       child: Text(
                         ' Inscription',
-                        style: TextStyle(fontSize: 18.0, color: Colors.white),
+                        style: GoogleFonts.poppins(fontSize: 18.0, color: Colors.white),
                       ),
                     ),
                   ],

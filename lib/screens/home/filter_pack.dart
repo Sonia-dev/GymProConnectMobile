@@ -127,7 +127,7 @@ class FiltrePack extends GetView<FilterController> {
                             child: Obx(() => FilterChip(
                               label: Text(
                                 gender,
-                                style: TextStyle(
+                                style:  GoogleFonts.poppins(
                                     color: controller.selectedGender.value == gender ? Colors.white : Colors.black
                                 ),
                               ),
@@ -292,7 +292,7 @@ class FiltrePack extends GetView<FilterController> {
                   },
                   child: Text(
                     'Apply',
-                    style: TextStyle(fontSize: 18.0, color: Colors.white),
+                    style:  GoogleFonts.poppins(fontSize: 18.0, color: Colors.white),
                   ),
                 ),
               ],

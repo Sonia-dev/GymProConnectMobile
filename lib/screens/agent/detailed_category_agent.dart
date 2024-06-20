@@ -9,18 +9,15 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../data/controllers/activities_controller.dart';
 import '../../data/controllers/categories_controller.dart';
 import '../../models/categories_model.dart';
 import '../../routes/routes_helper.dart';
-import '../../widgets/grid_view.dart';
-import '../agent/detailed_activity_agent.dart';
-import 'detailed_activity.dart';
+import 'detailed_activity_agent.dart';
 
-class detailCategory extends GetView<CategoriesController> {
+class detailCategoryAgent extends GetView<CategoriesController> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -42,9 +39,8 @@ class detailCategory extends GetView<CategoriesController> {
                   children: [
                     Stack(
                       children: [
-                        Image.network(
+                Image.network("http://192.168.1.199:8000/${controller.categoryDetail.image.toString()}",
 
-                          controller.categoryDetail.image.toString(),
                           width: double.infinity,
                           height: 250.h,
                           fit: BoxFit.fill,
@@ -60,12 +56,12 @@ class detailCategory extends GetView<CategoriesController> {
                             }
                             return Center(
                                 child: Container(
-                                width: double.infinity,
-                                height: 250.h,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
-                            ));
+                                  width: double.infinity,
+                                  height: 250.h,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                ));
                           },
                         ),
                         Positioned(
@@ -115,13 +111,13 @@ class detailCategory extends GetView<CategoriesController> {
                             child: Text(
                               controller.categoryDetail.name.toString(),
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
+                              style:  GoogleFonts.poppins(
                                 color: Colors.white,
+                                fontSize: 16,
+
+                                fontWeight: FontWeight.w500,
                                 height: 0.10,
                               ),
-
                             ),
                           ),
                         ),
@@ -176,12 +172,10 @@ class detailCategory extends GetView<CategoriesController> {
                           Text(
                             controller.categoryDetail.gender.toString(),
                             style:  GoogleFonts.poppins(
-                            color: Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            )
-
-
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                           SizedBox(height: 10.h),
                           Text("Activités",
@@ -198,21 +192,21 @@ class detailCategory extends GetView<CategoriesController> {
                               ),
                             )
                           else
-            Column(
-            children: [
-            if (controller.categoryDetail.activities != null && controller.categoryDetail.activities!.isNotEmpty)
-            MyGridView(
-            activitiesList: controller.categoryDetail.activities!,
-            )
-            else
-            Text(
-            "Il n'y a pas d'activités disponibles pour cette catégorie.",
-            style: GoogleFonts.poppins(
-            color: Color(0xFF6D6A8E),
-            fontSize: 16.spMin,
-            fontWeight: FontWeight.w300,
-            ),
-            ),
+                            Column(
+                              children: [
+                                if (controller.categoryDetail.activities != null && controller.categoryDetail.activities!.isNotEmpty)
+                                  MyGridView(
+                                    activitiesList: controller.categoryDetail.activities!,
+                                  )
+                                else
+                                  Text(
+                                    "Il n'y a pas d'activités disponibles pour cette catégorie.",
+                                    style: GoogleFonts.poppins(
+                                      color: Color(0xFF6D6A8E),
+                                      fontSize: 16.spMin,
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                  ),
 
                               ],
                             )
@@ -230,8 +224,6 @@ class detailCategory extends GetView<CategoriesController> {
   }
 
   Widget MyGridView({required List<Activities> activitiesList}) {
-    var role =  GetStorage().read('userRole');
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GridView.builder(
@@ -247,17 +239,12 @@ class detailCategory extends GetView<CategoriesController> {
           var activity = activitiesList[index];
           return GestureDetector(
             onTap: () async {
-              if (role == "adherent") {
-
-
-                await Get.find<ActivitiesController>().getActivityByID(activity.id!);
-                Get.to(ActivityDetail());
-              }
-              else  if (role == "agent") {
-    await Get.find<ActivitiesController>().getActivityByID(activity.id!);
-                Get.to(ActivityDetailAgent());
-
-            };},
+              Get.toNamed(
+                RouteHelper.activitieAgentById,
+              );
+              await Get.find<ActivitiesController>().getActivityByID(activity.id!);
+              Get.find<ActivitiesController>().getReviews(activity.id!);
+            },
             child: GridTile(
               child: Container(
                 color: Colors.blue[100],
@@ -267,7 +254,8 @@ class detailCategory extends GetView<CategoriesController> {
                     ClipRRect(
                       child: activity.image != null
                           ? Image.network(
-                "http://192.168.1.199:8000/${activity.image.toString()}",
+                "http://192.168.1.199:8000/${ activity.image.toString()}"
+                       ,
                         width: MediaQuery.of(context).size.width  ,
                         height: MediaQuery.of(context).size.height,
                         fit: BoxFit.cover,

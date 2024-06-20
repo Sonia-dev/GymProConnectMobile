@@ -36,8 +36,8 @@ Future<void> init()async {
   await GetStorage.init();
 
   Get.lazyPut(()=>ApiClient(appBaseUrl: Uris.baseUrl));
-  Get.lazyPut(() => AuthRepo(apiClient:Get.find()));
-  Get.lazyPut(() => AuthController(authRepo:Get.find()));
+  Get.lazyPut(() => AuthRepo(apiClient:Get.find()),fenix: true);
+  Get.lazyPut(() => AuthController(authRepo:Get.find()),fenix: true);
 
 
   Get.lazyPut(() => ActivitiesRepo(apiClient:Get.find()), fenix: true);

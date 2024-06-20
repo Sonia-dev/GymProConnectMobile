@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gymproconnect_flutter/data/repository/packs_repo.dart';
 import 'package:gymproconnect_flutter/screens/home/abonnement.dart';
 import '../../models/book_model.dart';
@@ -12,6 +13,7 @@ import '../../models/packs_model.dart';
 import '../../models/review_model.dart';
 import '../../models/reviews_model.dart';
 import '../../models/sessions_model.dart';
+import '../../routes/routes_helper.dart';
 import '../../snack_bar.dart';
 
 class PacksController extends GetxController {
@@ -129,7 +131,7 @@ class PacksController extends GetxController {
       print("Erreur lors de la récupération des données de pack.");
     }
   }
-  Future<void> book(BookRequest bookRequest, BuildContext context) async {
+  Future<void> book(BookRequest bookRequest, BuildContext  parentContext) async {
     Map<String, dynamic> data = {
       "pack_id": bookRequest.pack_id,
       "status": bookRequest.status,
@@ -139,60 +141,110 @@ class PacksController extends GetxController {
       Response response = await packsRepo.book(data);
 
       if (response.statusCode == 200) {
-        // Affichage du message de succès
-        SnackBarMessage()
-            .showSuccessSnackBar(message: "Votre pack a été réservé.", context: context);
-
         await Future.delayed(const Duration(seconds: 1));
-
-        bool goToSubscriptionList = await showDialog(
-          context: context,
+  showDialog(
+          context: Get.context!,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("Souhaitez-vous consulter votre liste d'abonnements ?"),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              title: Text(
+                "Votre pack a été réservé. Souhaitez-vous consulter votre liste d'abonnements ?",
+                style: GoogleFonts.poppins(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+
+              ),
+              content: Container(
+                width: double.maxFinite,
+                padding: EdgeInsets.only(top: 16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                      size: 48,
+                    ),
+                    SizedBox(height: 16),
+                    Text(
+                      "Votre pack a été réservé avec succès !",
+                      style: GoogleFonts.poppins(
+                        color: Colors.grey[700],
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
               actions: <Widget>[
                 TextButton(
-                  child: Text("Non"),
+                  child: Text(
+                    "Non",
+                    style: GoogleFonts.poppins(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+
+                  ),
                   onPressed: () {
-                    Navigator.of(context).pop(false); // Ne pas naviguer
+                    Navigator.of( Get.context!).pop(false); // Ne pas naviguer
                   },
                 ),
                 TextButton(
-                  child: Text("Oui"),
+                  child: Text(
+                    "Oui",
+                    style: GoogleFonts.poppins(
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold,
+                    ),
+
+                  ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => abonnement()),
-                    );                         },
+                Navigator.pop( Get.context!);
+
+                Navigator.of(context, rootNavigator: false).push(
+
+                    MaterialPageRoute<bool>(
+                      fullscreenDialog: true,
+                      builder: (BuildContext context) => abonnement(),
+                    ));
+
+
+
+                  },
                 ),
               ],
             );
           },
         );
 
-        // Si l'utilisateur a choisi "Oui", naviguer vers la page des abonnements
-        if (goToSubscriptionList == true) {
-          // Naviguer vers la page des abonnements
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => abonnement()),
-          );
-        }
-
-        // Appel de la méthode update si nécessaire
+        // Call update function if necessary
         update();
-      } else {
+      }
+
+      else  if (response.statusCode == 403) {
+        SnackBarMessage()
+            .showInfoSnackBar(
+            message: "Vous ne pouvez réserver ce pack qu'une seule fois\n jusqu'à la fin de la durée actuelle .", context: Get.context!);
+      }
+      else {
         // Affichage du message d'erreur
         SnackBarMessage().showErrorSnackBar(
           message:
           "Désolé, votre réservation n'a pas été effectuée. Veuillez réessayer une autre fois.",
-          context: context,
+          context: parentContext,
         );
       }
     } catch (e, s) {
       print("Erreur : $e");
       print("StackTrace : $s");
-      // Vous pouvez afficher un message d'erreur générique si nécessaire
     }
   }
   Future getSessions(int packId) async {

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 final _formKey = GlobalKey<FormState>();
 
 class reviews extends StatefulWidget {
@@ -49,10 +50,9 @@ class _reviewsState extends State<reviews> {
                         child: Text(
                           activitie.first['category']!,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                             color: Color(0xFFF34E3A),
                             fontSize: 14,
-                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w500,
                             height: 0.10,
                           ),
@@ -68,10 +68,9 @@ class _reviewsState extends State<reviews> {
                         child: Text(
                           activitie.first['name']!,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                             color: Colors.white,
                             fontSize: 20,
-                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w500,
                             height: 0,
                           ),
@@ -87,10 +86,9 @@ class _reviewsState extends State<reviews> {
                     children: [
                       Text(
                         'About',
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           color: Color(0xFFF8A69C),
                           fontSize: 15,
-                          fontFamily: 'Poppins',
                           fontWeight: FontWeight.w700,
                         ),),
                       TextButton(
@@ -102,10 +100,9 @@ class _reviewsState extends State<reviews> {
                         },
                         child: Text(
                           'Reviews',
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                             color: Color(0xFF555555),
                             fontSize: 15,
-                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w700,),
                         ),
                       ),
@@ -115,10 +112,10 @@ class _reviewsState extends State<reviews> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
                     "Reviews",
-                    style: TextStyle(
+                    style: GoogleFonts.dmSans(
                       color: Color(0xFF0C1A30),
                       fontSize: 16,
-                      fontFamily: 'DM Sans',
+
                       fontWeight: FontWeight.w700,
                       height: 0.09,
                       letterSpacing: 0.20,
@@ -135,12 +132,12 @@ class _reviewsState extends State<reviews> {
                     decoration: InputDecoration(
                       contentPadding:
                       const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
-                      floatingLabelStyle: const TextStyle(color: Colors.black),
+                      floatingLabelStyle:  GoogleFonts.poppins(color: Colors.black),
                       labelText: 'Search',
                       suffixIcon: Icon(Icons.search),
                       filled:true,
                       fillColor: Color(0xffF7F9FD),
-                      labelStyle: TextStyle( color: Colors.black),
+                      labelStyle: GoogleFonts.poppins( color: Colors.black),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide:
@@ -186,10 +183,9 @@ class CustomBottomAppBar extends StatelessWidget {
                 height: 21,
                 child: Text(
                   'Prix',
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     color: Color(0xFF838589),
                     fontSize: 14,
-                    fontFamily: 'Poppins',
                     fontWeight: FontWeight.w400,
                     height: 0.13,
                   ),
@@ -200,10 +196,9 @@ class CustomBottomAppBar extends StatelessWidget {
                 height: 21,
                 child: Text(
                   '120 dt',
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     color: Color(0xFFF34E3A),
                     fontSize: 20,
-                    fontFamily: 'Poppins',
                     fontWeight: FontWeight.w700,
                     height: 0.06,
                   ),
@@ -224,7 +219,7 @@ class CustomBottomAppBar extends StatelessWidget {
             },
             child: Text(
               'Réserver',
-              style: TextStyle(fontSize: 18.0, color: Colors.white),
+              style: GoogleFonts.poppins(fontSize: 18.0, color: Colors.white),
             ),
           ),
 

@@ -198,7 +198,7 @@ class _LoginState extends State<Login> {
                             },
                             child: Text(
                               'Mot de passe oublié ?',
-                              style: TextStyle(fontSize: 10.0, color: Color(0xFFff3951),
+                              style: GoogleFonts.poppins(fontSize: 10.0, color: Color(0xFFff3951),
                                 decoration: TextDecoration.underline,
                                 decorationColor: Color(0xFFff3951),
                               ),
@@ -228,7 +228,7 @@ class _LoginState extends State<Login> {
                         },
                         child: Text(
                           'Connexion',
-                          style: TextStyle(fontSize: 18.0, color: Colors.white),
+                          style: GoogleFonts.poppins(fontSize: 18.0, color: Colors.white),
                         ),
                       ),
                     ],

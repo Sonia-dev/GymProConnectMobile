@@ -36,8 +36,8 @@ class DetailTrainer extends GetView<TrainersController> {
               elevation: 0,
               flexibleSpace: Stack(
                 children: [
-                  Image.network(
-                    controller.trainerDetail.image.toString(),
+                  Image.network("http://192.168.1.199:8000/${controller.trainerDetail.image.toString()}",
+
                     width: MediaQuery.of(context).size.width,
                     fit: BoxFit.cover,
                     height:
@@ -208,10 +208,9 @@ class DetailTrainer extends GetView<TrainersController> {
                         10.h.verticalSpace,
                         Text(
                           controller.trainerDetail?.email?.toString()??"",
-                          style: const TextStyle(
+                          style:   GoogleFonts.poppins(
                             color: Colors.black,
                             fontSize: 14,
-                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -225,10 +224,9 @@ class DetailTrainer extends GetView<TrainersController> {
                         10.h.verticalSpace,
                         Text(
                           controller.trainerDetail?.adress?.toString()??"",
-                          style: const TextStyle(
+                          style:  GoogleFonts.poppins(
                             color: Colors.black,
                             fontSize: 14,
-                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                           ),
                         ),

@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gymproconnect_flutter/data/controllers/planning_controller.dart';
 import 'package:lottie/lottie.dart';
 import '../../data/repository/planning_repo.dart';
+import '../../routes/routes_helper.dart';
 
 class abonnement extends GetView<PlanningController> {
   @override
@@ -21,6 +22,7 @@ class abonnement extends GetView<PlanningController> {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
             title: Center(child: const Text("Mes abonnements")),
             bottom: const TabBar(
@@ -38,6 +40,28 @@ class abonnement extends GetView<PlanningController> {
                 )
               ],
             ),
+
+            leading:  Container(
+              width: 40.w,
+              height: 40.h,
+              padding:EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color(0xFFF7F9FD),
+              ),
+              child: Center(
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back,
+                  ),
+                  onPressed: () {
+                    Get.offAllNamed(RouteHelper.getHome());
+                  },
+                ),
+              ),
+            ),
+
+
           ),
           body: TabBarView(
             children: [
@@ -239,9 +263,12 @@ class abonnement extends GetView<PlanningController> {
                                       minimumSize: Size(350, 50),
                                     ),
                                     child: Text('Annuler',
-                                        style: TextStyle(
-                                            fontSize: 18.0,
-                                            color: Color(0xFF1C2A3A))),
+                                        style: GoogleFonts.rubik(
+                                          color: Color(0xFF1C2A3A),
+                                          fontSize: 18,
+
+                                        ),
+                                      ),
                                   ),
                                 ),
                               ],
@@ -524,7 +551,7 @@ class abonnement extends GetView<PlanningController> {
                                         minimumSize: Size(350, 50),
                                       ),
                                       child: Text('Re-réserver',
-                                          style: TextStyle(
+                                          style: GoogleFonts.poppins(
                                               fontSize: 18.0,
                                               color: Color(0xFF1C2A3A))),
                                     ),

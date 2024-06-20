@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,7 +41,8 @@ class ActivityDetail extends GetView<ActivitiesController> {
                         flexibleSpace: Stack(
                           children: [
                             Image.network(
-                              controller.activityDetails.image.toString(),
+                        "http://192.168.1.199:8000/${controller.activityDetails.image.toString()}"
+                              ,
                               width: MediaQuery.of(context).size.width,
                               fit: BoxFit.cover,
                               height:
@@ -149,6 +151,29 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                 ),
                               ),
                             ),
+                            controller.activityDetails.packs?.length != 0?Positioned(
+                              bottom: 8,
+                              right:0,
+                              child: AnimatedTextKit(
+                                animatedTexts: [
+                                  TypewriterAnimatedText(
+                                    '${controller.activityDetails.packs?.length} pack disponible !',
+                                    textStyle: const TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.deepOrange,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    speed: const Duration(milliseconds: 500),
+                                  ),
+                                ],
+
+                                totalRepeatCount: 4,
+                                pause: const Duration(milliseconds: 1000),
+                                displayFullTextOnTap: true,
+                                stopPauseOnTap: true,
+                              ),
+                            ):SizedBox.shrink(),
+
                             if (controller.activityDetails.packs?.isEmpty ?? true)
                               Positioned(
                                 right: 20,
@@ -233,10 +258,10 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                 Text(
                                   controller.activityDetails.recommendedOutfit
                                       .toString(),
-                                  style: const TextStyle(
+                                  style:  GoogleFonts.poppins(
                                     color: Colors.black,
                                     fontSize: 14,
-                                    fontFamily: 'Poppins',
+
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -251,10 +276,9 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                 Text(
                                   controller.activityDetails.recommendations
                                       .toString(),
-                                  style: const TextStyle(
+                                  style:  GoogleFonts.poppins(
                                     color: Colors.black,
                                     fontSize: 14,
-                                    fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -281,28 +305,12 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                     },
                                     child: buildCircleAvatarhor(
                                       imagePath: controller
-                                                  .activityDetails.coach?.image !=
-                                              null
-                                          ? controller
-                                                  .activityDetails?.coach?.image
+                                                  .activityDetails.coach?.image != null ? controller.activityDetails?.coach?.image
                                                   .toString() ??
-                                              ""
+                                          ""
                                           : "assets/no_image.jpg",
-                                      name: controller
-                                                  .activityDetails.coach?.title !=
-                                              null
-                                          ? controller.activityDetails.coach?.name
-                                                  .toString() ??
-                                              ""
-                                          : "",
-                                      title: controller
-                                                  .activityDetails.coach?.title !=
-                                              null
-                                          ? controller
-                                                  .activityDetails.coach?.title
-                                                  .toString() ??
-                                              ""
-                                          : "",
+                                      name: controller.activityDetails.coach?.name.toString() ?? "",
+                                      title: controller.activityDetails.coach?.title ?? "",
                                     ),
                                   ),
                                 ),
@@ -367,7 +375,7 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                               onTap: () async {
                                                 await Get.find<
                                                         PacksController>()
-                                                    .getPackByID(pack!.id!);
+                                                    .getPackByID(pack?.id??0);
                                                 Get.toNamed(
                                                   RouteHelper.getPackById(),
                                                 );
@@ -484,7 +492,7 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                                     filled: true,
                                                     fillColor:
                                                         Color(0xffF7F9FD),
-                                                    labelStyle: TextStyle(
+                                                    labelStyle: GoogleFonts.poppins(
                                                         color: Colors.black),
                                                     focusedBorder:
                                                         OutlineInputBorder(
@@ -566,7 +574,7 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                                         await controller
                                                             .getReviews(controller
                                                                 .activityDetails
-                                                                .id!);
+                                                                .id??0);
                                                       });
                                                       FocusScope.of(context)
                                                           .unfocus();
@@ -574,7 +582,7 @@ class ActivityDetail extends GetView<ActivitiesController> {
                                                     },
                                                     child: Text(
                                                       'Ajouter avis',
-                                                      style: TextStyle(
+                                                      style: GoogleFonts.poppins(
                                                           fontSize: 18.0,
                                                           color: Colors.white),
                                                     ),

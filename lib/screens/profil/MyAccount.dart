@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../data/controllers/profil_controller.dart';
 
-final _updateKey = GlobalKey<FormState>();
 
 class MyAccount extends GetView<ProfilController> {
   @override
@@ -61,7 +60,8 @@ class MyAccount extends GetView<ProfilController> {
                         50.w), // Match the CircleAvatar's radius
                     child: controller.user.user?.image?.isNotEmpty == true
                         ? Image.network(
-                            controller.user.user!.image.toString(),
+                      "http://192.168.1.199:8000/${controller.user.user!.image.toString()}",
+
                             fit: BoxFit
                                 .cover, // Use BoxFit.cover to fill the circle
                             width: double.infinity,
@@ -123,11 +123,12 @@ class MyAccount extends GetView<ProfilController> {
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
                 ),
-                suffixIcon: Image.asset(
-                  'assets/gmail.png',
-                  width: 5,
-                  height: 10,
-                ),
+                suffixIcon: Icon(Icons.email_outlined,
+
+                  color:Color(0xFFf34e3a)
+
+
+                )
 
               ),
             ),
@@ -159,11 +160,12 @@ class MyAccount extends GetView<ProfilController> {
                   ],
                 ),
               ),
-              suffixIcon: Image.asset(
-                'assets/téléphone.png',
-                width: 25,
-                height: 25,
-              ),
+              suffixIcon:Icon(Icons.phone_outlined,
+
+                  color:Color(0xFFf34e3a)
+
+
+              )
 
             ),
           ),
@@ -177,11 +179,12 @@ class MyAccount extends GetView<ProfilController> {
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                     ),
-                    suffixIcon: Image.asset(
-                      'assets/calendrie.png',
-                      width: 25,
-                      height: 20,
-                    ),
+                      suffixIcon:Icon(Icons.calendar_month_outlined,
+
+                          color:Color(0xFFf34e3a)
+
+
+                      )
                   ),
                 ),
             SizedBox(
@@ -197,7 +200,7 @@ class MyAccount extends GetView<ProfilController> {
                       fontWeight: FontWeight.w400,
                     ),
                     suffixIcon: Icon(
-                      Icons.location_on,
+                      Icons.location_on_outlined,
                       color: Color(0xFFf34e3a),
                       // Changez la couleur ici
                     ),

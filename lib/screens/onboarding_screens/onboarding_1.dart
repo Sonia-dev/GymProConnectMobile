@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Onboarding1 extends StatefulWidget {
@@ -35,10 +36,9 @@ class _Onboarding1State extends State<Onboarding1> {
               child: Text(
                 'Get Stronger for Preparation',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   color: Colors.white,
                   fontSize: 32,
-                  fontFamily: 'Poppins',
                   decoration: TextDecoration.none,
                   fontWeight: FontWeight.w700,
                   height: 0,
@@ -49,11 +49,10 @@ class _Onboarding1State extends State<Onboarding1> {
             Text(
               'Be an Inspiration',
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Colors.white,
                 fontSize: 16,
                 fontStyle: FontStyle.italic,
-                fontFamily: 'Poppins',
                 fontWeight: FontWeight.w400,
                 decoration: TextDecoration.none,
                 height: 0,

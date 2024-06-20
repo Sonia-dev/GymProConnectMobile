@@ -20,6 +20,10 @@ class Profil extends GetView<ProfilController> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
+    print('controller.user.user?.image.toString()${controller.user.user?.image.toString()}');
     return Scaffold(
       body: GetBuilder<ProfilController>(builder: (controller) {
       return Obx(() => controller.isLoading.value

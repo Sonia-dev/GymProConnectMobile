@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -90,10 +91,9 @@ class _IntroductionState extends State<Onboarding> {
                             children: [
                               TextSpan(
                                 text: 'GYMPRO',
-                                style: TextStyle(
+                                style:  GoogleFonts.poppins(
                                   color: Colors.white,
                                   fontSize: 20,
-                                  fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w700,
                                   height: 0,
                                   letterSpacing: 10,
@@ -101,10 +101,9 @@ class _IntroductionState extends State<Onboarding> {
                               ),
                               TextSpan(
                                 text: 'CONNECT',
-                                style: TextStyle(
+                                style:  GoogleFonts.poppins(
                                   color: Color(0xFFF34E3A),
                                   fontSize: 20,
-                                  fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w700,
                                   height: 0,
                                   letterSpacing: 10,
@@ -129,7 +128,7 @@ class _IntroductionState extends State<Onboarding> {
                         },
                         child: Text(
                           "Get started",
-                          style: TextStyle(fontSize: 18.0, color: Colors.white),
+                          style:  GoogleFonts.poppins(fontSize: 18.0, color: Colors.white),
                         ),
                       )
                           : ElevatedButton(

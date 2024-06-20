@@ -42,7 +42,8 @@ class PackDetail extends GetView<PacksController> {
                           flexibleSpace: Stack(
                             children: [
                               Image.network(
-                                controller.packsData.image.toString(),
+                                "http://192.168.1.199:8000/${controller.packsData.image.toString()}",
+
                                 width: MediaQuery.of(context).size.width,
                                 fit: BoxFit.cover,
                                 height: MediaQuery.of(context).size.height / 2.5-50,
@@ -415,7 +416,7 @@ class PackDetail extends GetView<PacksController> {
                                                         filled: true,
                                                         fillColor:
                                                             Color(0xffF7F9FD),
-                                                        labelStyle: TextStyle(
+                                                        labelStyle: GoogleFonts.poppins(
                                                             color:
                                                                 Colors.black),
                                                         focusedBorder:
@@ -520,7 +521,7 @@ class PackDetail extends GetView<PacksController> {
                                                         },
                                                         child: Text(
                                                           'Ajouter avis',
-                                                          style: TextStyle(
+                                                          style: GoogleFonts.poppins(
                                                               fontSize: 18.0,
                                                               color:
                                                                   Colors.white),
@@ -560,45 +561,31 @@ class PackDetail extends GetView<PacksController> {
                         height: 21,
                         child: Text(
                           'Prix',
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                             color: Color(0xFF838589),
                             fontSize: 14,
-                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                             height: 0.13,
                           ),
                         ),
                       ),
                       SizedBox(
-                        width: 90,
+                        width: 120,
                         height: 21,
                         child: Row(
                           children: [
                             Flexible(
                               child: Text(
-                                "${controller.packsData.price.toString()}",
-                                style: TextStyle(
+                                "${controller.packsData.price.toString()} dt",
+                                style: GoogleFonts.poppins(
                                   color: Color(0xFFF34E3A),
                                   fontSize: 20,
-                                  fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w700,
                                   height: 0.06,
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "dt",
-                              style: TextStyle(
-                                color: Color(0xFFF34E3A),
-                                fontSize: 20,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w700,
-                                height: 0.06,
-                              ),
-                            ),
+
                           ],
                         ),
                       ),
@@ -628,7 +615,7 @@ class PackDetail extends GetView<PacksController> {
                               TextButton(
                                 child: Text('Confirmer'),
                                 onPressed: () async {
-
+                                  Navigator.pop(context);
                                   await controller.book(
                                     BookRequest(
                                       pack_id: controller.packsData.id!.toInt(),
@@ -637,7 +624,7 @@ class PackDetail extends GetView<PacksController> {
                                     context,
                                   );
 
-                                  Navigator.of(context).pop(); // Fermer la boîte de dialogue après la réservation
+
                                 },
                               ),
                             ],
@@ -647,7 +634,7 @@ class PackDetail extends GetView<PacksController> {
                     },
                     child: Text(
                       'Réserver',
-                      style: TextStyle(fontSize: 18.0, color: Colors.white),
+                      style: GoogleFonts.poppins(fontSize: 18.0, color: Colors.white),
                     ),
                   ),
                 ],

@@ -41,9 +41,8 @@ class HomeCoach extends GetView<ActivitiesCoachController> {
           SizedBox(height: 10),
           Text(
             "Bienvenue ${controller.user.user?.name.toString()??""} !",
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               fontSize: 20.0,
-              fontFamily: 'Poppins',
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -51,10 +50,9 @@ class HomeCoach extends GetView<ActivitiesCoachController> {
           SizedBox(height: 10),
           Text(
             '$dayOfWeek, $dayOfMonth $month $year',
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               fontSize: 11,
               color: Color(0xFFf34e3a),
-              fontFamily: 'Poppins',
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -62,7 +60,7 @@ class HomeCoach extends GetView<ActivitiesCoachController> {
 
           Text(
             'Mes activités',
-            style: TextStyle(fontSize:18.0,fontWeight:FontWeight.bold),
+            style: GoogleFonts.poppins(fontSize:18.0,fontWeight:FontWeight.bold),
           ),
           Expanded(
             child: Obx(()=>ListView.builder(
@@ -90,7 +88,9 @@ class HomeCoach extends GetView<ActivitiesCoachController> {
                             ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
                                 child: Image.network(
-                                  activity.image!,
+                                  "http://192.168.1.199:8000/${activity.image!}",
+
+
                                   width: double.infinity,
                                   height: 200,
                                   fit: BoxFit.cover,

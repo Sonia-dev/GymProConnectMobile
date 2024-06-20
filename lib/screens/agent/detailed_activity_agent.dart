@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,7 @@ import 'package:lottie/lottie.dart';
 import '../../data/controllers/activities_controller.dart';
 import '../../data/controllers/categories_controller.dart';
 import '../../data/controllers/packs_controller.dart';
+import '../../data/controllers/trainers_controller.dart';
 import '../../models/review_model.dart';
 import '../../routes/routes_helper.dart';
 import '../../widgets/circle_avatar_widget.dart';
@@ -36,7 +38,7 @@ class ActivityDetailAgent extends GetView<ActivitiesController> {
                   flexibleSpace: Stack(
                     children: [
                       Image.network(
-                        controller.activityDetails.image.toString(),
+                         "http://192.168.1.199:8000/${controller.activityDetails.image.toString()}",
                         width: MediaQuery.of(context).size.width,
                         fit: BoxFit.cover,
                         height: (MediaQuery.of(context).size.height / 2.5)-50,
@@ -133,6 +135,32 @@ class ActivityDetailAgent extends GetView<ActivitiesController> {
                           ),
                         ),
                       ),
+
+
+                      controller.activityDetails.packs?.length != 0?Positioned(
+                        bottom: 8,
+                        right:0,
+                        child: AnimatedTextKit(
+                          animatedTexts: [
+                            TypewriterAnimatedText(
+                              '${controller.activityDetails.packs?.length} pack disponible !',
+                              textStyle: const TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.deepOrange,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              speed: const Duration(milliseconds: 500),
+                            ),
+                          ],
+
+                          totalRepeatCount: 4,
+                          pause: const Duration(milliseconds: 1000),
+                          displayFullTextOnTap: true,
+                          stopPauseOnTap: true,
+                        ),
+                      ):SizedBox.shrink(),
+
+
                       if (controller.activityDetails.packs?.isEmpty ?? true)
                         Positioned(
                           right: 20,
@@ -215,10 +243,9 @@ class ActivityDetailAgent extends GetView<ActivitiesController> {
                           Text(
                             controller.activityDetails.recommendedOutfit
                                 .toString(),
-                            style: const TextStyle(
+                            style:  GoogleFonts.poppins(
                               color: Colors.black,
                               fontSize: 14,
-                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -233,15 +260,14 @@ class ActivityDetailAgent extends GetView<ActivitiesController> {
                           Text(
                             controller.activityDetails.recommendations
                                 .toString(),
-                            style: const TextStyle(
+                            style:  GoogleFonts.poppins(
                               color: Colors.black,
                               fontSize: 14,
-                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w400,
                             ),
                           ),
                           10.h.verticalSpace,
-                          Text('Coaches',
+                          Text('Coach',
                               style: GoogleFonts.poppins(
                                 color: Color(0xFF0C1A30),
                                 fontSize: 20.spMin,
@@ -249,6 +275,16 @@ class ActivityDetailAgent extends GetView<ActivitiesController> {
                               )),
                           SizedBox(
                             height: 100.h,
+                            child: GestureDetector(
+                              onTap: () async {
+                                Get.toNamed(
+                                  RouteHelper.trainerAgentById,
+                                );
+                                Get.find<TrainersController>()
+                                    .getTrainerByID( controller.activityDetails?.coach?.id??0);
+                                Get.find<TrainersController>().getReviews(controller.activityDetails?.coach?.id??0);
+
+                              },
                             child: buildCircleAvatarhor(
                               imagePath: controller
                                   .activityDetails.coach?.image !=
@@ -265,8 +301,8 @@ class ActivityDetailAgent extends GetView<ActivitiesController> {
                                   ?.title.toString() ??
                                   "",
                             ),
-                          ),
-                          Text('Catégories',
+                          ),),
+                          Text('Catégorie',
                               style: GoogleFonts.poppins(
                                 color: Color(0xFF0C1A30),
                                 fontSize: 20.spMin,
@@ -276,15 +312,15 @@ class ActivityDetailAgent extends GetView<ActivitiesController> {
                             height: 100.h,
                             child: GestureDetector(
                               onTap: () async {
-                                await Get.find<CategoriesController>()
-                                    .getCategorieByID(controller
-                                    .activityDetails?.category
-                                    ?.id ??
-                                    1);
                                 Get.toNamed(
-                                  RouteHelper.getActivitieById(),
+                                  RouteHelper.categorieById,
                                 );
+
+                                Get.find<CategoriesController>()
+                                    .getCategorieByID( controller.activityDetails?.category?.id??0);
                               },
+
+
                               child: buildCircleAvatarhor(
                                 imagePath: controller
                                     .activityDetails
@@ -325,11 +361,12 @@ class ActivityDetailAgent extends GetView<ActivitiesController> {
                                     ?.packs?[index];
                                 return InkWell(
                                   onTap: () async {
-                                    await Get.find<PacksController>()
-                                        .getPackByID(pack!.id!);
+                                    await Get.find<PacksController>().getPackByID(pack?.id??0);
                                     Get.toNamed(
-                                      RouteHelper.getPackById(),
+                                      RouteHelper.getPackByIdAgent(),
                                     );
+                                    Get.find<PacksController>().getReviews(pack?.id??0);
+
                                   },
                                   child: buildCircleAvatar(
                                     imagePath: pack?.image.toString() ?? "",

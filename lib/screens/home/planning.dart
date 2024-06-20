@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -21,9 +22,9 @@ class Planning extends GetView<PlanningController> {
           backgroundColor: Colors.white,
           title: Text(
             'Planning',
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               fontSize: 24.0,
-              fontFamily: 'Poppins',
+
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
@@ -41,22 +42,56 @@ class Planning extends GetView<PlanningController> {
                 TableCalendar(
                 firstDay: DateTime.utc(2020, 1, 1),
                 lastDay: DateTime.utc(2030, 12, 31),
+
+                calendarBuilders: CalendarBuilders(
+                    singleMarkerBuilder: (context, day, s) =>Container(
+                      height: 12,
+                      width: 12,
+                      decoration: BoxDecoration(
+                        color: Colors.deepOrange,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.fitness_center,
+                          color: Colors.white,
+                          size: 8,
+                        ),
+                      ),
+                    ),
+                  ),
+
                 focusedDay: controller.selectedDay,
                 calendarFormat: _calendarFormat,
-                headerStyle: HeaderStyle(
-                  titleTextStyle: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  headerMargin: EdgeInsets.only(bottom: 10),
-                  formatButtonVisible: false,
-                  leftChevronVisible: false,
-                  rightChevronVisible: false,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
+                  headerStyle: HeaderStyle(
+
+                      leftChevronMargin: EdgeInsets.zero,
+                      rightChevronMargin: EdgeInsets.zero,
+                      headerPadding: EdgeInsets.zero,
+                      titleCentered: true,
+                      formatButtonVisible: false,
+                      formatButtonDecoration: BoxDecoration(
+                        color: Colors.deepOrange,
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      formatButtonTextStyle:
+                      GoogleFonts.poppins(color: Colors.white, fontSize: 26),
+                      formatButtonShowsNext: false,
+                      headerMargin: const EdgeInsets.only(bottom: 30),
+                      leftChevronIcon: Icon(
+                        Icons.chevron_left,
+                        color: Colors.deepOrange,
+                        size: 25,
+                      ),
+                      rightChevronIcon: Icon(
+                        Icons.chevron_right,
+                        color: Colors.deepOrange,
+                        size: 25,
+                      ),
+                      titleTextStyle:  GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                      )),
                 calendarStyle: const CalendarStyle(
                   selectedDecoration: BoxDecoration(
                     color: Color(0xFFf34e3a),
@@ -134,7 +169,7 @@ class Planning extends GetView<PlanningController> {
                 children: [
                   Text(
                     'Statut de la séance: ${statusData.text}',
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: 16.0,
                       color: statusData.color,
                       fontWeight: FontWeight.bold,
@@ -142,15 +177,15 @@ class Planning extends GetView<PlanningController> {
                   ),
                   Text(
                     'Activité: $parentActivity',
-                    style: TextStyle(fontSize: 14.0),
+                    style: GoogleFonts.poppins(fontSize: 14.0),
                   ),
                   Text(
                     'Heure: ${controller.formatHour(session.hourStart!)}',
-                    style: TextStyle(fontSize: 14.0),
+                    style: GoogleFonts.poppins(fontSize: 14.0),
                   ),
                   Text(
                     'Coach: $parentCoach',
-                    style: TextStyle(fontSize: 14.0),
+                    style: GoogleFonts.poppins(fontSize: 14.0),
                   ),
                 ],
               ),

@@ -237,7 +237,9 @@ class HomeAgent extends StatelessWidget{
                                   borderRadius: BorderRadius.circular(15),
                                   child: pack.image != null
                                       ? Image.network(
-                                    pack.image.toString(),
+                                 "http://192.168.1.199:8000/${  pack.image.toString()}",
+
+
                                     width: MediaQuery.of(context).size.width / 1.2,
                                     fit: BoxFit.cover,
                                     loadingBuilder: (context, child, loadingProgress) {

@@ -14,7 +14,7 @@ class ProfilController extends GetxController {
   final ProfilRepo profilRepo;
   UserProfil user = UserProfil();
   RxBool isLoading =false.obs;
-
+  RxBool loadUpdate =false.obs;
 
   ProfilController({required this.profilRepo});
 
@@ -48,6 +48,9 @@ class ProfilController extends GetxController {
   }
 
   Future  UpdateProfil(UpdateModel updateData, BuildContext context) async {
+
+
+    loadUpdate.value = true;
     Map<String, dynamic> data = {
       "name": updateData.name,
       "surname": updateData.surname,
@@ -61,12 +64,14 @@ class ProfilController extends GetxController {
       final response = await profilRepo.update(data);
 
       if (response.statusCode == 200) {
+        loadUpdate.value = false;
         SnackBarMessage()
             .showSuccessSnackBar(message: "User updated successfully", context: context);
 
 
         print('Profil updated successfully');
       } else {
+        loadUpdate.value = false;
         SnackBarMessage().showErrorSnackBar(message: "Failed to update profil", context: context);
 
         print('Failed to update user: ${response.body}');
